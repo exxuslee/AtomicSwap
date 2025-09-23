@@ -1,0 +1,3 @@
+-dontwarn kotlinx.serialization.**
+-dontwarn io.ktor.**
+-dontwarn org.koin.**

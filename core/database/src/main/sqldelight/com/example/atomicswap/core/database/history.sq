@@ -1,0 +1,13 @@
+CREATE TABLE SwapHistory (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	type TEXT NOT NULL, -- taker or maker
+	amount REAL NOT NULL,
+	asset TEXT NOT NULL,
+	timestamp INTEGER NOT NULL
+);
+
+getAll:
+SELECT * FROM SwapHistory ORDER BY timestamp DESC;
+
+insertItem:
+INSERT INTO SwapHistory(type, amount, asset, timestamp) VALUES (?, ?, ?, ?);
