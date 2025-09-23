@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.atomicswap.core.ui.theme.AtomicComposeTheme
 import com.example.atomicswap.feature.settings.ThemeController
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.atomicswap.core.ui.theme.AppTheme
 import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             val themeController: ThemeController = koinInject()
             val isDark by themeController.isDark.collectAsState()
 
-            AtomicComposeTheme(isDark) {
+            AppTheme(isDark) {
                 MainContent()
             }
         }

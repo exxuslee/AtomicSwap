@@ -28,4 +28,5 @@ dependencies {
 	implementation(libs.compose.material3)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.navigation.compose)
+	implementation(libs.compose.ui.text.googlefonts)
 }
