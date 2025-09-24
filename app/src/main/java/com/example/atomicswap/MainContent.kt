@@ -28,7 +28,7 @@ import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.settings.SettingsScreen
 import com.example.atomicswap.feature.taker.TakerScreen
-import com.example.atomicswap.navigation.Routes
+import com.example.atomicswap.feature.navigation.Routes
 
 @Composable
 fun MainContent() {
@@ -92,10 +92,10 @@ fun MainContent() {
             startDestination = Routes.Maker.route,
             modifier = Modifier.padding(padding)
         ) {
-            animatedComposable(Routes.Maker.route) { MakerScreen() }
-            animatedComposable(Routes.Taker.route) { TakerScreen() }
-            animatedComposable(Routes.History.route) { HistoryScreen() }
-            animatedComposable(Routes.Settings.route) { SettingsScreen() }
+            animatedComposable(Routes.Maker.route) { MakerScreen(navController) }
+            animatedComposable(Routes.Taker.route) { TakerScreen(navController) }
+            animatedComposable(Routes.History.route) { HistoryScreen(navController) }
+            animatedComposable(Routes.Settings.route) { SettingsScreen(navController) }
         }
 
     }

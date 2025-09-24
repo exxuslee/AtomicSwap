@@ -1,34 +1,32 @@
 package com.example.atomicswap.feature.settings
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.ui.res.stringResource
-import com.example.atomicswap.feature.R
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import org.koin.compose.koinInject
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
+import com.example.atomicswap.feature.navigation.Routes
+import com.example.atomicswap.feature.settings.models.SettingsAction
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SettingsScreen() {
-	val themeController: ThemeController = koinInject()
-	val isDark = themeController.isDark.collectAsState().value
+fun SettingsScreen(
+    navController: NavController,
+    settingsViewModel: SettingsViewModel = koinViewModel(),
+) {
+    val viewState by settingsViewModel.viewStates().collectAsState()
+    val viewAction by settingsViewModel.viewActions().collectAsState(null)
 
-	Column(
-		modifier = Modifier.fillMaxSize(),
-		verticalArrangement = Arrangement.Center,
-		horizontalAlignment = Alignment.CenterHorizontally
-	) {
-		Text(stringResource(R.string.title_settings))
-		Switch(
-			checked = isDark,
-			onCheckedChange = { themeController.setDark(it) },
-			colors = SwitchDefaults.colors()
-		)
-	}
+    SettingsView(viewState) {
+        settingsViewModel.obtainEvent(it)
+    }
+
+
+    when (viewAction) {
+        SettingsAction.OpenMainScreen -> {
+            settingsViewModel.clearAction()
+            navController.navigate(Routes.Maker.route)
+        }
+
+        null -> {}
+    }
 }

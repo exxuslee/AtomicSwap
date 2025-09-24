@@ -9,9 +9,12 @@ import com.example.atomicswap.feature.R
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 
 @Composable
-fun MakerScreen() {
+fun MakerScreen(
+	navController: NavController,
+) {
 	Column(
 		modifier = Modifier.fillMaxSize(),
 		verticalArrangement = Arrangement.Center,

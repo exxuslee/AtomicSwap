@@ -32,11 +32,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
+    implementation(project(":domain"))
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui)
     implementation(libs.compose.material3)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
-    implementation(project(":domain"))
 }

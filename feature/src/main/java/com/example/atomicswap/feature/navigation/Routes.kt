@@ -1,4 +1,4 @@
-package com.example.atomicswap.navigation
+package com.example.atomicswap.feature.navigation
 
 sealed class Routes(val route: String, val pos: Int) {
     data object Maker : Routes("maker", 0)

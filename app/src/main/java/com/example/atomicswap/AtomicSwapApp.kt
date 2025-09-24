@@ -6,7 +6,7 @@ import com.example.atomicswap.core.network.networkModule
 import com.example.atomicswap.data.dataModule
 import com.example.atomicswap.feature.history.historyModule
 import com.example.atomicswap.feature.maker.makerModule
-import com.example.atomicswap.feature.settings.settingsModule
+import com.example.atomicswap.feature.settings.di.settingsModule
 import com.example.atomicswap.feature.taker.takerModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
