@@ -10,4 +10,48 @@
 	<string name="wallet_connect">WalletConnect</string>
 	<string name="clear_local_storage">Clear local storage</string>
 	<string name="terms_of_service">Terms of service</string>
+	
+	<!-- Terms of Service -->
+	<string name="terms_title">Terms of Service</string>
+	<string name="terms_last_updated">Last updated: %1$s</string>
+	<string name="terms_default_date">December 2024</string>
+	
+	<!-- Section 1: Acceptance of Terms -->
+	<string name="terms_section_1_title">1. Acceptance of Terms</string>
+	<string name="terms_section_1_content">By accessing and using the AtomicSwap application, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</string>
+	
+	<!-- Section 2: Description of Service -->
+	<string name="terms_section_2_title">2. Description of Service</string>
+	<string name="terms_section_2_content">AtomicSwap is a decentralized cryptocurrency exchange application that enables peer-to-peer atomic swaps between different blockchain networks. The service allows users to exchange cryptocurrencies without the need for a centralized intermediary.</string>
+	
+	<!-- Section 3: User Responsibilities -->
+	<string name="terms_section_3_title">3. User Responsibilities</string>
+	<string name="terms_section_3_content">• You are responsible for maintaining the confidentiality of your private keys and wallet credentials\n• You must ensure that you have sufficient funds for any transactions\n• You agree to use the service only for lawful purposes\n• You are responsible for verifying all transaction details before confirmation\n• You must comply with all applicable laws and regulations in your jurisdiction</string>
+	
+	<!-- Section 4: Risks and Disclaimers -->
+	<string name="terms_section_4_title">4. Risks and Disclaimers</string>
+	<string name="terms_section_4_content">• Cryptocurrency transactions are irreversible. Once a transaction is confirmed, it cannot be undone\n• The value of cryptocurrencies can fluctuate significantly\n• Atomic swaps may fail due to network conditions, insufficient funds, or technical issues\n• You use this service at your own risk\n• We do not guarantee the success of any transaction</string>
+	
+	<!-- Section 5: Privacy and Security -->
+	<string name="terms_section_5_title">5. Privacy and Security</string>
+	<string name="terms_section_5_content">• We do not store your private keys or personal information\n• All transactions are processed locally on your device\n• We may collect anonymous usage statistics to improve the service\n• You are responsible for keeping your device secure and free from malware</string>
+	
+	<!-- Section 6: Prohibited Uses -->
+	<string name="terms_section_6_title">6. Prohibited Uses</string>
+	<string name="terms_section_6_content">You may not use AtomicSwap for:\n• Money laundering or other illegal activities\n• Circumventing sanctions or regulatory restrictions\n• Fraudulent or deceptive practices\n• Any activity that violates applicable laws</string>
+	
+	<!-- Section 7: Limitation of Liability -->
+	<string name="terms_section_7_title">7. Limitation of Liability</string>
+	<string name="terms_section_7_content">To the maximum extent permitted by law, AtomicSwap and its developers shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the service, including but not limited to loss of funds, data, or profits.</string>
+	
+	<!-- Section 8: Changes to Terms -->
+	<string name="terms_section_8_title">8. Changes to Terms</string>
+	<string name="terms_section_8_content">We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting. Your continued use of the service constitutes acceptance of the modified terms.</string>
+	
+	<!-- Section 9: Contact Information -->
+	<string name="terms_section_9_title">9. Contact Information</string>
+	<string name="terms_section_9_content">If you have any questions about these Terms of Service, please contact us through the application\'s support channels.</string>
+	
+	<!-- Footer -->
+	<string name="terms_footer">By using AtomicSwap, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</string>
 </resources>

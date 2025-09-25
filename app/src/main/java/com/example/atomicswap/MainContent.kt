@@ -2,12 +2,14 @@ package com.example.atomicswap
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -48,8 +50,19 @@ fun MainContent() {
         topBar = {
             if (backStackEntry?.destination?.route !in bottomDestinations.map { it.route }) TopAppBar(
                 title = {
-                    Text(stringResource(id = R.string.app_name))
+                    Text(
+                        text = stringResource(com.example.atomicswap.feature.R.string.terms_title),
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
                 },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                            contentDescription = stringResource(R.string.back)
+                        )
+                    }
+                }
             )
 
         },

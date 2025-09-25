@@ -39,24 +39,154 @@ fun TermsView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 
     val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .padding(horizontal = 16.dp)
     ) {
+        // Introduction
         Text(
-            "Terms of Service",
-            style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(top = 16.dp)
+            text = stringResource(
+                R.string.terms_last_updated,
+                viewState.title.ifEmpty { stringResource(R.string.terms_default_date) }
+            ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        VSpacer(32.dp)
+        // Section 1: Acceptance of Terms
+        Text(
+            text = stringResource(R.string.terms_section_1_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_1_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 2: Description of Service
+        Text(
+            text = stringResource(R.string.terms_section_2_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_2_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 3: User Responsibilities
+        Text(
+            text = stringResource(R.string.terms_section_3_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_3_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 4: Risks and Disclaimers
+        Text(
+            text = stringResource(R.string.terms_section_4_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_4_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 5: Privacy and Security
+        Text(
+            text = stringResource(R.string.terms_section_5_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_5_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 6: Prohibited Uses
+        Text(
+            text = stringResource(R.string.terms_section_6_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_6_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 7: Limitation of Liability
+        Text(
+            text = stringResource(R.string.terms_section_7_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_7_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 8: Changes to Terms
+        Text(
+            text = stringResource(R.string.terms_section_8_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_8_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Section 9: Contact Information
+        Text(
+            text = stringResource(R.string.terms_section_9_title),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = stringResource(R.string.terms_section_9_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
+
+        // Footer
+        Text(
+            text = stringResource(R.string.terms_footer),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
     }
 }
 
 @Preview
 @Composable
-fun ProfileView_Preview() {
+fun TermsView_Preview() {
     AppTheme {
         TermsView(
-            viewState = ViewState(),
+            viewState = ViewState(title = "December 15, 2024"),
             eventHandler = { }
         )
     }

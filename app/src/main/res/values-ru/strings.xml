@@ -5,4 +5,5 @@
 	<string name="bottom_maker">Мейкер</string>
 	<string name="bottom_history">История</string>
 	<string name="bottom_settings">Настройки</string>
+    <string name="back">Назад</string>
 </resources>
