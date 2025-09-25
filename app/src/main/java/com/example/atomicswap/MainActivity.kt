@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.atomicswap.feature.settings.ThemeController
+import com.example.atomicswap.domain.usecases.ThemeController
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.atomicswap.core.ui.theme.AppTheme

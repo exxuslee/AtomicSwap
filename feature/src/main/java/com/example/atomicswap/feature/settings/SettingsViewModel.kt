@@ -11,6 +11,9 @@ import android.graphics.RectF
 import java.security.MessageDigest
 import kotlin.random.Random
 import androidx.core.graphics.createBitmap
+import androidx.lifecycle.viewModelScope
+import com.example.atomicswap.domain.usecases.ThemeController
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
 class SettingsViewModel(
@@ -19,8 +22,10 @@ class SettingsViewModel(
         SettingsEvent>(initialState = SettingsViewState()) {
 
     init {
-        val avatar = generateIdenticonBitmap("0", 360)
-        viewState = viewState.copy(avatar = avatar)
+        viewState = viewState.copy(
+            avatar = generateIdenticonBitmap("0", 360),
+            isDark = themeController.isDark.value
+        )
     }
 
     override fun obtainEvent(viewEvent: SettingsEvent) {

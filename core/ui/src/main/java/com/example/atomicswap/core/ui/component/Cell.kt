@@ -303,7 +303,7 @@ fun RowUniversal(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 24.dp)
+            .defaultMinSize(minHeight = 28.dp)
             .then(clickableModifier)
             .then(modifier)
             .padding(vertical = verticalPadding),

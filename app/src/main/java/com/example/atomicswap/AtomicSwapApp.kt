@@ -3,7 +3,7 @@ package com.example.atomicswap
 import android.app.Application
 import com.example.atomicswap.core.database.databaseModule
 import com.example.atomicswap.core.network.networkModule
-import com.example.atomicswap.data.dataModule
+import com.example.atomicswap.data.di.dataModule
 import com.example.atomicswap.feature.history.historyModule
 import com.example.atomicswap.feature.maker.makerModule
 import com.example.atomicswap.feature.settings.di.settingsModule

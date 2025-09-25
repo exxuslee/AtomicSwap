@@ -17,22 +17,22 @@ import com.example.atomicswap.core.ui.R
 
 @Composable
 fun HsRow(
-    @DrawableRes icon: Int,
+    @DrawableRes iconRes: Int,
     titleContent: @Composable () -> Unit,
     onClick: (() -> Unit)? = null,
     arrowRight: Boolean = false,
-    valueContent: @Composable () -> Unit,
+    valueContent: (@Composable () -> Unit)? = null,
 ) {
     RowUniversal(modifier = Modifier.padding(horizontal = 12.dp), onClick = onClick) {
         Image(
             modifier = Modifier.size(30.dp),
-            painter = painterResource(icon),
+            painter = painterResource(id = iconRes),
             contentDescription = null,
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.outlineVariant),
         )
         titleContent()
         Spacer(Modifier.weight(1f))
-        valueContent()
+        valueContent?.invoke()
         if (arrowRight) Image(
             modifier = Modifier.size(20.dp),
             painter = painterResource(R.drawable.ic_arrow_right),

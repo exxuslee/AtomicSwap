@@ -1,6 +1,5 @@
-package com.example.atomicswap.data
+package com.example.atomicswap.data.repository
 
-import app.cash.sqldelight.db.SqlDriver
 import com.example.atomicswap.core.database.AppDatabase
 import com.example.atomicswap.domain.model.Swap
 import com.example.atomicswap.domain.model.SwapType
@@ -9,14 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.koin.dsl.module
 
-val dataModule = module {
-	single { AppDatabase(get<SqlDriver>()) }
-	single<SwapRepository> { SqlDelightSwapRepository(get()) }
-}
-
-private class SqlDelightSwapRepository(
+class SqlDelightSwapRepository(
 	private val db: AppDatabase
 ) : SwapRepository {
 	private val state = MutableStateFlow<List<Swap>>(emptyList())

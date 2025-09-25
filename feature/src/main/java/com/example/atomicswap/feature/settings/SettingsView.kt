@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -24,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.example.atomicswap.core.ui.component.CellUniversalSection
@@ -43,10 +46,6 @@ fun SettingsView(viewState: SettingsViewState, eventHandler: (SettingsEvent) -> 
         modifier = Modifier.verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.title_settings),
-            style = MaterialTheme.typography.headlineMedium
-        )
         RowUniversal(
             verticalPadding = 16.dp,
             horizontalArrangement = Arrangement.SpaceAround
@@ -71,96 +70,78 @@ fun SettingsView(viewState: SettingsViewState, eventHandler: (SettingsEvent) -> 
             listOf(
                 {
                     HsRow(
-                        icon = Icons.Outlined.Email,
+                        iconRes = R.drawable.outline_wallet_24,
                         titleContent = {
                             Text(
-                                "irynalinnik@gmail.com",
+                                stringResource(R.string.wallet_connect),
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
-                        },
-                        onClick = {},
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
-                        icon = Icons.Outlined.Phone,
-                        titleContent = {
-                            Text(
-                                "+380(66)372-71-02",
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {},
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
-                        icon = Icons.Outlined.Phone,
-                        titleContent = {
-                            Text(
-                                "t.me/irynalinnik_visualizer",
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {},
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
-                        icon = Icons.Outlined.Phone,
-                        titleContent = {
-                            Text(
-                                "www.instagram.com/irinalinnik01/",
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {},
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
-                        icon = Icons.Outlined.Phone,
-                        titleContent = {
-                            Text(
-                                "www.behance.net/irinalinnik",
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {},
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
-                        icon = Icons.Outlined.Phone,
-                        titleContent = {
-                            Text(
-                                "www.linkedin.com/in/irinalinnik-visualizer/",
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {},
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
-                        icon = Icons.Outlined.Phone,
-                        titleContent = {
-                            Text(
-                                "www.linkedin.com/in/irinalinnik-visualizer/",
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {
-                            eventHandler.invoke(SettingsEvent.IsDark(!viewState.isDark))
                         },
                         arrowRight = false,
+                    ) {
+                        Switch(
+                            checked = viewState.isWalletConnect,
+                            onCheckedChange = {  },
+                            colors = SwitchDefaults.colors()
+                        )
+                    }
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_database_off_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.clear_local_storage),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {},
+                        arrowRight = true,
                     )
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_contract_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.terms_of_service),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {},
+                        arrowRight = true,
+                    )
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_language_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.language),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {},
+                        arrowRight = true,
+                    )
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_routine_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.label_dark_mode),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        arrowRight = false,
+                    ) {
+                        Switch(
+                            checked = viewState.isDark,
+                            onCheckedChange = { eventHandler.invoke(SettingsEvent.IsDark(!viewState.isDark)) },
+                            colors = SwitchDefaults.colors()
+                        )
+                    }
                 },
             )
         )
@@ -168,7 +149,7 @@ fun SettingsView(viewState: SettingsViewState, eventHandler: (SettingsEvent) -> 
     }
 }
 
-@PreviewLightDark
+@Preview
 @Composable
 fun ProfileView_Preview() {
     AppTheme {
