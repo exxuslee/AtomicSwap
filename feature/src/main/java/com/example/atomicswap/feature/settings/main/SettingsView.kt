@@ -1,4 +1,4 @@
-package com.example.atomicswap.feature.settings
+package com.example.atomicswap.feature.settings.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,35 +11,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.example.atomicswap.core.ui.component.CellUniversalSection
 import com.example.atomicswap.core.ui.component.HsRow
 import com.example.atomicswap.core.ui.component.RowUniversal
 import com.example.atomicswap.core.ui.theme.AppTheme
 import com.example.atomicswap.feature.R
-import com.example.atomicswap.feature.settings.models.SettingsEvent
-import com.example.atomicswap.feature.settings.models.SettingsViewState
+import com.example.atomicswap.feature.settings.main.models.SettingsEvent
+import com.example.atomicswap.feature.settings.main.models.SettingsViewState
 import com.example.atomicswap.core.ui.component.VSpacer
+import com.example.atomicswap.feature.settings.main.models.SettingsAction
 
 @Composable
-fun SettingsView(viewState: SettingsViewState, eventHandler: (SettingsEvent) -> Unit) {
+fun SettingsView(
+    viewState: SettingsViewState,
+    eventHandler: (SettingsEvent) -> Unit,
+) {
 
     val scrollState = rememberScrollState()
     Column(
@@ -81,7 +79,7 @@ fun SettingsView(viewState: SettingsViewState, eventHandler: (SettingsEvent) -> 
                     ) {
                         Switch(
                             checked = viewState.isWalletConnect,
-                            onCheckedChange = {  },
+                            onCheckedChange = { },
                             colors = SwitchDefaults.colors()
                         )
                     }
@@ -108,7 +106,9 @@ fun SettingsView(viewState: SettingsViewState, eventHandler: (SettingsEvent) -> 
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
                         },
-                        onClick = {},
+                        onClick = {
+                            eventHandler.invoke(SettingsEvent.OpenTermsScreen)
+                        },
                         arrowRight = true,
                     )
                 },
@@ -155,7 +155,7 @@ fun ProfileView_Preview() {
     AppTheme {
         SettingsView(
             viewState = SettingsViewState(),
-            eventHandler = { }
+            eventHandler = {},
         )
     }
 }

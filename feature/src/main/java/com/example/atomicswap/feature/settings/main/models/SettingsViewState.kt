@@ -1,4 +1,4 @@
-package com.example.atomicswap.feature.settings.models
+package com.example.atomicswap.feature.settings.main.models
 
 import android.graphics.Bitmap
 import androidx.core.graphics.createBitmap

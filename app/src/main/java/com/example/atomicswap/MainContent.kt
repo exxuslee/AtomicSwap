@@ -6,12 +6,14 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,23 +25,34 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.atomicswap.core.ui.navigation.AnimationType
 import com.example.atomicswap.core.ui.navigation.animatedComposable
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
-import com.example.atomicswap.feature.settings.SettingsScreen
+import com.example.atomicswap.feature.settings.main.SettingsScreen
 import com.example.atomicswap.feature.taker.TakerScreen
 import com.example.atomicswap.feature.navigation.Routes
+import com.example.atomicswap.feature.settings.terms.TermsScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     var selected by remember { mutableStateOf<Routes>(Routes.Maker) }
     val bottomDestinations = remember {
-        listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings)
+        listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings.Main)
     }
 
     Scaffold(
+        topBar = {
+            if (backStackEntry?.destination?.route !in bottomDestinations.map { it.route }) TopAppBar(
+                title = {
+                    Text(stringResource(id = R.string.app_name))
+                },
+            )
+
+        },
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 bottomDestinations.forEach { dest ->
@@ -49,7 +62,12 @@ fun MainContent() {
                             selected = dest
                             navController.navigate(dest.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                                    if (dest is Routes.Settings) {
+                                        inclusive = true
+                                        saveState = false
+                                    } else {
+                                        saveState = true
+                                    }
                                 }
                                 launchSingleTop = true
                                 restoreState = true
@@ -95,7 +113,11 @@ fun MainContent() {
             animatedComposable(Routes.Maker.route) { MakerScreen(navController) }
             animatedComposable(Routes.Taker.route) { TakerScreen(navController) }
             animatedComposable(Routes.History.route) { HistoryScreen(navController) }
-            animatedComposable(Routes.Settings.route) { SettingsScreen(navController) }
+            animatedComposable(Routes.Settings.Main.route) { SettingsScreen(navController) }
+            animatedComposable(
+                Routes.Settings.Therms.route,
+                animationType = AnimationType.FADE,
+            ) { TermsScreen() }
         }
 
     }
