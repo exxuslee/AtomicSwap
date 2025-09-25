@@ -54,4 +54,6 @@
 	
 	<!-- Footer -->
 	<string name="terms_footer">By using AtomicSwap, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</string>
+    <string name="app">App</string>
+	<string name="account">Account</string>
 </resources>

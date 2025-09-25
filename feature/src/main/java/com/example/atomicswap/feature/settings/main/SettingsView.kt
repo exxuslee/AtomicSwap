@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atomicswap.core.ui.component.CellSingleLine
 import com.example.atomicswap.core.ui.component.CellUniversalSection
 import com.example.atomicswap.core.ui.component.HsRow
 import com.example.atomicswap.core.ui.component.RowUniversal
@@ -42,7 +43,6 @@ fun SettingsView(
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier.verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RowUniversal(
             verticalPadding = 16.dp,
@@ -59,11 +59,13 @@ fun SettingsView(
                     .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
             )
         }
-        VSpacer(16.dp)
-        Text(
-            text = stringResource(R.string.title_settings),
-            style = MaterialTheme.typography.headlineMedium
-        )
+        CellUniversalSection {
+            Text(
+                text = stringResource(R.string.account),
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
+
         CellUniversalSection(
             listOf(
                 {
@@ -97,21 +99,18 @@ fun SettingsView(
                         arrowRight = true,
                     )
                 },
-                {
-                    HsRow(
-                        iconRes = R.drawable.outline_contract_24,
-                        titleContent = {
-                            Text(
-                                stringResource(R.string.terms_of_service),
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {
-                            eventHandler.invoke(SettingsEvent.OpenTermsScreen)
-                        },
-                        arrowRight = true,
-                    )
-                },
+            )
+        )
+        VSpacer(16.dp)
+
+        CellUniversalSection {
+            Text(
+                text = stringResource(R.string.app),
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
+        CellUniversalSection(
+            listOf(
                 {
                     HsRow(
                         iconRes = R.drawable.outline_language_24,
@@ -142,6 +141,21 @@ fun SettingsView(
                             colors = SwitchDefaults.colors()
                         )
                     }
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_contract_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.terms_of_service),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {
+                            eventHandler.invoke(SettingsEvent.OpenTermsScreen)
+                        },
+                        arrowRight = true,
+                    )
                 },
             )
         )

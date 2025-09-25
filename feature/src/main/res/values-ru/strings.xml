@@ -54,4 +54,6 @@
 	
 	<!-- Footer -->
 	<string name="terms_footer">Используя AtomicSwap, вы подтверждаете, что прочитали, поняли и согласились соблюдать это Пользовательское соглашение.</string>
+    <string name="app">Приложение</string>
+	<string name="account">Аккаунт</string>
 </resources>
