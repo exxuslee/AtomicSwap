@@ -12,7 +12,15 @@ class SettingsRepositoryImpl(
         return prefs.getBoolean("isDark", false)
     }
 
-    override fun setDark(value: Boolean) {
+    override fun isDark(value: Boolean) {
         prefs.edit { putBoolean("isDark", value) }
+    }
+
+    override fun languageTag(): String {
+        return prefs.getString("languageTag", "en") ?: "en"
+    }
+
+    override fun languageTag(tag: String) {
+        prefs.edit { putString("languageTag", tag) }
     }
 }

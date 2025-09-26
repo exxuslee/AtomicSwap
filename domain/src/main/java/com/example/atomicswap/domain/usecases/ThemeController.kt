@@ -12,7 +12,7 @@ class ThemeController(
     val isDark: StateFlow<Boolean> = _isDark.asStateFlow()
 
     fun setDark(value: Boolean) {
-        settingsRepository.setDark(value)
+        settingsRepository.isDark(value)
         _isDark.value = value
     }
 }

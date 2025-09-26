@@ -20,6 +20,7 @@ include(
 	":app",
 	":core:network",
 	":core:database",
+	":core:localize",
 	":core:ui",
 	":domain",
 	":data",

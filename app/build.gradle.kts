@@ -48,6 +48,7 @@ android {
 dependencies {
 	implementation(platform(libs.compose.bom))
 	implementation(libs.androidx.activity.compose)
+	implementation(libs.androidx.appcompat)
 	implementation(libs.compose.ui)
 	implementation(libs.compose.ui.tooling.preview)
 	implementation(libs.compose.material3)
@@ -62,6 +63,7 @@ dependencies {
 	implementation(project(":data"))
 	implementation(project(":core:network"))
 	implementation(project(":core:database"))
+	implementation(project(":core:localize"))
 	implementation(project(":core:ui"))
 	implementation(project(":feature"))
 
