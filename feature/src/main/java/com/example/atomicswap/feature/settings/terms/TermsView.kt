@@ -48,6 +48,20 @@ fun TermsView(onBack: () -> Unit) {
             }
         )
 
+        val content = remember {
+            listOf(
+                R.string.terms_section_1_title to R.string.terms_section_1_content,
+                R.string.terms_section_2_title to R.string.terms_section_2_content,
+                R.string.terms_section_3_title to R.string.terms_section_3_content,
+                R.string.terms_section_4_title to R.string.terms_section_4_content,
+                R.string.terms_section_5_title to R.string.terms_section_5_content,
+                R.string.terms_section_6_title to R.string.terms_section_6_content,
+                R.string.terms_section_7_title to R.string.terms_section_7_content,
+                R.string.terms_section_8_title to R.string.terms_section_8_content,
+                R.string.terms_section_9_title to R.string.terms_section_9_content,
+            )
+        }
+
         LazyColumn(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
@@ -62,18 +76,6 @@ fun TermsView(onBack: () -> Unit) {
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
             }
-
-            val content = listOf(
-                R.string.terms_section_1_title to R.string.terms_section_1_content,
-                R.string.terms_section_2_title to R.string.terms_section_2_content,
-                R.string.terms_section_3_title to R.string.terms_section_3_content,
-                R.string.terms_section_4_title to R.string.terms_section_4_content,
-                R.string.terms_section_5_title to R.string.terms_section_5_content,
-                R.string.terms_section_6_title to R.string.terms_section_6_content,
-                R.string.terms_section_7_title to R.string.terms_section_7_content,
-                R.string.terms_section_8_title to R.string.terms_section_8_content,
-                R.string.terms_section_9_title to R.string.terms_section_9_content,
-            )
 
             content.forEach { section ->
                 stickyHeader {
@@ -109,8 +111,6 @@ fun TermsView(onBack: () -> Unit) {
 
         }
     }
-
-
 }
 
 @Preview
