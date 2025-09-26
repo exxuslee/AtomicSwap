@@ -34,6 +34,7 @@ import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.settings.main.SettingsScreen
 import com.example.atomicswap.feature.taker.TakerScreen
 import com.example.atomicswap.feature.navigation.Routes
+import com.example.atomicswap.feature.settings.language.LanguageScreen
 import com.example.atomicswap.feature.settings.terms.TermsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -131,6 +132,10 @@ fun MainContent() {
                 Routes.Settings.Therms.route,
                 animationType = AnimationType.FADE,
             ) { TermsScreen() }
+            animatedComposable(
+                Routes.Settings.Language.route,
+                animationType = AnimationType.FADE,
+            ) { LanguageScreen() }
         }
 
     }

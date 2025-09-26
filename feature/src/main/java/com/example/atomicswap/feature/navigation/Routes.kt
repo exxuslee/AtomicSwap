@@ -7,5 +7,6 @@ sealed class Routes(val route: String, val pos: Int) {
     sealed class Settings(id: String) : Routes("settings/$id", 3) {
         data object Main : Settings("main")
         data object Therms : Settings("terms")
+        data object Language : Settings("language")
     }
 }

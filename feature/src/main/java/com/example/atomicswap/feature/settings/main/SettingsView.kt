@@ -16,23 +16,20 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.atomicswap.core.ui.component.CellSingleLine
 import com.example.atomicswap.core.ui.component.CellUniversalSection
 import com.example.atomicswap.core.ui.component.HsRow
 import com.example.atomicswap.core.ui.component.RowUniversal
+import com.example.atomicswap.core.ui.component.VSpacer
 import com.example.atomicswap.core.ui.theme.AppTheme
 import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.main.models.SettingsEvent
 import com.example.atomicswap.feature.settings.main.models.SettingsViewState
-import com.example.atomicswap.core.ui.component.VSpacer
-import com.example.atomicswap.feature.settings.main.models.SettingsAction
 
 @Composable
 fun SettingsView(

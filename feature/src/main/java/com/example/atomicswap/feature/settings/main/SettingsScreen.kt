@@ -20,11 +20,15 @@ fun SettingsScreen(
         viewModel.obtainEvent(it)
     }
 
-
     when (viewAction) {
         SettingsAction.OpenTermsScreen -> {
             viewModel.clearAction()
             navController.navigate(Routes.Settings.Therms.route)
+        }
+
+        SettingsAction.OpenLanguageScreen -> {
+            viewModel.clearAction()
+            navController.navigate(Routes.Settings.Language.route)
         }
 
         null -> {}
