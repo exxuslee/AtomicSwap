@@ -35,4 +35,5 @@
 	<string name="back">Back</string>
     <string name="app">App</string>
 	<string name="account">Account</string>
+    <string name="price_aggregator">Price aggregator</string>
 </resources>

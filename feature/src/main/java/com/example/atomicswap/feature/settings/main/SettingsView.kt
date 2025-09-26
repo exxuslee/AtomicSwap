@@ -85,6 +85,19 @@ fun SettingsView(
                 },
                 {
                     HsRow(
+                        iconRes = R.drawable.outline_currency_exchange_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.price_aggregator),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {},
+                        arrowRight = true,
+                    )
+                },
+                {
+                    HsRow(
                         iconRes = R.drawable.outline_database_off_24,
                         titleContent = {
                             Text(

@@ -10,7 +10,7 @@
 	<string name="wallet_connect">WalletConnect</string>
 	<string name="clear_local_storage">Очистить локальные данные</string>
 	<string name="terms_of_service">Соглашение об использовании</string>
-	<string name="terms_title">Пользовательское соглашение</string>
+	<string name="terms_title">Условия эксплуатации</string>
 	<string name="terms_last_updated">Последнее обновление: %1$s</string>
 	<string name="terms_default_date">Декабрь 2024</string>
 	<string name="terms_section_1_title">1. Принятие условий</string>
@@ -35,4 +35,5 @@
 	<string name="back">Назад</string>
 	<string name="app">Приложение</string>
 	<string name="account">Аккаунт</string>
+	<string name="price_aggregator">Price aggregator</string>
 </resources>
