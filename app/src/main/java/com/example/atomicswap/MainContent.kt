@@ -1,5 +1,6 @@
 package com.example.atomicswap
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -29,14 +31,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.atomicswap.core.ui.navigation.AnimationType
 import com.example.atomicswap.core.ui.navigation.animatedComposable
+import com.example.atomicswap.domain.repository.SettingsRepository
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
-import com.example.atomicswap.feature.settings.main.SettingsScreen
-import com.example.atomicswap.feature.taker.TakerScreen
 import com.example.atomicswap.feature.navigation.Routes
 import com.example.atomicswap.feature.settings.language.LanguageScreen
+import com.example.atomicswap.feature.settings.main.SettingsScreen
 import com.example.atomicswap.feature.settings.terms.TermsScreen
-import com.example.atomicswap.domain.repository.SettingsRepository
+import com.example.atomicswap.feature.taker.TakerScreen
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,25 +54,6 @@ fun MainContent() {
     }
 
     Scaffold(
-        topBar = {
-            if (backStackEntry?.destination?.route !in bottomDestinations.map { it.route }) TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(com.example.atomicswap.feature.R.string.terms_title),
-                        style = MaterialTheme.typography.headlineMedium,
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                            contentDescription = stringResource(R.string.back)
-                        )
-                    }
-                }
-            )
-
-        },
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 bottomDestinations.forEach { dest ->
@@ -139,11 +122,11 @@ fun MainContent() {
             animatedComposable(
                 Routes.Settings.Therms.route,
                 animationType = AnimationType.FADE,
-            ) { TermsScreen() }
+            ) { TermsScreen(navController) }
             animatedComposable(
                 Routes.Settings.Language.route,
                 animationType = AnimationType.FADE,
-            ) { LanguageScreen() }
+            ) { LanguageScreen(navController) }
         }
 
     }
