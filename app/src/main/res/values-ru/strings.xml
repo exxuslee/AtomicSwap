@@ -5,5 +5,6 @@
 	<string name="bottom_maker">Мейкер</string>
 	<string name="bottom_history">История</string>
 	<string name="bottom_settings">Настройки</string>
+	<string name="double_back_press_message">Нажмите еще раз для выхода</string>
 
 </resources>
