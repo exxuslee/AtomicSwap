@@ -23,7 +23,6 @@ fun LanguageScreen(
         viewModel.obtainEvent(it)
     }
 
-
     when (viewAction) {
         is Action.SetLocale -> {
             viewModel.clearAction()
@@ -31,7 +30,7 @@ fun LanguageScreen(
                 LocalContext.current,
                 (viewAction as Action.SetLocale).locale
             )
-
+            viewModel.refresh()
         }
         null -> {}
     }

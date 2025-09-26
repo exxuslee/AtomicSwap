@@ -1,11 +1,12 @@
 package com.hwasfy.localize.util
 
 import java.util.Locale
+import com.hwasfy.localize.R
 
-enum class SupportedLocales(val tag: String, val locale: Locale) {
+enum class SupportedLocales(val tag: String, val locale: Locale, val icon: Int) {
 
-    EN_US("en-US", Locale.forLanguageTag("en-US")),
-    RU_RU("ru-RU", Locale.forLanguageTag("ru-RU"));
+    EN_US("en-US", Locale.forLanguageTag("en-US"), R.drawable.icon_32_flag_usa),
+    RU_RU("ru-RU", Locale.forLanguageTag("ru-RU"), R.drawable.icon_32_flag_russia);
 //    EN_UK("en-UK", Locale.forLanguageTag("en-UK")),
 //    EN_GB("en-GB", Locale.forLanguageTag("en-GB")),
 //    EN_EG("en-EG", Locale.forLanguageTag("en-EG")),

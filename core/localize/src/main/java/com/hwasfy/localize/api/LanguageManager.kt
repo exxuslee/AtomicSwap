@@ -20,7 +20,6 @@ object LanguageManager {
         val locale = appLocale.locale
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Android 13+: just tell system LocaleManager
             context.getSystemService(android.app.LocaleManager::class.java)
                 ?.applicationLocales = LocaleList.forLanguageTags(tag)
         } else {

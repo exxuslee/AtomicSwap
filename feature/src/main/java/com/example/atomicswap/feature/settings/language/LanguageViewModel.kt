@@ -2,7 +2,6 @@ package com.example.atomicswap.feature.settings.language
 
 import android.content.Context
 import com.example.atomicswap.core.ui.base.BaseViewModel
-import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.language.models.Action
 import com.example.atomicswap.feature.settings.language.models.Event
 import com.example.atomicswap.feature.settings.language.models.LanguageViewItem
@@ -14,26 +13,10 @@ class LanguageViewModel(
     context: Context,
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
 
+    private val appContext: Context = context
+
     init {
-        val currentTag = LanguageManager.getCurrentLocale(context).tag
-        viewState = ViewState(
-            languageItems = listOf(
-                LanguageViewItem(
-                    localeType = SupportedLocales.EN_US,
-                    name = "English",
-                    nativeName = "English",
-                    icon = R.drawable.outline_language_24,
-                    current = currentTag == SupportedLocales.EN_US.tag
-                ),
-                LanguageViewItem(
-                    localeType = SupportedLocales.RU_RU,
-                    name = "Russian",
-                    nativeName = "Русский",
-                    icon = R.drawable.outline_language_24,
-                    current = currentTag == SupportedLocales.RU_RU.tag
-                ),
-            )
-        )
+        viewState = buildViewState()
     }
 
     override fun obtainEvent(viewEvent: Event) {
@@ -46,9 +29,28 @@ class LanguageViewModel(
                     }
                 )
             }
-            else -> {}
+
         }
 
+    }
+
+    fun refresh() {
+        viewState = buildViewState()
+    }
+
+    private fun buildViewState(): ViewState {
+        val current = LanguageManager.getCurrentLocale(appContext)
+        return ViewState(
+            languageItems = SupportedLocales.entries.map {
+                LanguageViewItem(
+                    localeType = it,
+                    name = it.locale.displayLanguage,
+                    nativeName = it.locale.displayName,
+                    icon = it.icon,
+                    current = current == it
+                )
+            }
+        )
     }
 
 }
