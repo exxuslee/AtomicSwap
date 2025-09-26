@@ -30,7 +30,6 @@ fun LanguageScreen(
                 LocalContext.current,
                 (viewAction as Action.SetLocale).locale
             )
-            viewModel.refresh()
         }
         null -> {}
     }

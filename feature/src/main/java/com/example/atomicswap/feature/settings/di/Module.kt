@@ -11,5 +11,5 @@ val settingsModule = module {
     single { ThemeController(get()) }
     single { LanguageController(get()) }
     viewModel { SettingsViewModel(get()) }
-    viewModel { LanguageViewModel(get()) }
+    viewModel { LanguageViewModel() }
 }

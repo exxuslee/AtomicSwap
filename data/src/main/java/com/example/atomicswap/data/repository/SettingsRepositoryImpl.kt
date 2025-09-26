@@ -23,4 +23,12 @@ class SettingsRepositoryImpl(
     override fun languageTag(tag: String) {
         prefs.edit { putString("languageTag", tag) }
     }
+
+    override fun selectedRoute(): String {
+        return prefs.getString("selectedRoute", "maker") ?: "maker"
+    }
+
+    override fun selectedRoute(route: String) {
+        prefs.edit { putString("selectedRoute", route) }
+    }
 }

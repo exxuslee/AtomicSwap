@@ -36,13 +36,17 @@ import com.example.atomicswap.feature.taker.TakerScreen
 import com.example.atomicswap.feature.navigation.Routes
 import com.example.atomicswap.feature.settings.language.LanguageScreen
 import com.example.atomicswap.feature.settings.terms.TermsScreen
+import com.example.atomicswap.domain.repository.SettingsRepository
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    var selected by remember { mutableStateOf<Routes>(Routes.Maker) }
+    val settingsRepository = koinInject<SettingsRepository>()
+    val initialRoute = remember { settingsRepository.selectedRoute() }
+    var selected by remember { mutableStateOf(Routes.routeToRoutes(initialRoute)) }
     val bottomDestinations = remember {
         listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings.Main)
     }
@@ -74,13 +78,17 @@ fun MainContent() {
                         selected = selected.route == dest.route,
                         onClick = {
                             selected = dest
+                            settingsRepository.selectedRoute(dest.route)
                             navController.navigate(dest.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
-                                    if (dest is Routes.Settings) {
-                                        inclusive = true
-                                        saveState = false
-                                    } else {
-                                        saveState = true
+                                    when (dest) {
+                                        is Routes.Settings -> {
+                                            inclusive = false
+                                            saveState = true
+                                        }
+                                        else -> {
+                                            saveState = true
+                                        }
                                     }
                                 }
                                 launchSingleTop = true
@@ -121,7 +129,7 @@ fun MainContent() {
 
         NavHost(
             navController,
-            startDestination = Routes.Maker.route,
+            startDestination = initialRoute,
             modifier = Modifier.padding(padding)
         ) {
             animatedComposable(Routes.Maker.route) { MakerScreen(navController) }

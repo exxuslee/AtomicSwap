@@ -6,4 +6,7 @@ interface SettingsRepository {
 
 	fun languageTag(): String
 	fun languageTag(tag: String)
+
+	fun selectedRoute(): String
+	fun selectedRoute(route: String)
 }
