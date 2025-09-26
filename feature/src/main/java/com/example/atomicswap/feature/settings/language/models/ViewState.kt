@@ -1,5 +1,5 @@
 package com.example.atomicswap.feature.settings.language.models
 
 data class ViewState(
-    val title: String = "",
+    val languageItems: List<LanguageViewItem> = emptyList(),
 )

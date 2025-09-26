@@ -117,7 +117,9 @@ fun SettingsView(
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
                         },
-                        onClick = {},
+                        onClick = {
+                            eventHandler.invoke(SettingsEvent.OpenLanguageScreen)
+                        },
                         arrowRight = true,
                     )
                 },

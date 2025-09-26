@@ -34,6 +34,7 @@ class SettingsViewModel(
             }
 
             SettingsEvent.OpenTermsScreen -> viewAction = SettingsAction.OpenTermsScreen
+            SettingsEvent.OpenLanguageScreen -> viewAction = SettingsAction.OpenLanguageScreen
         }
 
     }

@@ -229,7 +229,7 @@ fun CellMultilineClear(
         if (borderTop) {
             Divider(
                 thickness = 1.dp,
-        color = MaterialTheme.colorScheme.outlineVariant,
+                color = MaterialTheme.colorScheme.outlineVariant,
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }
@@ -237,7 +237,7 @@ fun CellMultilineClear(
         if (borderBottom) {
             Divider(
                 thickness = 1.dp,
-        color = MaterialTheme.colorScheme.outlineVariant,
+                color = MaterialTheme.colorScheme.outlineVariant,
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
@@ -488,5 +488,34 @@ fun CellBorderedRowUniversal(
                 .padding(horizontal = 12.dp),
             content = content
         )
+    }
+}
+
+@Composable
+fun <T> CellUniversalLawrenceSection(
+    items: Iterable<T>,
+    showFrame: Boolean = false,
+    itemContent: @Composable (T) -> Unit
+) {
+    val frameModifier = if (showFrame) {
+        Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp))
+    } else {
+        Modifier
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .then(frameModifier)
+    ) {
+        items.forEachIndexed { index, itemData ->
+            SectionUniversalItem(
+                borderTop = index != 0,
+            ) {
+                itemContent(itemData)
+            }
+        }
     }
 }
