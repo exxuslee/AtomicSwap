@@ -6,6 +6,7 @@ CREATE TABLE SwapHistory (
 	timestamp INTEGER NOT NULL
 );
 
+
 getAll:
 SELECT * FROM SwapHistory ORDER BY timestamp DESC;
 

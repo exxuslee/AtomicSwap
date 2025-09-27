@@ -1,0 +1,28 @@
+CREATE TABLE Notifications (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	showInForeground INTEGER NOT NULL, -- 0 or 1
+	isRead INTEGER NOT NULL, -- 0 or 1
+	title TEXT NOT NULL,
+	body TEXT NOT NULL,
+	groupCode INTEGER NOT NULL,
+	createdAt INTEGER NOT NULL
+);
+
+-- Notifications queries
+getAllNotifications:
+SELECT * FROM Notifications ORDER BY createdAt DESC;
+
+getNotificationsPaged:
+SELECT * FROM Notifications ORDER BY createdAt DESC LIMIT ? OFFSET ?;
+
+getUnreadCount:
+SELECT COUNT(*) FROM Notifications WHERE isRead = 0;
+
+insertNotification:
+INSERT INTO Notifications(showInForeground, isRead, title, body, groupCode, createdAt) VALUES (?, ?, ?, ?, ?, ?);
+
+markAsRead:
+UPDATE Notifications SET isRead = 1 WHERE id = ?;
+
+deleteNotification:
+DELETE FROM Notifications WHERE id = ?;

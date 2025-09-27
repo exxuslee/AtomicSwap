@@ -21,10 +21,16 @@ android {
 			isMinifyEnabled = false
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 		}
+		create("mock") {
+			initWith(getByName("debug"))
+			applicationIdSuffix = ".mock"
+			matchingFallbacks += listOf("debug", "release")
+		}
 	}
 
 	buildFeatures {
 		compose = true
+		buildConfig = true
 	}
 
 	composeOptions {

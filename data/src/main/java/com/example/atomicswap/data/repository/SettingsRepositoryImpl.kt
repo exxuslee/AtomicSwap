@@ -16,14 +16,6 @@ class SettingsRepositoryImpl(
         prefs.edit { putBoolean("isDark", value) }
     }
 
-    override fun languageTag(): String {
-        return prefs.getString("languageTag", "en") ?: "en"
-    }
-
-    override fun languageTag(tag: String) {
-        prefs.edit { putString("languageTag", tag) }
-    }
-
     override fun selectedRoute(): String {
         return prefs.getString("selectedRoute", "maker") ?: "maker"
     }

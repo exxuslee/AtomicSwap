@@ -1,16 +1,8 @@
 package com.example.atomicswap
 
 import android.content.Context
-import com.example.atomicswap.core.database.databaseModule
-import com.example.atomicswap.core.network.networkModule
 import com.example.atomicswap.core.common.base.CoreApp
-import com.example.atomicswap.core.common.di.coreAppModule
-import com.example.atomicswap.data.di.dataModule
-import com.example.atomicswap.domain.di.domainModule
-import com.example.atomicswap.feature.history.historyModule
-import com.example.atomicswap.feature.maker.makerModule
-import com.example.atomicswap.feature.settings.di.settingsModule
-import com.example.atomicswap.feature.taker.takerModule
+import com.example.atomicswap.di.appModule
 import com.hwasfy.localize.util.LocaleHelper
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -27,17 +19,7 @@ class AtomicSwapApp : CoreApp() {
         startKoin {
             androidLogger()
             androidContext(this@AtomicSwapApp)
-            modules(
-                coreAppModule,
-                domainModule,
-                networkModule,
-                databaseModule,
-                dataModule,
-                takerModule,
-                makerModule,
-                historyModule,
-                settingsModule
-            )
+            modules(appModule)
         }
     }
 }

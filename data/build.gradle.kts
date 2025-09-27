@@ -12,6 +12,16 @@ android {
 		targetSdk = property("version.targetSdk").toString().toInt()
 	}
 
+	buildTypes {
+		create("mock") {
+			initWith(getByName("debug"))
+			matchingFallbacks += listOf("debug", "release")
+		}
+		release {
+			isMinifyEnabled = false
+		}
+	}
+
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
@@ -28,5 +38,6 @@ dependencies {
 	implementation(project(":core:network"))
 	implementation(project(":core:database"))
 	implementation(libs.koin.android)
+	implementation(libs.sqldelight.coroutines)
 	implementation(libs.kotlinx.coroutines.core)
 }

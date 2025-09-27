@@ -12,6 +12,15 @@ android {
 		targetSdk = property("version.targetSdk").toString().toInt()
 	}
 
+	buildTypes {
+		create("mock") {
+			initWith(getByName("debug"))
+		}
+		release {
+			isMinifyEnabled = false
+		}
+	}
+
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17

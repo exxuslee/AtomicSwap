@@ -13,6 +13,15 @@ android {
         targetSdk = property("version.targetSdk").toString().toInt()
     }
 
+    buildTypes {
+        create("mock") {
+            initWith(getByName("debug"))
+        }
+        release {
+            isMinifyEnabled = false
+        }
+    }
+
     buildFeatures {
         compose = true
     }
