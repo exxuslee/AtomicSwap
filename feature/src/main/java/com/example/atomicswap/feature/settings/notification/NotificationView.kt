@@ -21,9 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -42,27 +40,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.atomicswap.core.ui.component.DraggableCardSimple
-import com.example.atomicswap.core.ui.component.HeaderStick
-import com.example.atomicswap.core.ui.component.HsIconButton
-import com.example.atomicswap.core.ui.component.ListEmptyView
-import com.example.atomicswap.core.ui.component.RowUniversal
-import com.example.atomicswap.core.ui.component.SectionItemPosition
-import com.example.atomicswap.core.ui.component.SectionUniversalItem
-import com.example.atomicswap.core.ui.component.sectionItemBorder
-import com.example.atomicswap.core.ui.theme.AppTheme
+import com.example.atomicswap.core.common.ui.DraggableCardSimple
+import com.example.atomicswap.core.common.ui.HeaderStick
+import com.example.atomicswap.core.common.ui.HsIconButton
+import com.example.atomicswap.core.common.ui.ListEmptyView
+import com.example.atomicswap.core.common.ui.RowUniversal
+import com.example.atomicswap.core.common.ui.SectionItemPosition
+import com.example.atomicswap.core.common.ui.SectionUniversalItem
+import com.example.atomicswap.core.common.ui.sectionItemBorder
+import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.domain.model.Notification
 import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.notification.models.Event
 import com.example.atomicswap.feature.settings.notification.models.ViewState
-import com.example.atomicswap.core.ui.base.DateHelper
+import com.example.atomicswap.core.common.base.DateHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

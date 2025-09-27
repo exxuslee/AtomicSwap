@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
+    implementation(project(":core:common"))
     implementation(project(":core:localize"))
     implementation(project(":domain"))
     implementation(platform(libs.compose.bom))

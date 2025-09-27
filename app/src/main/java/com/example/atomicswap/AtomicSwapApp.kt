@@ -3,9 +3,10 @@ package com.example.atomicswap
 import android.content.Context
 import com.example.atomicswap.core.database.databaseModule
 import com.example.atomicswap.core.network.networkModule
-import com.example.atomicswap.core.ui.base.CoreApp
-import com.example.atomicswap.core.ui.di.coreAppModule
+import com.example.atomicswap.core.common.base.CoreApp
+import com.example.atomicswap.core.common.di.coreAppModule
 import com.example.atomicswap.data.di.dataModule
+import com.example.atomicswap.domain.di.domainModule
 import com.example.atomicswap.feature.history.historyModule
 import com.example.atomicswap.feature.maker.makerModule
 import com.example.atomicswap.feature.settings.di.settingsModule
@@ -28,6 +29,7 @@ class AtomicSwapApp : CoreApp() {
             androidContext(this@AtomicSwapApp)
             modules(
                 coreAppModule,
+                domainModule,
                 networkModule,
                 databaseModule,
                 dataModule,

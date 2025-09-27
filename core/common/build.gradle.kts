@@ -1,10 +1,11 @@
 plugins {
-	id("org.jetbrains.kotlin.android")
 	id("com.android.library")
+	id("org.jetbrains.kotlin.android")
+	alias(libs.plugins.compose.compiler)
 }
 
 android {
-	namespace = "com.example.atomicswap.domain"
+	namespace = "com.example.atomicswap.core.common"
 	compileSdk = property("version.compileSdk").toString().toInt()
 
 	defaultConfig {
@@ -20,10 +21,14 @@ android {
 	kotlinOptions {
 		jvmTarget = "17"
 	}
-
 }
 
 dependencies {
+	implementation(platform(libs.compose.bom))
+	implementation(libs.compose.material3)
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.androidx.navigation.compose)
+	implementation(libs.compose.ui.text.googlefonts)
+
 	implementation(libs.koin.android)
-	implementation(libs.kotlinx.coroutines.core)
 }

@@ -1,37 +1,33 @@
 package com.example.atomicswap
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.atomicswap.core.ui.navigation.AnimationType
-import com.example.atomicswap.core.ui.navigation.animatedComposable
+import com.example.atomicswap.core.common.navigation.AnimationType
+import com.example.atomicswap.core.common.navigation.animatedComposable
 import com.example.atomicswap.domain.repository.SettingsRepository
+import com.example.atomicswap.domain.usecases.SettingsUseCase
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.navigation.Routes
@@ -47,8 +43,8 @@ import org.koin.compose.koinInject
 fun MainContent() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val settingsRepository = koinInject<SettingsRepository>()
-    val initialRoute = remember { settingsRepository.selectedRoute() }
+    val settingsUseCase = koinInject<SettingsUseCase>()
+    val initialRoute = remember { settingsUseCase.selectedRoute() }
     var selected by remember { mutableStateOf(Routes.routeToRoutes(initialRoute)) }
     val bottomDestinations = remember {
         listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings.Main)
@@ -62,7 +58,7 @@ fun MainContent() {
                         selected = selected.route == dest.route,
                         onClick = {
                             selected = dest
-                            settingsRepository.selectedRoute(dest.route)
+                            settingsUseCase.selectedRoute(dest.route)
                             navController.navigate(dest.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     when (dest) {

@@ -2,13 +2,13 @@ package com.example.atomicswap.feature.settings.notification
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.atomicswap.core.ui.base.BaseViewModel
+import com.example.atomicswap.core.common.base.BaseViewModel
 import com.example.atomicswap.domain.model.Notification
 import com.example.atomicswap.domain.repository.NotificationRepository
 import com.example.atomicswap.feature.settings.notification.models.Action
 import com.example.atomicswap.feature.settings.notification.models.Event
 import com.example.atomicswap.feature.settings.notification.models.ViewState
-import com.example.atomicswap.core.ui.base.DateHelper
+import com.example.atomicswap.core.common.base.DateHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

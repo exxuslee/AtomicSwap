@@ -9,12 +9,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,9 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.atomicswap.core.ui.component.CellUniversalLawrenceSection
-import com.example.atomicswap.core.ui.component.RowUniversal
-import com.example.atomicswap.core.ui.theme.AppTheme
+import com.example.atomicswap.core.common.ui.CellUniversalLawrenceSection
+import com.example.atomicswap.core.common.ui.RowUniversal
+import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.language.models.Event
 import com.example.atomicswap.feature.settings.language.models.ViewState

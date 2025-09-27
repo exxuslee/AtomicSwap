@@ -64,7 +64,7 @@ dependencies {
 	implementation(project(":core:network"))
 	implementation(project(":core:database"))
 	implementation(project(":core:localize"))
-	implementation(project(":core:ui"))
+	implementation(project(":core:common"))
 	implementation(project(":feature"))
 
 	debugImplementation(libs.compose.ui.tooling)

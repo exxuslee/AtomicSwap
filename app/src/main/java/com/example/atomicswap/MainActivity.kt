@@ -7,9 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.atomicswap.core.ui.theme.AppTheme
+import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.domain.usecases.ThemeController
-import com.example.atomicswap.utils.rememberDoubleBackPressHandler
+import com.example.atomicswap.core.common.ui.rememberDoubleBackPressHandler
 import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {

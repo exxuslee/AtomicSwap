@@ -21,7 +21,7 @@ include(
 	":core:network",
 	":core:database",
 	":core:localize",
-	":core:ui",
+    ":core:common",
 	":domain",
 	":data",
 	":feature"

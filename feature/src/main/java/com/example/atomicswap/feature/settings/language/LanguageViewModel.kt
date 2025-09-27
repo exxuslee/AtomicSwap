@@ -1,6 +1,6 @@
 package com.example.atomicswap.feature.settings.language
 
-import com.example.atomicswap.core.ui.base.BaseViewModel
+import com.example.atomicswap.core.common.base.BaseViewModel
 import com.example.atomicswap.feature.settings.language.models.Action
 import com.example.atomicswap.feature.settings.language.models.Event
 import com.example.atomicswap.feature.settings.language.models.ViewState
