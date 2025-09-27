@@ -7,11 +7,15 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import com.example.atomicswap.core.ui.R
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-object DateHelper {
+object DateHelper : KoinComponent {
+
+    private val context: Context by inject()
 
     private fun getTimeFormat(): String {
-        val is24HourFormat = DateFormat.is24HourFormat(CoreApp.instance)
+        val is24HourFormat = DateFormat.is24HourFormat(context)
         return if (is24HourFormat) "HH:mm" else "h:mm a"
     }
 
@@ -97,13 +101,13 @@ object DateHelper {
 
         val today = Calendar.getInstance()
         if (calendar[Calendar.YEAR] == today[Calendar.YEAR] && calendar[Calendar.DAY_OF_YEAR] == today[Calendar.DAY_OF_YEAR]) {
-            return CoreApp.instance.getString(R.string.Timestamp_Today)
+            return context.getString(R.string.Timestamp_Today)
         }
 
         val yesterday = Calendar.getInstance()
         yesterday.add(Calendar.DAY_OF_MONTH, -1)
         if (calendar[Calendar.YEAR] == yesterday[Calendar.YEAR] && calendar[Calendar.DAY_OF_YEAR] == yesterday[Calendar.DAY_OF_YEAR]) {
-            return CoreApp.instance.getString(R.string.Timestamp_Yesterday)
+            return context.getString(R.string.Timestamp_Yesterday)
         }
 
         return shortDate(calendar.time, "MMMM d", "MMMM d, yyyy")
