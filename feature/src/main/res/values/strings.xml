@@ -37,4 +37,5 @@
 	<string name="account">Account</string>
     <string name="price_aggregator">Price aggregator</string>
     <string name="notifications">Notifications</string>
+	<string name="notification_empty_list">You have no messages</string>
 </resources>

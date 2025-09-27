@@ -13,5 +13,5 @@ val settingsModule = module {
     single { LanguageController(get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { LanguageViewModel() }
-    viewModel { NotificationViewModel() }
+    viewModel { NotificationViewModel(get()) }
 }

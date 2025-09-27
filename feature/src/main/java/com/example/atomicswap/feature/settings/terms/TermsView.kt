@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atomicswap.core.ui.component.HeaderStick
 import com.example.atomicswap.core.ui.theme.AppTheme
 import com.example.atomicswap.feature.R
 
@@ -79,16 +80,7 @@ fun TermsView(onBack: () -> Unit) {
 
             content.forEach { section ->
                 stickyHeader {
-                    Surface(
-                        color = MaterialTheme.colorScheme.background,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = stringResource(section.first),
-                            style = MaterialTheme.typography.headlineSmall,
-                            modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 8.dp)
-                        )
-                    }
+                    HeaderStick(stringResource(section.first))
                 }
 
                 item {

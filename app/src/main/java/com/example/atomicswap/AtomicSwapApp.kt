@@ -1,9 +1,9 @@
 package com.example.atomicswap
 
-import android.app.Application
 import android.content.Context
 import com.example.atomicswap.core.database.databaseModule
 import com.example.atomicswap.core.network.networkModule
+import com.example.atomicswap.core.ui.base.CoreApp
 import com.example.atomicswap.data.di.dataModule
 import com.example.atomicswap.feature.history.historyModule
 import com.example.atomicswap.feature.maker.makerModule
@@ -14,10 +14,11 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
-class AtomicSwapApp : Application() {
+class AtomicSwapApp : CoreApp() {
 
 	override fun attachBaseContext(base: Context) {
 		super.attachBaseContext(LocaleHelper.wrapContext(base))
+		instance = this
 	}
 
 	override fun onCreate() {
