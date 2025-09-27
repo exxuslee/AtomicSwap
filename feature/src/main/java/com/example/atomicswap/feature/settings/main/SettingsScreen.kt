@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import com.example.atomicswap.feature.navigation.Routes
-import com.example.atomicswap.feature.settings.main.models.SettingsAction
+import com.example.atomicswap.feature.settings.main.models.Action
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -21,14 +21,19 @@ fun SettingsScreen(
     }
 
     when (viewAction) {
-        SettingsAction.OpenTermsScreen -> {
+        Action.OpenTermsScreen -> {
             viewModel.clearAction()
             navController.navigate(Routes.Settings.Therms.route)
         }
 
-        SettingsAction.OpenLanguageScreen -> {
+        Action.OpenLanguageScreen -> {
             viewModel.clearAction()
             navController.navigate(Routes.Settings.Language.route)
+        }
+
+        Action.OpenNotificationScreen -> {
+            viewModel.clearAction()
+            navController.navigate(Routes.Settings.Notification.route)
         }
 
         null -> {}

@@ -37,6 +37,7 @@ import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.navigation.Routes
 import com.example.atomicswap.feature.settings.language.LanguageScreen
 import com.example.atomicswap.feature.settings.main.SettingsScreen
+import com.example.atomicswap.feature.settings.notification.NotificationScreen
 import com.example.atomicswap.feature.settings.terms.TermsScreen
 import com.example.atomicswap.feature.taker.TakerScreen
 import org.koin.compose.koinInject
@@ -127,6 +128,11 @@ fun MainContent() {
                 Routes.Settings.Language.route,
                 animationType = AnimationType.FADE,
             ) { LanguageScreen(navController) }
+            animatedComposable(
+                Routes.Settings.Notification.route,
+                animationType = AnimationType.FADE,
+            ) { NotificationScreen(navController) }
+
         }
 
     }

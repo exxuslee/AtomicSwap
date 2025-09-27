@@ -1,9 +1,9 @@
 package com.example.atomicswap.feature.settings.main
 
 import com.example.atomicswap.core.ui.base.BaseViewModel
-import com.example.atomicswap.feature.settings.main.models.SettingsAction
-import com.example.atomicswap.feature.settings.main.models.SettingsEvent
-import com.example.atomicswap.feature.settings.main.models.SettingsViewState
+import com.example.atomicswap.feature.settings.main.models.Action
+import com.example.atomicswap.feature.settings.main.models.Event
+import com.example.atomicswap.feature.settings.main.models.ViewState
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -16,8 +16,8 @@ import java.nio.ByteBuffer
 
 class SettingsViewModel(
     private val themeController: ThemeController,
-) : BaseViewModel<SettingsViewState, SettingsAction,
-        SettingsEvent>(initialState = SettingsViewState()) {
+) : BaseViewModel<ViewState, Action,
+        Event>(initialState = ViewState()) {
 
     init {
         viewState = viewState.copy(
@@ -26,15 +26,16 @@ class SettingsViewModel(
         )
     }
 
-    override fun obtainEvent(viewEvent: SettingsEvent) {
+    override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
-            is SettingsEvent.IsDark -> {
+            is Event.IsDark -> {
                 themeController.setDark(viewEvent.newValue)
                 viewState = viewState.copy(isDark = viewEvent.newValue)
             }
 
-            SettingsEvent.OpenTermsScreen -> viewAction = SettingsAction.OpenTermsScreen
-            SettingsEvent.OpenLanguageScreen -> viewAction = SettingsAction.OpenLanguageScreen
+            Event.OpenTermsScreen -> viewAction = Action.OpenTermsScreen
+            Event.OpenLanguageScreen -> viewAction = Action.OpenLanguageScreen
+            Event.OpenNotificationScreen -> viewAction = Action.OpenNotificationScreen
         }
 
     }

@@ -36,4 +36,5 @@
     <string name="app">App</string>
 	<string name="account">Account</string>
     <string name="price_aggregator">Price aggregator</string>
+    <string name="notifications">Notifications</string>
 </resources>

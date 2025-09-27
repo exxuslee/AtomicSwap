@@ -35,5 +35,6 @@
 	<string name="back">Назад</string>
 	<string name="app">Приложение</string>
 	<string name="account">Аккаунт</string>
-	<string name="price_aggregator">Price aggregator</string>
+	<string name="price_aggregator">Аггрегатор цен</string>
+    <string name="notifications">Уведомления</string>
 </resources>

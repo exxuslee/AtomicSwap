@@ -8,33 +8,40 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atomicswap.core.ui.component.BadgeType
+import com.example.atomicswap.core.ui.component.BadgedIcon
 import com.example.atomicswap.core.ui.component.CellUniversalSection
+import com.example.atomicswap.core.ui.component.HsIconButton
 import com.example.atomicswap.core.ui.component.HsRow
 import com.example.atomicswap.core.ui.component.RowUniversal
 import com.example.atomicswap.core.ui.component.VSpacer
 import com.example.atomicswap.core.ui.theme.AppTheme
 import com.example.atomicswap.feature.R
-import com.example.atomicswap.feature.settings.main.models.SettingsEvent
-import com.example.atomicswap.feature.settings.main.models.SettingsViewState
+import com.example.atomicswap.feature.settings.main.models.Event
+import com.example.atomicswap.feature.settings.main.models.ViewState
 
 @Composable
 fun SettingsView(
-    viewState: SettingsViewState,
-    eventHandler: (SettingsEvent) -> Unit,
+    viewState: ViewState,
+    eventHandler: (Event) -> Unit,
 ) {
 
     val scrollState = rememberScrollState()
@@ -42,19 +49,38 @@ fun SettingsView(
         modifier = Modifier.verticalScroll(scrollState),
     ) {
         RowUniversal(
+            modifier = Modifier.padding(horizontal = 12.dp),
             verticalPadding = 16.dp,
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top
         ) {
             Image(
                 bitmap = viewState.avatar.asImageBitmap(),
                 contentDescription = "avatar",
                 modifier = Modifier
-                    .height(180.dp)
+                    .height(160.dp)
                     .aspectRatio(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.background, CircleShape)
                     .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
             )
+            HsIconButton(
+                onClick = {
+                    eventHandler.invoke(Event.OpenNotificationScreen)
+                },
+            ) {
+                val unreadCount = 2
+                BadgedIcon(
+                    if (unreadCount > 0) BadgeType.BadgeNumber(unreadCount)
+                    else null
+                ) {
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        painter = painterResource(id = R.drawable.outline_notifications_24),
+                        contentDescription = "notification center",
+                    )
+                }
+            }
         }
         CellUniversalSection {
             Text(
@@ -131,7 +157,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            eventHandler.invoke(SettingsEvent.OpenLanguageScreen)
+                            eventHandler.invoke(Event.OpenLanguageScreen)
                         },
                         arrowRight = true,
                     )
@@ -149,7 +175,7 @@ fun SettingsView(
                     ) {
                         Switch(
                             checked = viewState.isDark,
-                            onCheckedChange = { eventHandler.invoke(SettingsEvent.IsDark(!viewState.isDark)) },
+                            onCheckedChange = { eventHandler.invoke(Event.IsDark(!viewState.isDark)) },
                             colors = SwitchDefaults.colors()
                         )
                     }
@@ -164,7 +190,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            eventHandler.invoke(SettingsEvent.OpenTermsScreen)
+                            eventHandler.invoke(Event.OpenTermsScreen)
                         },
                         arrowRight = true,
                     )
@@ -180,7 +206,7 @@ fun SettingsView(
 fun ProfileView_Preview() {
     AppTheme {
         SettingsView(
-            viewState = SettingsViewState(),
+            viewState = ViewState(),
             eventHandler = {},
         )
     }
