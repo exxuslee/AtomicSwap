@@ -1,33 +1,43 @@
 package com.example.atomicswap.feature.settings.donate
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.core.common.ui.HeaderStick
 import com.example.atomicswap.core.common.ui.TopAppBar
+import com.example.atomicswap.feature.settings.donate.models.Event
+import com.example.atomicswap.feature.settings.donate.models.ViewState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DonateView(onBack: () -> Unit) {
+fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     Column {
-        TopAppBar("Donate", onBack)
+        TopAppBar("Donate") { eventHandler.invoke(Event.PopBackStack) }
 
         val clipboard = LocalClipboardManager.current
         val uriHandler = LocalUriHandler.current
@@ -41,6 +51,18 @@ fun DonateView(onBack: () -> Unit) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 24.dp)
+                )
+            }
+
+            stickyHeader {
+                HeaderStick("Select Amount")
+            }
+
+            item {
+                DonationAmountSelector(
+                    selectedAmount = viewState.selectedAmount,
+                    availableAmounts = viewState.availableAmounts,
+                    onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
                 )
             }
 
@@ -142,12 +164,99 @@ private fun AddressRow(
     }
 }
 
+@Composable
+private fun DonationAmountSelector(
+    selectedAmount: Int,
+    availableAmounts: List<Int>,
+    onAmountSelected: (Int) -> Unit,
+) {
+    Column(modifier = Modifier.padding(vertical = 12.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            availableAmounts.forEach { amount ->
+                AmountButton(
+                    amount = amount,
+                    isSelected = amount == selectedAmount,
+                    onClick = { onAmountSelected(amount) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+        
+        Spacer(modifier = Modifier.padding(vertical = 8.dp))
+        
+        Text(
+            text = "Selected: $${selectedAmount}",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Composable
+private fun AmountButton(
+    amount: Int,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .clickable { onClick() }
+            .then(
+                if (isSelected) {
+                    Modifier.border(
+                        width = 2.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                } else {
+                    Modifier
+                }
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surface
+            }
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 4.dp else 1.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "$$amount",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = if (isSelected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    }
+                )
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun DonateView_Preview() {
     AppTheme {
         DonateView(
-            onBack = {}
+            viewState = ViewState(),
+            eventHandler = {}
         )
     }
 }
