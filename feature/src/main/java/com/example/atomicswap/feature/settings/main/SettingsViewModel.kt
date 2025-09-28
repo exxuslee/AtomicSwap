@@ -36,6 +36,8 @@ class SettingsViewModel(
             Event.OpenTermsScreen -> viewAction = Action.OpenTermsScreen
             Event.OpenLanguageScreen -> viewAction = Action.OpenLanguageScreen
             Event.OpenNotificationScreen -> viewAction = Action.OpenNotificationScreen
+            Event.OpenAboutScreen -> viewAction = Action.OpenAboutScreen
+            Event.OpenDonateScreen -> viewAction = Action.OpenDonateScreen
         }
 
     }

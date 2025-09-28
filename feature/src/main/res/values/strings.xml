@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="app_name" translatable="false">AtomicSwap</string>
 	<string name="title_taker">Taker</string>
 	<string name="action_create_deal">Create deal</string>
 	<string name="title_maker">Maker</string>
@@ -38,4 +39,6 @@
     <string name="price_aggregator">Price aggregator</string>
     <string name="notifications">Notifications</string>
 	<string name="notification_empty_list">You have no messages</string>
+    <string name="donate">Donate</string>
+	<string name="about">About %s</string>
 </resources>

@@ -31,6 +31,8 @@ import com.example.atomicswap.domain.usecases.SettingsUseCase
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.navigation.Routes
+import com.example.atomicswap.feature.settings.about.AboutScreen
+import com.example.atomicswap.feature.settings.donate.DonateScreen
 import com.example.atomicswap.feature.settings.language.LanguageScreen
 import com.example.atomicswap.feature.settings.main.SettingsScreen
 import com.example.atomicswap.feature.settings.notification.NotificationScreen
@@ -66,6 +68,7 @@ fun MainContent() {
                                             inclusive = false
                                             saveState = true
                                         }
+
                                         else -> {
                                             saveState = true
                                         }
@@ -112,10 +115,18 @@ fun MainContent() {
             startDestination = initialRoute,
             modifier = Modifier.padding(padding)
         ) {
-            animatedComposable(Routes.Maker.route) { MakerScreen(navController) }
-            animatedComposable(Routes.Taker.route) { TakerScreen(navController) }
-            animatedComposable(Routes.History.route) { HistoryScreen(navController) }
-            animatedComposable(Routes.Settings.Main.route) { SettingsScreen(navController) }
+            animatedComposable(
+                Routes.Maker.route,
+            ) { MakerScreen(navController) }
+            animatedComposable(
+                Routes.Taker.route,
+            ) { TakerScreen(navController) }
+            animatedComposable(
+                Routes.History.route,
+            ) { HistoryScreen(navController) }
+            animatedComposable(
+                Routes.Settings.Main.route,
+            ) { SettingsScreen(navController) }
             animatedComposable(
                 Routes.Settings.Therms.route,
                 animationType = AnimationType.FADE,
@@ -128,6 +139,14 @@ fun MainContent() {
                 Routes.Settings.Notification.route,
                 animationType = AnimationType.FADE,
             ) { NotificationScreen(navController) }
+            animatedComposable(
+                Routes.Settings.About.route,
+                animationType = AnimationType.FADE,
+            ) { AboutScreen(navController) }
+            animatedComposable(
+                Routes.Settings.Donate.route,
+                animationType = AnimationType.FADE,
+            ) { DonateScreen(navController) }
 
         }
 

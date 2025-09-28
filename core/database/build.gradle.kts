@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
@@ -10,6 +12,9 @@ android {
 
 	defaultConfig {
 		minSdk = property("version.minSdk").toString().toInt()
+	}
+
+	testOptions {
 		targetSdk = property("version.targetSdk").toString().toInt()
 	}
 
@@ -28,8 +33,10 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 
-	kotlinOptions {
-		jvmTarget = "17"
+	kotlin {
+		compilerOptions {
+			jvmTarget.set(JvmTarget.JVM_17)
+		}
 	}
 }
 

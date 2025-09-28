@@ -36,6 +36,16 @@ fun SettingsScreen(
             navController.navigate(Routes.Settings.Notification.route)
         }
 
+        Action.OpenAboutScreen -> {
+            viewModel.clearAction()
+            navController.navigate(Routes.Settings.About.route)
+        }
+
+        Action.OpenDonateScreen -> {
+            viewModel.clearAction()
+            navController.navigate(Routes.Settings.Donate.route)
+        }
+
         null -> {}
     }
 }

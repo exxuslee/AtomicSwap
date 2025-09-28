@@ -4,5 +4,7 @@ sealed class Action {
     data object OpenTermsScreen : Action()
     data object OpenLanguageScreen : Action()
     data object OpenNotificationScreen : Action()
+    data object OpenDonateScreen : Action()
+    data object OpenAboutScreen : Action()
 
 }

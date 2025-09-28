@@ -195,6 +195,36 @@ fun SettingsView(
                         arrowRight = true,
                     )
                 },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_volunteer_activism_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.donate),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {
+                            eventHandler.invoke(Event.OpenDonateScreen)
+                        },
+                        arrowRight = true,
+                    )
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_mobile_info_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.about, stringResource(R.string.app_name)),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {
+                            eventHandler.invoke(Event.OpenAboutScreen)
+                        },
+                        arrowRight = true,
+                    )
+                },
             )
         )
         VSpacer(32.dp)
