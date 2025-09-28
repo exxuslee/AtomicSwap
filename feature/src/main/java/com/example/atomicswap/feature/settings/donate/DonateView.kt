@@ -126,7 +126,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                         )
                         Text(
                             text = "Quick one-time tip via web",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
