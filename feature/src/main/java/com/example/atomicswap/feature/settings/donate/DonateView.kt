@@ -1,5 +1,6 @@
 package com.example.atomicswap.feature.settings.donate
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,18 +16,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atomicswap.feature.R
 import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.core.common.ui.HeaderStick
 import com.example.atomicswap.core.common.ui.TopAppBar
@@ -55,19 +61,11 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             }
 
             stickyHeader {
-                HeaderStick("Select Amount")
-            }
-
-            item {
                 DonationAmountSelector(
                     selectedAmount = viewState.selectedAmount,
                     availableAmounts = viewState.availableAmounts,
                     onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
                 )
-            }
-
-            stickyHeader {
-                HeaderStick("Crypto")
             }
 
             item {
@@ -166,29 +164,30 @@ private fun AddressRow(
 
 @Composable
 private fun DonationAmountSelector(
+    availableAmounts: List<Pair<Int, Int>>,
     selectedAmount: Int,
-    availableAmounts: List<Int>,
     onAmountSelected: (Int) -> Unit,
 ) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             availableAmounts.forEach { amount ->
-                AmountButton(
-                    amount = amount,
-                    isSelected = amount == selectedAmount,
-                    onClick = { onAmountSelected(amount) },
+                DonateButton(
+                    amount = amount.second,
+                    iconId = amount.first,
+                    isSelected = amount.second == selectedAmount,
+                    onClick = { onAmountSelected(amount.second) },
                     modifier = Modifier.weight(1f)
                 )
             }
         }
-        
+
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
-        
+
         Text(
-            text = "Selected: $${selectedAmount}",
+            text = "Selected: $selectedAmount USDT",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -197,8 +196,9 @@ private fun DonationAmountSelector(
 }
 
 @Composable
-private fun AmountButton(
+private fun DonateButton(
     amount: Int,
+    @DrawableRes iconId: Int,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -235,15 +235,9 @@ private fun AmountButton(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "$$amount",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = if (isSelected) {
-                        MaterialTheme.colorScheme.onPrimaryContainer
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
-                    }
+                Icon(
+                    painterResource(id = iconId),
+                    contentDescription = amount.toString()
                 )
             }
         }
