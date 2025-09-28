@@ -5,6 +5,6 @@ import com.example.atomicswap.domain.usecases.ThemeController
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory { ThemeController(get()) }
+    single { ThemeController(get()) }
     factory { SettingsUseCase(get()) }
 }
