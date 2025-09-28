@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,12 +37,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.atomicswap.core.common.R
 
-data class ContentCell (
+data class ContentCell(
     val header: String,
     val index: Int,
     val clipModifier: Modifier,
     val borderModifier: Modifier,
 )
+
 @Composable
 fun LazyStickyHeaderColumn(
     modifier: Modifier = Modifier,
@@ -101,7 +103,8 @@ fun LazyStickyHeaderColumn(
                             .height(heightInDp)
                             .padding(horizontal = 12.dp)
                             .then(clipModifier),
-                    ) {
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.error),
+                        ) {
                         Row(
                             modifier = Modifier.fillMaxSize(),
                             horizontalArrangement = Arrangement.End
@@ -117,7 +120,7 @@ fun LazyStickyHeaderColumn(
                                     Image(
                                         painter = painterResource(id = R.drawable.outline_delete_24),
                                         contentDescription = "delete",
-                                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onErrorContainer)
+                                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onError)
                                     )
                                 })
                         }
@@ -142,14 +145,14 @@ fun LazyStickyHeaderColumn(
                                         if (position != SectionItemPosition.Single) {
                                             Modifier.sectionItemBorder(
                                                 1.dp,
-                                                MaterialTheme.colorScheme.primaryContainer,
+                                                MaterialTheme.colorScheme.outline,
                                                 12.dp,
                                                 position
                                             )
                                         } else {
                                             Modifier.border(
                                                 1.dp,
-                                                MaterialTheme.colorScheme.primaryContainer,
+                                                MaterialTheme.colorScheme.outline,
                                                 RoundedCornerShape(12.dp)
                                             )
                                         }
