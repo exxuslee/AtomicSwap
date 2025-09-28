@@ -26,7 +26,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.atomicswap.core.common.navigation.AnimationType
 import com.example.atomicswap.core.common.navigation.animatedComposable
-import com.example.atomicswap.domain.repository.SettingsRepository
 import com.example.atomicswap.domain.usecases.SettingsUseCase
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
