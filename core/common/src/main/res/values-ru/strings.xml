@@ -10,4 +10,5 @@
     <string name="Duration_Minutes">%d мин.</string>
     <string name="Duration_Seconds">%d сек.</string>
     <string name="double_back_press_message">Нажмите еще раз для выхода</string>
+    <string name="back">Назад</string>
 </resources>

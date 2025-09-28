@@ -33,7 +33,6 @@
 	<string name="terms_section_9_title">9. Contact Information</string>
 	<string name="terms_section_9_content">If you have any questions about these Terms of Service, please contact us through the application\'s support channels.</string>
 	<string name="terms_footer">By using AtomicSwap, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</string>
-	<string name="back">Back</string>
     <string name="app">App</string>
 	<string name="account">Account</string>
     <string name="price_aggregator">Price aggregator</string>

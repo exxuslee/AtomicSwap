@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.example.atomicswap.core.common.ui.CellUniversalLawrenceSection
 import com.example.atomicswap.core.common.ui.RowUniversal
 import com.example.atomicswap.core.common.theme.AppTheme
+import com.example.atomicswap.core.common.ui.TopAppBar
 import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.language.models.Event
 import com.example.atomicswap.feature.settings.language.models.ViewState
@@ -39,25 +39,9 @@ fun LanguageView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     val scrollState = rememberScrollState()
 
     Column {
-        TopAppBar(
-            windowInsets = WindowInsets(0, 0, 0, 0),
-            title = {
-                Text(
-                    text = stringResource(R.string.language),
-                    style = MaterialTheme.typography.headlineMedium,
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = {
-                    eventHandler.invoke(Event.PopBackStack)
-                }) {
-                    Icon(
-                        painterResource(id = R.drawable.outline_arrow_back_ios_new_24),
-                        contentDescription = stringResource(R.string.back)
-                    )
-                }
-            }
-        )
+        TopAppBar(stringResource(R.string.language)) {
+            eventHandler.invoke(Event.PopBackStack)
+        }
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)

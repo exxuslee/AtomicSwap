@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,11 +23,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -46,6 +42,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atomicswap.core.common.base.DateHelper
+import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.core.common.ui.DraggableCardSimple
 import com.example.atomicswap.core.common.ui.HeaderStick
 import com.example.atomicswap.core.common.ui.HsIconButton
@@ -53,37 +51,21 @@ import com.example.atomicswap.core.common.ui.ListEmptyView
 import com.example.atomicswap.core.common.ui.RowUniversal
 import com.example.atomicswap.core.common.ui.SectionItemPosition
 import com.example.atomicswap.core.common.ui.SectionUniversalItem
+import com.example.atomicswap.core.common.ui.TopAppBar
 import com.example.atomicswap.core.common.ui.sectionItemBorder
-import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.domain.model.Notification
 import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.notification.models.Event
 import com.example.atomicswap.feature.settings.notification.models.ViewState
-import com.example.atomicswap.core.common.base.DateHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     Column {
-        TopAppBar(
-            windowInsets = WindowInsets(0, 0, 0, 0),
-            title = {
-                Text(
-                    text = stringResource(R.string.notifications),
-                    style = MaterialTheme.typography.headlineMedium,
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = {
-                    eventHandler.invoke(Event.PopBackStack)
-                }) {
-                    Icon(
-                        painterResource(id = R.drawable.outline_arrow_back_ios_new_24),
-                        contentDescription = stringResource(R.string.back)
-                    )
-                }
-            }
-        )
+        TopAppBar(stringResource(R.string.notifications)) {
+            eventHandler.invoke(Event.PopBackStack)
+        }
+
         if (viewState.items.isEmpty()) {
             ListEmptyView(
                 text = stringResource(R.string.notification_empty_list),
