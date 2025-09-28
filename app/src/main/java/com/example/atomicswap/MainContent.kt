@@ -57,13 +57,17 @@ fun MainContent() {
                     NavigationBarItem(
                         selected = dest.isParentSelected(currentRoute),
                         onClick = {
-                            settingsUseCase.selectedRoute(dest.route)
-                            navController.navigate(dest.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                            if (dest.isParentSelected(currentRoute)) {
+                                navController.popBackStack(dest.route, inclusive = false)
+                            } else {
+                                settingsUseCase.selectedRoute(dest.route)
+                                navController.navigate(dest.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
                             }
                         },
                         icon = {
