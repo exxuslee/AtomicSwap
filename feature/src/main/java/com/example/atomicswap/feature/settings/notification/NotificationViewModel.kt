@@ -19,29 +19,55 @@ class NotificationViewModel(
         private const val PAGE_SIZE = 16
     }
 
+    private var pages = 0
+    private var pushes = listOf<Notification>()
+
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
             is Event.PopBackStack -> viewAction = Action.PopBackStack
-            is Event.Delete -> TODO()
-            is Event.MarkAsRead -> TODO()
-            is Event.RevealCardIndex -> TODO()
-            is Event.OnClick -> TODO()
+            is Event.Delete -> delete(viewEvent.id)
+            is Event.MarkAsRead -> markAsRead(viewEvent.id)
+            is Event.RevealCardIndex -> revealIndex(viewEvent.id)
+            is Event.OnClick -> markAsRead(viewEvent.id)
             Event.OnBottomReached -> onBottomReached()
         }
 
     }
 
-    private var pages = 0
-    private var pushes = listOf<Notification>()
+    fun sync() = viewModelScope.launch(Dispatchers.IO) {
+        pushes = listOf()
+        for (i in 0..pages) {
+            val items = repository.notificationsPaged(i, PAGE_SIZE)
+            pushes += items
+        }
+        viewState = viewState.copy(
+            items = pushes.groupBy { DateHelper.formatDate(it.id) },
+            revealCardId = -1
+        )
+    }
+
+    private fun markAsRead(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        repository.markAsRead(id)
+        sync()
+    }
+
+    private fun delete(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        repository.delete(id)
+        sync()
+    }
 
     @Synchronized
-    fun onBottomReached() = viewModelScope.launch(Dispatchers.IO)  {
+    private fun onBottomReached() = viewModelScope.launch(Dispatchers.IO) {
         val newItems = repository.notificationsPaged(pages + 1, PAGE_SIZE)
         Log.d("Notifications", "onBottomReached() ${newItems.size}")
         if (newItems.isEmpty()) return@launch
         pages++
         pushes += newItems
         viewState = viewState.copy(items = pushes.groupBy { DateHelper.formatDate(it.id) })
+    }
+
+    private fun revealIndex(id: Long) {
+        viewState = viewState.copy(revealCardId = id)
     }
 
 }

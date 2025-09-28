@@ -99,7 +99,7 @@ private fun LazyListScope.transactionList(
 
         val itemsCount = transactions.size
         val singleElement = itemsCount == 1
-        itemsIndexed(transactions, key = { a, b -> b.id + a }) { index, item ->
+        itemsIndexed(transactions, key = { index, item -> "${item.id}-$index" }) { index, item ->
             val position: SectionItemPosition = when {
                 singleElement -> SectionItemPosition.Single
                 index == 0 -> SectionItemPosition.First

@@ -24,8 +24,8 @@ val appModule = module {
     includes(settingsModule)
 
     if (BuildConfig.BUILD_TYPE == "mock") {
-        includes(dataModule)
-    } else {
         includes(fakeDataModule)
+    } else {
+        includes(dataModule)
     }
 }

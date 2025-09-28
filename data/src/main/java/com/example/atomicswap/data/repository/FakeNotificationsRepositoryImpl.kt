@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeNotificationsRepositoryImpl : NotificationRepository.Reader {
 
-    // Mock data for testing
     private val mockNotifications = mutableListOf(
         Notification(
             id = 1,
