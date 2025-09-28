@@ -27,9 +27,9 @@ class NotificationViewModel(
             is Event.PopBackStack -> viewAction = Action.PopBackStack
             is Event.Delete -> delete(viewEvent.id)
             is Event.MarkAsRead -> markAsRead(viewEvent.id)
-            is Event.RevealCardIndex -> revealIndex(viewEvent.id)
-            is Event.OnClick -> markAsRead(viewEvent.id)
-            Event.OnBottomReached -> onBottomReached()
+            is Event.Reveal -> revealIndex(viewEvent.id)
+            is Event.Click -> markAsRead(viewEvent.id)
+            Event.BottomReached -> onBottomReached()
         }
 
     }
