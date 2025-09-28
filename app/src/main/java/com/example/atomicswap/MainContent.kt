@@ -15,9 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -30,6 +28,7 @@ import com.example.atomicswap.domain.usecases.SettingsUseCase
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.navigation.Routes
+import com.example.atomicswap.feature.navigation.isParentSelected
 import com.example.atomicswap.feature.settings.about.AboutScreen
 import com.example.atomicswap.feature.settings.donate.DonateScreen
 import com.example.atomicswap.feature.settings.language.LanguageScreen
@@ -46,7 +45,6 @@ fun MainContent() {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val settingsUseCase = koinInject<SettingsUseCase>()
     val initialRoute = remember { settingsUseCase.selectedRoute() }
-    var selected by remember { mutableStateOf(Routes.routeToRoutes(initialRoute)) }
     val bottomDestinations = remember {
         listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings.Main)
     }
@@ -55,23 +53,14 @@ fun MainContent() {
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 bottomDestinations.forEach { dest ->
+                    val currentRoute = backStackEntry?.destination?.route
                     NavigationBarItem(
-                        selected = selected.route == dest.route,
+                        selected = dest.isParentSelected(currentRoute),
                         onClick = {
-                            selected = dest
                             settingsUseCase.selectedRoute(dest.route)
                             navController.navigate(dest.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
-                                    when (dest) {
-                                        is Routes.Settings -> {
-                                            inclusive = false
-                                            saveState = true
-                                        }
-
-                                        else -> {
-                                            saveState = true
-                                        }
-                                    }
+                                    saveState = true
                                 }
                                 launchSingleTop = true
                                 restoreState = true

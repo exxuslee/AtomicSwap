@@ -13,19 +13,4 @@ sealed class Routes(val route: String, val pos: Int) {
         data object About : Settings("about")
     }
 
-    companion object {
-        fun routeToRoutes(route: String): Routes = when (route) {
-            Maker.route -> Maker
-            Taker.route -> Taker
-            History.route -> History
-            Settings.Main.route -> Settings.Main
-            Settings.Therms.route -> Settings.Therms
-            Settings.Language.route -> Settings.Language
-            Settings.Notification.route -> Settings.Notification
-            Settings.Donate.route -> Settings.Donate
-            Settings.About.route -> Settings.About
-
-            else -> Maker
-        }
-    }
 }

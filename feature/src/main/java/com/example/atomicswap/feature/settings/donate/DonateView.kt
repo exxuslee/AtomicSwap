@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.atomicswap.feature.R
@@ -42,21 +44,22 @@ import com.example.atomicswap.feature.settings.donate.models.ViewState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         TopAppBar("Donate") { eventHandler.invoke(Event.PopBackStack) }
 
         val clipboard = LocalClipboardManager.current
         val uriHandler = LocalUriHandler.current
 
-        LazyColumn(
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
+        LazyColumn {
             item {
                 Text(
                     text = "If you like the app, consider supporting development.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 24.dp)
                 )
             }
 
@@ -65,6 +68,19 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                     selectedAmount = viewState.selectedAmount,
                     availableAmounts = viewState.availableAmounts,
                     onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
+                )
+            }
+
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    text = "Selected: ${viewState.selectedAmount} USDT",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.End
                 )
             }
 
@@ -120,16 +136,14 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                     }
                 }
             }
-
-            item {
-                Text(
-                    text = "Thank you for your support!",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
-            }
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Thank you for your support!",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
@@ -168,30 +182,21 @@ private fun DonationAmountSelector(
     selectedAmount: Int,
     onAmountSelected: (Int) -> Unit,
 ) {
-    Column(modifier = Modifier.padding(vertical = 12.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            availableAmounts.forEach { amount ->
-                DonateButton(
-                    amount = amount.second,
-                    iconId = amount.first,
-                    isSelected = amount.second == selectedAmount,
-                    onClick = { onAmountSelected(amount.second) },
-                    modifier = Modifier.weight(1f)
-                )
-            }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        availableAmounts.forEach { amount ->
+            DonateButton(
+                amount = amount.second,
+                iconId = amount.first,
+                isSelected = amount.second == selectedAmount,
+                onClick = { onAmountSelected(amount.second) },
+                modifier = Modifier.weight(1f)
+            )
         }
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        Text(
-            text = "Selected: $selectedAmount USDT",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
     }
 }
 
@@ -229,7 +234,7 @@ private fun DonateButton(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
