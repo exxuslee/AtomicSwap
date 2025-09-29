@@ -66,8 +66,8 @@ private fun NotificationsCell(
     Column(
         modifier = modifier
             .background(
-                if (item.isRead) MaterialTheme.colorScheme.surfaceContainer
-                else MaterialTheme.colorScheme.surface
+                if (item.isRead) MaterialTheme.colorScheme.surface
+                else MaterialTheme.colorScheme.surfaceContainer
             )
             .then(borderModifier)
             .padding(horizontal = 16.dp, vertical = 12.dp)
