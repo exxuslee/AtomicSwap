@@ -9,26 +9,30 @@ import com.reown.appkit.client.Modal
 import com.reown.appkit.presets.AppKitChainsPresets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class WalletConnectManagerImpl : WalletConnectManager {
-    private val scope = CoroutineScope(Dispatchers.IO)
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     private val _isConnected = MutableStateFlow(false)
     override val isConnected: StateFlow<Boolean> = _isConnected
 
     override suspend fun connect() {
-        scope.launch { _isConnected.value = true }.join()
+        _isConnected.value = true
+        Timber.i("WalletConnect: connected")
     }
 
     override suspend fun disconnect() {
-        scope.launch { _isConnected.value = false }.join()
+        _isConnected.value = false
+        Timber.i("WalletConnect: disconnected")
     }
 
-    fun initializeReownCore(app: CoreApp) {
-        try {
+    override fun initializeReownCore(app: CoreApp) {
+        runCatching {
             val appMetaData = Core.Model.AppMetaData(
                 name = "Histopia",
                 description = "Histopia Wallet Integration",
@@ -42,27 +46,24 @@ class WalletConnectManagerImpl : WalletConnectManager {
                 projectId = AppConfig.PROJECT_ID,
                 metaData = appMetaData,
                 connectionType = ConnectionType.AUTOMATIC,
-                onError = { error -> Timber.e("Initialization error: $error") }
-
+                onError = { error -> Timber.e("CoreClient init error: $error") }
             )
+
             AppKit.setChains(AppKitChainsPresets.ethChains.values.toList())
 
-            val init = Modal.Params.Init(CoreClient)
+            val initParams = Modal.Params.Init(CoreClient)
+
             AppKit.initialize(
-                init = init,
+                init = initParams,
                 onSuccess = {
-                    // You might want to handle this differently in Application class
-                    // Maybe through a shared preference or another mechanism
+                    Timber.i("AppKit initialized successfully")
                 },
                 onError = { error ->
-                    Timber.e("Initialization error: $error")
-
+                    Timber.e("AppKit init error: $error")
                 }
             )
-
-
-        } catch (e: Exception) {
-            print(e.toString())
+        }.onFailure { e ->
+            Timber.e(e, "WalletConnect initialization failed")
         }
     }
 

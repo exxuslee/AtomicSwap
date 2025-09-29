@@ -7,6 +7,6 @@ import com.exxlexxlee.atomicswap.core.common.walletconnect.WalletConnectManagerI
 import org.koin.dsl.module
 
 val coreAppModule = module {
-    single<Application> { get<CoreApp>() }
     single<WalletConnectManager> { WalletConnectManagerImpl() }
+    single<Application> { get<CoreApp>() }
 }
