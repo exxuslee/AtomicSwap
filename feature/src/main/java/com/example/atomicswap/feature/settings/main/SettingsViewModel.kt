@@ -11,11 +11,16 @@ import android.graphics.RectF
 import java.security.MessageDigest
 import kotlin.random.Random
 import androidx.core.graphics.createBitmap
+import androidx.lifecycle.viewModelScope
+import com.example.atomicswap.domain.usecases.NotificationReaderUseCase
+import com.example.atomicswap.domain.usecases.NotificationUseCase
 import com.example.atomicswap.domain.usecases.ThemeController
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
 class SettingsViewModel(
     private val themeController: ThemeController,
+    private val notificationReaderUseCase: NotificationReaderUseCase,
 ) : BaseViewModel<ViewState, Action,
         Event>(initialState = ViewState()) {
 
@@ -24,6 +29,12 @@ class SettingsViewModel(
             avatar = generateIdenticonBitmap("0", 360),
             isDark = themeController.isDark.value
         )
+
+        viewModelScope.launch {
+            notificationReaderUseCase.unreadCount.collect {
+                viewState = viewState.copy(unreadCount = it)
+            }
+        }
     }
 
     override fun obtainEvent(viewEvent: Event) {

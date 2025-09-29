@@ -69,9 +69,8 @@ fun SettingsView(
                     eventHandler.invoke(Event.OpenNotificationScreen)
                 },
             ) {
-                val unreadCount = 2
                 BadgedIcon(
-                    if (unreadCount > 0) BadgeType.BadgeNumber(unreadCount)
+                    if (viewState.unreadCount > 0) BadgeType.BadgeNumber(viewState.unreadCount)
                     else null
                 ) {
                     Icon(
@@ -82,13 +81,13 @@ fun SettingsView(
                 }
             }
         }
+
         CellUniversalSection {
             Text(
                 text = stringResource(R.string.account),
                 style = MaterialTheme.typography.titleLarge
             )
         }
-
         CellUniversalSection(
             listOf(
                 {
@@ -149,21 +148,6 @@ fun SettingsView(
             listOf(
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_language_24,
-                        titleContent = {
-                            Text(
-                                stringResource(R.string.language),
-                                modifier = Modifier.padding(horizontal = 12.dp)
-                            )
-                        },
-                        onClick = {
-                            eventHandler.invoke(Event.OpenLanguageScreen)
-                        },
-                        arrowRight = true,
-                    )
-                },
-                {
-                    HsRow(
                         iconRes = R.drawable.outline_routine_24,
                         titleContent = {
                             Text(
@@ -179,6 +163,21 @@ fun SettingsView(
                             colors = SwitchDefaults.colors()
                         )
                     }
+                },
+                {
+                    HsRow(
+                        iconRes = R.drawable.outline_language_24,
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.language),
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                        },
+                        onClick = {
+                            eventHandler.invoke(Event.OpenLanguageScreen)
+                        },
+                        arrowRight = true,
+                    )
                 },
                 {
                     HsRow(

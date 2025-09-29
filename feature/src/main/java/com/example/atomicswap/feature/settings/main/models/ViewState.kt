@@ -7,5 +7,6 @@ data class ViewState(
     val title: String = "",
     val isDark: Boolean = false,
     val isWalletConnect: Boolean = false,
+    val unreadCount: Int = 0,
     val avatar: Bitmap = createBitmap(360, 360),
 )

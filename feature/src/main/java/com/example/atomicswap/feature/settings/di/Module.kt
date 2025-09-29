@@ -11,5 +11,5 @@ val settingsModule = module {
     viewModel { DonateViewModel() }
     viewModel { LanguageViewModel() }
     viewModel { NotificationViewModel(get()) }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get()) }
 }

@@ -12,17 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.core.common.ui.HeaderStick
 import com.example.atomicswap.core.common.ui.TopAppBar
+import com.example.atomicswap.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutView(onBack: () -> Unit) {
     Column {
-        TopAppBar("About", onBack)
+        val title = stringResource(R.string.about, stringResource(R.string.app_name))
+        TopAppBar(title, onBack)
 
         val sections = remember {
             listOf(
