@@ -1,4 +1,4 @@
-package com.example.atomicswap.feature.settings.main
+package com.example.atomicswap.feature.settings.settings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,8 +35,8 @@ import com.example.atomicswap.core.common.ui.RowUniversal
 import com.example.atomicswap.core.common.ui.VSpacer
 import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.feature.R
-import com.example.atomicswap.feature.settings.main.models.Event
-import com.example.atomicswap.feature.settings.main.models.ViewState
+import com.example.atomicswap.feature.settings.settings.models.Event
+import com.example.atomicswap.feature.settings.settings.models.ViewState
 
 @Composable
 fun SettingsView(

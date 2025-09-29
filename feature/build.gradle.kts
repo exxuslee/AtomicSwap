@@ -53,6 +53,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material3)
+    implementation(libs.compose.material.iconsExtended)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.navigation.compose)

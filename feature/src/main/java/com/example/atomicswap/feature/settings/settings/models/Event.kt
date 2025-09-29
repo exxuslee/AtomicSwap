@@ -1,4 +1,4 @@
-package com.example.atomicswap.feature.settings.main.models
+package com.example.atomicswap.feature.settings.settings.models
 
 sealed class Event {
     class IsDark(val newValue: Boolean) : Event()

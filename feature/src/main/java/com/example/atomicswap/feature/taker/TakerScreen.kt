@@ -11,17 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.atomicswap.core.common.navigation.LocalNavController
 
 @Composable
-fun TakerScreen(
-	navController: NavController,
-) {
+fun TakerScreen() {
+	val navController = LocalNavController.current
+
 	Column(
 		modifier = Modifier.fillMaxSize(),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
 		Text(stringResource(R.string.title_taker))
-		Button(onClick = { /* TODO */ }) { Text(stringResource(R.string.action_create_deal)) }
 	}
 }

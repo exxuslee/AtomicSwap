@@ -10,11 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.atomicswap.core.common.navigation.LocalNavController
 
 @Composable
-fun HistoryScreen(
-	navController: NavController,
-) {
+fun HistoryScreen() {
+	val navController = LocalNavController.current
+
 	Column(
 		modifier = Modifier.fillMaxSize(),
 		verticalArrangement = Arrangement.Center,

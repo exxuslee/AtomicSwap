@@ -1,4 +1,4 @@
-package com.example.atomicswap.feature.settings.main.models
+package com.example.atomicswap.feature.settings.settings.models
 
 sealed class Action {
     data object OpenTermsScreen : Action()

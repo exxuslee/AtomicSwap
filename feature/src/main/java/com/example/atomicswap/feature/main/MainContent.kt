@@ -1,4 +1,4 @@
-package com.example.atomicswap
+package com.example.atomicswap.feature.main
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,6 +14,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -23,8 +24,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.atomicswap.core.common.navigation.AnimationType
+import com.example.atomicswap.core.common.navigation.LocalNavController
 import com.example.atomicswap.core.common.navigation.animatedComposable
 import com.example.atomicswap.domain.usecases.SettingsUseCase
+import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.history.HistoryScreen
 import com.example.atomicswap.feature.maker.MakerScreen
 import com.example.atomicswap.feature.navigation.Routes
@@ -32,7 +35,7 @@ import com.example.atomicswap.feature.navigation.isParentSelected
 import com.example.atomicswap.feature.settings.about.AboutScreen
 import com.example.atomicswap.feature.settings.donate.DonateScreen
 import com.example.atomicswap.feature.settings.language.LanguageScreen
-import com.example.atomicswap.feature.settings.main.SettingsScreen
+import com.example.atomicswap.feature.settings.settings.SettingsScreen
 import com.example.atomicswap.feature.settings.notification.NotificationScreen
 import com.example.atomicswap.feature.settings.terms.TermsScreen
 import com.example.atomicswap.feature.taker.TakerScreen
@@ -54,6 +57,12 @@ fun MainContent() {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 bottomDestinations.forEach { dest ->
                     val currentRoute = backStackEntry?.destination?.route
+                    val title = when (dest) {
+                        is Routes.Maker -> stringResource(R.string.title_maker)
+                        is Routes.Taker -> stringResource(R.string.title_taker)
+                        is Routes.History -> stringResource(R.string.title_history)
+                        is Routes.Settings -> stringResource(R.string.title_settings)
+                    }
                     NavigationBarItem(
                         selected = dest.isParentSelected(currentRoute),
                         onClick = {
@@ -78,69 +87,59 @@ fun MainContent() {
                                     is Routes.History -> Icons.Filled.DateRange
                                     is Routes.Settings -> Icons.Filled.Settings
                                 },
-                                contentDescription = when (dest) {
-                                    is Routes.Maker -> stringResource(R.string.bottom_maker)
-                                    is Routes.Taker -> stringResource(R.string.bottom_taker)
-                                    is Routes.History -> stringResource(R.string.bottom_history)
-                                    is Routes.Settings -> stringResource(R.string.bottom_settings)
-                                }
+                                contentDescription = title
                             )
                         },
                         label = {
-                            Text(
-                                when (dest) {
-                                    is Routes.Maker -> stringResource(R.string.bottom_maker)
-                                    is Routes.Taker -> stringResource(R.string.bottom_taker)
-                                    is Routes.History -> stringResource(R.string.bottom_history)
-                                    is Routes.Settings -> stringResource(R.string.bottom_settings)
-                                }
-                            )
+                            Text(title)
                         }
                     )
                 }
             }
         }
     ) { padding ->
-
-        NavHost(
-            navController,
-            startDestination = initialRoute,
-            modifier = Modifier.padding(padding)
+        CompositionLocalProvider(
+            LocalNavController provides navController
         ) {
-            animatedComposable(
-                Routes.Maker.route,
-            ) { MakerScreen(navController) }
-            animatedComposable(
-                Routes.Taker.route,
-            ) { TakerScreen(navController) }
-            animatedComposable(
-                Routes.History.route,
-            ) { HistoryScreen(navController) }
-            animatedComposable(
-                Routes.Settings.Main.route,
-            ) { SettingsScreen(navController) }
-            animatedComposable(
-                Routes.Settings.Therms.route,
-                animationType = AnimationType.FADE,
-            ) { TermsScreen(navController) }
-            animatedComposable(
-                Routes.Settings.Language.route,
-                animationType = AnimationType.FADE,
-            ) { LanguageScreen(navController) }
-            animatedComposable(
-                Routes.Settings.Notification.route,
-                animationType = AnimationType.FADE,
-            ) { NotificationScreen(navController) }
-            animatedComposable(
-                Routes.Settings.About.route,
-                animationType = AnimationType.FADE,
-            ) { AboutScreen(navController) }
-            animatedComposable(
-                Routes.Settings.Donate.route,
-                animationType = AnimationType.FADE,
-            ) { DonateScreen(navController) }
+            NavHost(
+                navController,
+                startDestination = initialRoute,
+                modifier = Modifier.padding(padding)
+            ) {
+                animatedComposable(
+                    Routes.Maker.route,
+                ) { MakerScreen() }
+                animatedComposable(
+                    Routes.Taker.route,
+                ) { TakerScreen() }
+                animatedComposable(
+                    Routes.History.route,
+                ) { HistoryScreen() }
+                animatedComposable(
+                    Routes.Settings.Main.route,
+                ) { SettingsScreen() }
+                animatedComposable(
+                    Routes.Settings.Therms.route,
+                    animationType = AnimationType.FADE,
+                ) { TermsScreen() }
+                animatedComposable(
+                    Routes.Settings.Language.route,
+                    animationType = AnimationType.FADE,
+                ) { LanguageScreen() }
+                animatedComposable(
+                    Routes.Settings.Notification.route,
+                    animationType = AnimationType.FADE,
+                ) { NotificationScreen() }
+                animatedComposable(
+                    Routes.Settings.About.route,
+                    animationType = AnimationType.FADE,
+                ) { AboutScreen() }
+                animatedComposable(
+                    Routes.Settings.Donate.route,
+                    animationType = AnimationType.FADE,
+                ) { DonateScreen() }
 
+            }
         }
-
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import com.example.atomicswap.core.common.theme.AppTheme
 import com.example.atomicswap.domain.usecases.ThemeController
 import com.example.atomicswap.core.common.ui.rememberDoubleBackPressHandler
+import com.example.atomicswap.feature.main.MainContent
 import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {

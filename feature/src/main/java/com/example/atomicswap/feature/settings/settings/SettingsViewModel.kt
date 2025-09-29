@@ -1,9 +1,9 @@
-package com.example.atomicswap.feature.settings.main
+package com.example.atomicswap.feature.settings.settings
 
 import com.example.atomicswap.core.common.base.BaseViewModel
-import com.example.atomicswap.feature.settings.main.models.Action
-import com.example.atomicswap.feature.settings.main.models.Event
-import com.example.atomicswap.feature.settings.main.models.ViewState
+import com.example.atomicswap.feature.settings.settings.models.Action
+import com.example.atomicswap.feature.settings.settings.models.Event
+import com.example.atomicswap.feature.settings.settings.models.ViewState
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint

@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.example.atomicswap.core.common.navigation.LocalNavController
 import com.example.atomicswap.feature.settings.language.models.Action
 import com.hwasfy.localize.api.LanguageManager
 import com.hwasfy.localize.util.SupportedLocales
@@ -15,11 +16,11 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun LanguageScreen(
-    navController: NavController,
     viewModel: LanguageViewModel = koinViewModel(),
 ) {
     val viewState by viewModel.viewStates().collectAsState()
     val viewAction by viewModel.viewActions().collectAsState(null)
+    val navController = LocalNavController.current
 
     LanguageView(viewState) {
         viewModel.obtainEvent(it)

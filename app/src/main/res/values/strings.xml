@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="bottom_taker">Taker</string>
-	<string name="bottom_maker">Maker</string>
-	<string name="bottom_history">History</string>
-	<string name="bottom_settings">Settings</string>
-</resources>

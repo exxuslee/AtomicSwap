@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="bottom_taker">Тейкер</string>
-	<string name="bottom_maker">Мейкер</string>
-	<string name="bottom_history">История</string>
-	<string name="bottom_settings">Настройки</string>
-</resources>
