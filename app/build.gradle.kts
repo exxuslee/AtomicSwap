@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-	namespace = "com.example.atomicswap"
+	namespace = "com.exxlexxlee.atomicswap"
 	compileSdk = property("version.compileSdk").toString().toInt()
 
 	defaultConfig {
-		applicationId = "com.example.atomicswap"
+		applicationId = "com.exxlexxlee.atomicswap"
 		minSdk = property("version.minSdk").toString().toInt()
 		targetSdk = property("version.targetSdk").toString().toInt()
 		versionCode = 1

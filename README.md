@@ -15,10 +15,10 @@
 
 - `app` — точка входа, навигация, инициализация Koin, интеграция фич.
 - `feature` — единый модуль фич с пакетами:
-  - `com.example.atomicswap.feature.taker` — экран тейкера
-  - `com.example.atomicswap.feature.maker` — экран мейкера
-  - `com.example.atomicswap.feature.history` — экран истории
-  - `com.example.atomicswap.feature.settings` — экран настроек + `ThemeController`
+  - `com.exxlexxlee.atomicswap.feature.taker` — экран тейкера
+  - `com.exxlexxlee.atomicswap.feature.maker` — экран мейкера
+  - `com.exxlexxlee.atomicswap.feature.history` — экран истории
+  - `com.exxlexxlee.atomicswap.feature.settings` — экран настроек + `ThemeController`
 - `data` — реализации репозиториев, работа с БД (SQLDelight) и сетью (Ktor).
 - `domain` — модели и интерфейсы репозиториев.
 - `core:database` — схема SQLDelight (`history.sq`) и Koin-модуль драйвера.

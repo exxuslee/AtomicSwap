@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-	namespace = "com.example.atomicswap.domain"
+	namespace = "com.exxlexxlee.atomicswap.domain"
 	compileSdk = property("version.compileSdk").toString().toInt()
 
 	defaultConfig {

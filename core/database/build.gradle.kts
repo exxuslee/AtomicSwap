@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-	namespace = "com.example.atomicswap.core.database"
+	namespace = "com.exxlexxlee.atomicswap.core.database"
 	compileSdk = property("version.compileSdk").toString().toInt()
 
 	defaultConfig {
@@ -45,10 +45,10 @@ dependencies {
 	implementation(libs.koin.android)
 }
 
-sqldelight {
-	databases {
-		create("AppDatabase") {
-			packageName.set("com.example.atomicswap.core.database")
+		sqldelight {
+			databases {
+				create("AppDatabase") {
+					packageName.set("com.exxlexxlee.atomicswap.core.database")
+				}
+			}
 		}
-	}
-}

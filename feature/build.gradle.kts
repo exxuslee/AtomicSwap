@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.atomicswap.feature"
+    namespace = "com.exxlexxlee.atomicswap.feature"
     compileSdk = property("version.compileSdk").toString().toInt()
 
     defaultConfig {
