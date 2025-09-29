@@ -97,23 +97,32 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             }
 
             item {
-                Text(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
-                    text = buildAnnotatedString {
-                        append(stringResource(R.string.donate_selected_prefix))
-                        withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
-                            append(viewState.selectedAmount.toString().padStart(5))
-                        }
-                        append(" ")
-                        append(stringResource(R.string.donate_currency_usdt))
-                    },
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.End
-                )
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = stringResource(R.string.donate_selected_prefix),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
+                                append(viewState.selectedAmount.toString().padStart(6))
+                            }
+                            append(" ")
+                            append(stringResource(R.string.donate_currency_usdt))
+                        },
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.End
+                    )
+                }
+
             }
 
             items(donates) { donat ->
