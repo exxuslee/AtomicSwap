@@ -47,4 +47,8 @@ dependencies {
 	implementation(libs.compose.ui.text.googlefonts)
 
 	implementation(libs.koin.android)
+
+	implementation(platform(libs.reown.bom))
+	implementation(libs.reown.core)
+	implementation(libs.reown.appkit)
 }

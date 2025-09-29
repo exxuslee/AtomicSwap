@@ -1,6 +1,7 @@
 package com.exxlexxlee.atomicswap.feature.settings.main
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -13,12 +14,14 @@ import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Action
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
+import com.reown.appkit.ui.openAppKit
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
+
     val viewState by viewModel.viewStates().collectAsState()
     val viewAction by viewModel.viewActions().collectAsState(null)
     val navController = LocalNavController.current
@@ -74,6 +77,14 @@ fun SettingsScreen(
                 }
             }
         )
+
+        Action.WalletConnectDialog -> {
+            viewModel.clearAction()
+            navController.openAppKit(
+                shouldOpenChooseNetwork = true,
+                onError = { }
+            )
+        }
 
         null -> {}
     }

@@ -7,5 +7,6 @@ sealed class Action {
     data object OpenDonateScreen : Action()
     data object OpenAboutScreen : Action()
     data object LocaleStorageDialog : Action()
+    data object WalletConnectDialog : Action()
 
 }

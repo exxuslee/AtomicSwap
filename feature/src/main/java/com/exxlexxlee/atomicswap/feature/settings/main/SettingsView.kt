@@ -103,7 +103,7 @@ fun SettingsView(
                     ) {
                         Switch(
                             checked = viewState.isWalletConnect,
-                            onCheckedChange = { enabled -> eventHandler.invoke(Event.ToggleWalletConnect(enabled)) },
+                            onCheckedChange = { enabled -> eventHandler.invoke(Event.OpenWalletConnectDialog) },
                             colors = SwitchDefaults.colors()
                         )
                     }

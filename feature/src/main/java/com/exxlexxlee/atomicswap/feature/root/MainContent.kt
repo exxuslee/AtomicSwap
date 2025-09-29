@@ -39,12 +39,18 @@ import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
 import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationScreen
 import com.exxlexxlee.atomicswap.feature.settings.terms.TermsScreen
 import com.exxlexxlee.atomicswap.feature.taker.TakerScreen
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.reown.appkit.ui.appKitGraph
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialNavigationApi::class)
 @Composable
 fun MainContent() {
-    val navController = rememberNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+    val navController = rememberNavController(bottomSheetNavigator)
+
     val backStackEntry by navController.currentBackStackEntryAsState()
     val settingsUseCase = koinInject<SettingsUseCase>()
     val initialRoute = remember { settingsUseCase.selectedRoute() }
@@ -52,93 +58,89 @@ fun MainContent() {
         listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings.Main)
     }
 
-    Scaffold(
-        bottomBar = {
-            NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
-                bottomDestinations.forEach { dest ->
-                    val currentRoute = backStackEntry?.destination?.route
-                    val title = when (dest) {
-                        is Routes.Maker -> stringResource(R.string.title_maker)
-                        is Routes.Taker -> stringResource(R.string.title_taker)
-                        is Routes.History -> stringResource(R.string.title_history)
-                        is Routes.Settings -> stringResource(R.string.title_settings)
-                    }
-                    NavigationBarItem(
-                        selected = dest.isParentSelected(currentRoute),
-                        onClick = {
-                            if (dest.isParentSelected(currentRoute)) {
-                                navController.popBackStack(dest.route, inclusive = false)
-                            } else {
-                                settingsUseCase.selectedRoute(dest.route)
-                                navController.navigate(dest.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = when (dest) {
-                                    is Routes.Maker -> Icons.Filled.Email
-                                    is Routes.Taker -> Icons.Filled.Create
-                                    is Routes.History -> Icons.Filled.DateRange
-                                    is Routes.Settings -> Icons.Filled.Settings
-                                },
-                                contentDescription = title
-                            )
-                        },
-                        label = {
-                            Text(title)
+    ModalBottomSheetLayout(
+        bottomSheetNavigator = bottomSheetNavigator
+    ) {
+        Scaffold(
+            bottomBar = {
+                NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
+                    bottomDestinations.forEach { dest ->
+                        val currentRoute = backStackEntry?.destination?.route
+                        val title = when (dest) {
+                            is Routes.Maker -> stringResource(R.string.title_maker)
+                            is Routes.Taker -> stringResource(R.string.title_taker)
+                            is Routes.History -> stringResource(R.string.title_history)
+                            is Routes.Settings -> stringResource(R.string.title_settings)
                         }
-                    )
+                        NavigationBarItem(
+                            selected = dest.isParentSelected(currentRoute),
+                            onClick = {
+                                if (dest.isParentSelected(currentRoute)) {
+                                    navController.popBackStack(dest.route, inclusive = false)
+                                } else {
+                                    settingsUseCase.selectedRoute(dest.route)
+                                    navController.navigate(dest.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = when (dest) {
+                                        is Routes.Maker -> Icons.Filled.Email
+                                        is Routes.Taker -> Icons.Filled.Create
+                                        is Routes.History -> Icons.Filled.DateRange
+                                        is Routes.Settings -> Icons.Filled.Settings
+                                    },
+                                    contentDescription = title
+                                )
+                            },
+                            label = {
+                                Text(title)
+                            }
+                        )
+                    }
                 }
             }
-        }
-    ) { padding ->
-        CompositionLocalProvider(
-            LocalNavController provides navController
-        ) {
-            NavHost(
-                navController,
-                startDestination = initialRoute,
-                modifier = Modifier.padding(padding)
+        ) { padding ->
+            CompositionLocalProvider(
+                LocalNavController provides navController
             ) {
-                animatedComposable(
-                    Routes.Maker.route,
-                ) { MakerScreen() }
-                animatedComposable(
-                    Routes.Taker.route,
-                ) { TakerScreen() }
-                animatedComposable(
-                    Routes.History.route,
-                ) { HistoryScreen() }
-                animatedComposable(
-                    Routes.Settings.Main.route,
-                ) { SettingsScreen() }
-                animatedComposable(
-                    Routes.Settings.Therms.route,
-                    animationType = AnimationType.FADE,
-                ) { TermsScreen() }
-                animatedComposable(
-                    Routes.Settings.Language.route,
-                    animationType = AnimationType.FADE,
-                ) { LanguageScreen() }
-                animatedComposable(
-                    Routes.Settings.Notification.route,
-                    animationType = AnimationType.FADE,
-                ) { NotificationScreen() }
-                animatedComposable(
-                    Routes.Settings.About.route,
-                    animationType = AnimationType.FADE,
-                ) { AboutScreen() }
-                animatedComposable(
-                    Routes.Settings.Donate.route,
-                    animationType = AnimationType.FADE,
-                ) { DonateScreen() }
-
+                NavHost(
+                    navController = navController,
+                    startDestination = initialRoute,
+                    modifier = Modifier.padding(padding)
+                ) {
+                    animatedComposable(Routes.Maker.route) { MakerScreen() }
+                    animatedComposable(Routes.Taker.route) { TakerScreen() }
+                    animatedComposable(Routes.History.route) { HistoryScreen() }
+                    animatedComposable(Routes.Settings.Main.route) { SettingsScreen() }
+                    animatedComposable(
+                        Routes.Settings.Therms.route,
+                        animationType = AnimationType.FADE
+                    ) { TermsScreen() }
+                    animatedComposable(
+                        Routes.Settings.Language.route,
+                        animationType = AnimationType.FADE
+                    ) { LanguageScreen() }
+                    animatedComposable(
+                        Routes.Settings.Notification.route,
+                        animationType = AnimationType.FADE
+                    ) { NotificationScreen() }
+                    animatedComposable(
+                        Routes.Settings.About.route,
+                        animationType = AnimationType.FADE
+                    ) { AboutScreen() }
+                    animatedComposable(
+                        Routes.Settings.Donate.route,
+                        animationType = AnimationType.FADE
+                    ) { DonateScreen() }
+                    appKitGraph(navController)
+                }
             }
         }
     }

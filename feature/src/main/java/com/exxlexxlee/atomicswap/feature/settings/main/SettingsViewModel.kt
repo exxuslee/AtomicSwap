@@ -45,13 +45,7 @@ class SettingsViewModel(
                 viewState = viewState.copy(isDark = viewEvent.newValue)
             }
 
-            is Event.ToggleWalletConnect -> {
-                viewModelScope.launch {
-                    if (viewEvent.enabled) walletConnectManager.connect() else walletConnectManager.disconnect()
-                    viewState = viewState.copy(isWalletConnect = walletConnectManager.isConnected.value)
-                }
-            }
-
+            Event.OpenWalletConnectDialog -> viewAction = Action.WalletConnectDialog
             Event.OpenTermsScreen -> viewAction = Action.OpenTermsScreen
             Event.OpenLanguageScreen -> viewAction = Action.OpenLanguageScreen
             Event.OpenNotificationScreen -> viewAction = Action.OpenNotificationScreen

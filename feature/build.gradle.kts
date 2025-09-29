@@ -45,6 +45,7 @@ android {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+
 }
 
 dependencies {
@@ -59,6 +60,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+
+    implementation(platform(libs.reown.bom))
+    implementation(libs.reown.core)
+    implementation(libs.reown.appkit)
+    implementation(libs.accompanist.navigation.material)
 
     debugImplementation(libs.compose.ui.tooling)
 }
