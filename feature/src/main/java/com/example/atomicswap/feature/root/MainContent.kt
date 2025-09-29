@@ -1,4 +1,4 @@
-package com.example.atomicswap.feature.main
+package com.example.atomicswap.feature.root
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -35,7 +35,7 @@ import com.example.atomicswap.feature.navigation.isParentSelected
 import com.example.atomicswap.feature.settings.about.AboutScreen
 import com.example.atomicswap.feature.settings.donate.DonateScreen
 import com.example.atomicswap.feature.settings.language.LanguageScreen
-import com.example.atomicswap.feature.settings.settings.SettingsScreen
+import com.example.atomicswap.feature.settings.main.SettingsScreen
 import com.example.atomicswap.feature.settings.notification.NotificationScreen
 import com.example.atomicswap.feature.settings.terms.TermsScreen
 import com.example.atomicswap.feature.taker.TakerScreen

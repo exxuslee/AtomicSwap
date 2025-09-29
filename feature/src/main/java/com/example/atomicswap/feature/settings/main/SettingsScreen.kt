@@ -1,12 +1,11 @@
-package com.example.atomicswap.feature.settings.settings
+package com.example.atomicswap.feature.settings.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavController
 import com.example.atomicswap.core.common.navigation.LocalNavController
 import com.example.atomicswap.feature.navigation.Routes
-import com.example.atomicswap.feature.settings.settings.models.Action
+import com.example.atomicswap.feature.settings.main.models.Action
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

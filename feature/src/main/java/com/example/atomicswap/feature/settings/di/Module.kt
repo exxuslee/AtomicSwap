@@ -1,6 +1,6 @@
 package com.example.atomicswap.feature.settings.di
 
-import com.example.atomicswap.feature.settings.settings.SettingsViewModel
+import com.example.atomicswap.feature.settings.main.SettingsViewModel
 import com.example.atomicswap.feature.settings.donate.DonateViewModel
 import com.example.atomicswap.feature.settings.language.LanguageViewModel
 import com.example.atomicswap.feature.settings.notification.NotificationViewModel
