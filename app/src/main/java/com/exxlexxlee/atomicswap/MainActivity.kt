@@ -11,6 +11,7 @@ import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.domain.usecases.ThemeController
 import com.exxlexxlee.atomicswap.core.common.ui.rememberDoubleBackPressHandler
 import com.exxlexxlee.atomicswap.feature.root.MainContent
+import com.reown.appkit.ui.AppKitTheme
 import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +29,11 @@ class MainActivity : ComponentActivity() {
             }
 
             AppTheme(isDark) {
-                MainContent()
+                AppKitTheme(
+                    mode = if (isDark) AppKitTheme.Mode.DARK else AppKitTheme.Mode.LIGHT,
+                ) {
+                    MainContent()
+                }
             }
         }
     }

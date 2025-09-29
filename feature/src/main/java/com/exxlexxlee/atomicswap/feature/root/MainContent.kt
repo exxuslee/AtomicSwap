@@ -44,6 +44,7 @@ import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
 import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationScreen
 import com.exxlexxlee.atomicswap.feature.settings.terms.TermsScreen
 import com.exxlexxlee.atomicswap.feature.taker.TakerScreen
+import com.reown.appkit.ui.AppKitTheme
 import com.reown.appkit.ui.components.internal.AppKitComponent
 import org.koin.compose.koinInject
 
@@ -142,6 +143,11 @@ fun MainContent() {
                         animationType = AnimationType.FADE
                     ) { DonateScreen() }
                     bottomSheet(RoutesBottom.ConnectWc.route) {
+                        AppKitTheme(
+                            mode = AppKitTheme.Mode.DARK,
+                        ) {
+
+                        }
                         AppKitComponent(
                             shouldOpenChooseNetwork = true,
                             closeModal = {

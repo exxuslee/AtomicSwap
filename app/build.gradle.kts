@@ -68,6 +68,8 @@ dependencies {
 	implementation(libs.koin.android)
 	implementation(libs.koin.compose)
 
+	implementation(libs.reown.appkit)
+
 	implementation(project(":domain"))
 	implementation(project(":data"))
 	implementation(project(":core:network"))
