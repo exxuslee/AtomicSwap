@@ -15,6 +15,7 @@ class NotificationReaderUseCase(
     suspend fun all(): List<Notification> = notificationRepository.all()
 
     suspend fun delete(id: Long) = notificationRepository.delete(id)
+    suspend fun deleteAll() = notificationRepository.deleteAll()
 
     suspend fun notificationsPaged(page: Int, pageSize: Int): List<Notification> =
         notificationRepository.notificationsPaged(page, pageSize)

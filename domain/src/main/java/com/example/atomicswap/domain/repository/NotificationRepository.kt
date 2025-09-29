@@ -16,6 +16,7 @@ interface NotificationRepository {
         suspend fun all(): List<Notification>
 
         suspend fun delete(id: Long)
+        suspend fun deleteAll()
 
         suspend fun notificationsPaged(page: Int, pageSize: Int): List<Notification>
     }

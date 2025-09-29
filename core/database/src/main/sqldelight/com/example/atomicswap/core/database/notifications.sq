@@ -26,3 +26,6 @@ UPDATE Notifications SET isRead = 1 WHERE id = ?;
 
 deleteNotification:
 DELETE FROM Notifications WHERE id = ?;
+
+deleteNotificationAll:
+DELETE FROM Notifications;

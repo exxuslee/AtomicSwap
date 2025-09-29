@@ -47,6 +47,10 @@ class NotificationsRepositoryImpl(
         db.notificationsQueries.deleteNotification(id)
     }
 
+    override suspend fun deleteAll() {
+        db.notificationsQueries.deleteNotificationAll()
+    }
+
     override suspend fun notificationsPaged(
         page: Int,
         pageSize: Int

@@ -122,6 +122,11 @@ class FakeNotificationsRepositoryImpl : NotificationRepository.Reader {
         updateUnreadCount()
     }
 
+    override suspend fun deleteAll() {
+        mockNotifications.clear()
+        updateUnreadCount()
+    }
+
     override suspend fun notificationsPaged(
         page: Int,
         pageSize: Int
