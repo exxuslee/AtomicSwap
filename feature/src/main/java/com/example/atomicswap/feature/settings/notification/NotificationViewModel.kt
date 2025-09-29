@@ -9,11 +9,12 @@ import com.example.atomicswap.feature.settings.notification.models.Action
 import com.example.atomicswap.feature.settings.notification.models.Event
 import com.example.atomicswap.feature.settings.notification.models.ViewState
 import com.example.atomicswap.core.common.base.DateHelper
+import com.example.atomicswap.domain.usecases.NotificationReaderUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NotificationViewModel(
-    private val repository: NotificationRepository.Reader
+    private val notificationReaderUseCase: NotificationReaderUseCase
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
     companion object {
         private const val PAGE_SIZE = 16
@@ -37,7 +38,7 @@ class NotificationViewModel(
     fun sync() = viewModelScope.launch(Dispatchers.IO) {
         pushes = listOf()
         for (i in 0..pages) {
-            val items = repository.notificationsPaged(i, PAGE_SIZE)
+            val items = notificationReaderUseCase.notificationsPaged(i, PAGE_SIZE)
             pushes += items
         }
         viewState = viewState.copy(
@@ -47,18 +48,18 @@ class NotificationViewModel(
     }
 
     private fun markAsRead(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-        repository.markAsRead(id)
+        notificationReaderUseCase.markAsRead(id)
         sync()
     }
 
     private fun delete(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-        repository.delete(id)
+        notificationReaderUseCase.delete(id)
         sync()
     }
 
     @Synchronized
     private fun onBottomReached() = viewModelScope.launch(Dispatchers.IO) {
-        val newItems = repository.notificationsPaged(pages + 1, PAGE_SIZE)
+        val newItems = notificationReaderUseCase.notificationsPaged(pages + 1, PAGE_SIZE)
         Log.d("Notifications", "onBottomReached() ${newItems.size}")
         if (newItems.isEmpty()) return@launch
         pages++

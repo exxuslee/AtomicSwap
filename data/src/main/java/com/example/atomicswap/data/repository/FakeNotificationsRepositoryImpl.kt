@@ -90,17 +90,26 @@ class FakeNotificationsRepositoryImpl : NotificationRepository.Reader {
         )
     )
 
-    override val unreadCount: Flow<Int> = 
-        flowOf(mockNotifications.count { !it.isRead })
+    private val _unreadCount = kotlinx.coroutines.flow.MutableStateFlow(
+        mockNotifications.count { !it.isRead }
+    )
+
+    override val unreadCount: Flow<Int> = _unreadCount
+
+    private fun updateUnreadCount() {
+        _unreadCount.value = mockNotifications.count { !it.isRead }
+    }
 
     override fun save(notification: Notification) {
         mockNotifications.add(notification)
+        updateUnreadCount()
     }
 
     override suspend fun markAsRead(id: Long) {
         mockNotifications.find { it.id == id }?.let { notification ->
             val index = mockNotifications.indexOf(notification)
             mockNotifications[index] = notification.copy(isRead = true)
+            updateUnreadCount()
         }
     }
 
@@ -110,6 +119,7 @@ class FakeNotificationsRepositoryImpl : NotificationRepository.Reader {
 
     override suspend fun delete(id: Long) {
         mockNotifications.removeAll { it.id == id }
+        updateUnreadCount()
     }
 
     override suspend fun notificationsPaged(

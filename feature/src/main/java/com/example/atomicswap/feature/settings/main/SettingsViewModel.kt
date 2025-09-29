@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.atomicswap.domain.usecases.NotificationReaderUseCase
 import com.example.atomicswap.domain.usecases.NotificationUseCase
 import com.example.atomicswap.domain.usecases.ThemeController
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
