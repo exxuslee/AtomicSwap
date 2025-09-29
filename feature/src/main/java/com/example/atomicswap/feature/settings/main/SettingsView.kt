@@ -130,7 +130,7 @@ fun SettingsView(
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
                         },
-                        onClick = {},
+                        onClick = { eventHandler.invoke(Event.OpenClearStorage) },
                         arrowRight = true,
                     )
                 },

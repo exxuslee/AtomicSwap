@@ -9,6 +9,10 @@
     <string name="language">Язык</string>
 	<string name="wallet_connect">WalletConnect</string>
 	<string name="clear_local_storage">Очистить локальные данные</string>
+    <string name="clear_storage_title">Очистить локальные данные?</string>
+    <string name="clear_storage_message">Это действие безвозвратно удалит локальные уведомления и кешированные данные. Отменить будет нельзя.</string>
+    <string name="clear_storage_confirm">Удалить</string>
+    <string name="clear_storage_cancel">Отмена</string>
 	<string name="terms_of_service">Соглашение об использовании</string>
 	<string name="terms_title">Условия эксплуатации</string>
 	<string name="terms_last_updated">Последнее обновление: %1$s</string>

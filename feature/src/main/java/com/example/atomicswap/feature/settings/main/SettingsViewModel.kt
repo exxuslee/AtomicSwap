@@ -13,9 +13,7 @@ import kotlin.random.Random
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.viewModelScope
 import com.example.atomicswap.domain.usecases.NotificationReaderUseCase
-import com.example.atomicswap.domain.usecases.NotificationUseCase
 import com.example.atomicswap.domain.usecases.ThemeController
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
@@ -50,6 +48,13 @@ class SettingsViewModel(
             Event.OpenNotificationScreen -> viewAction = Action.OpenNotificationScreen
             Event.OpenAboutScreen -> viewAction = Action.OpenAboutScreen
             Event.OpenDonateScreen -> viewAction = Action.OpenDonateScreen
+            Event.OpenClearStorage -> viewAction = Action.LocaleStorageDialog
+            Event.ConfirmClearStorage -> {
+                viewModelScope.launch {
+                    notificationReaderUseCase.deleteAll()
+                    clearAction()
+                }
+            }
         }
 
     }

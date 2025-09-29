@@ -9,6 +9,10 @@
     <string name="language">Language</string>
 	<string name="wallet_connect">WalletConnect</string>
 	<string name="clear_local_storage">Clear local storage</string>
+    <string name="clear_storage_title">Clear local storage?</string>
+    <string name="clear_storage_message">This will permanently delete local notifications and cached data. This action cannot be undone.</string>
+    <string name="clear_storage_confirm">Delete</string>
+    <string name="clear_storage_cancel">Cancel</string>
 	<string name="terms_of_service">Terms of service</string>
 	<string name="terms_title">Terms of Service</string>
 	<string name="terms_last_updated">Last updated: %1$s</string>

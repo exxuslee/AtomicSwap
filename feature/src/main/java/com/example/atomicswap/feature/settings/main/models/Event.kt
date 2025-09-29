@@ -7,4 +7,6 @@ sealed class Event {
     object OpenNotificationScreen : Event()
     object OpenDonateScreen : Event()
     object OpenAboutScreen : Event()
+    object OpenClearStorage : Event()
+    object ConfirmClearStorage : Event()
 }

@@ -9,4 +9,5 @@ data class ViewState(
     val isWalletConnect: Boolean = false,
     val unreadCount: Int = 0,
     val avatar: Bitmap = createBitmap(360, 360),
+    val showClearStorageConfirm: Boolean = false,
 )
