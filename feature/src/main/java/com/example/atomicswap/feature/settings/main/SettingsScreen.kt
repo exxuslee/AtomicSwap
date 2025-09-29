@@ -1,6 +1,7 @@
 package com.example.atomicswap.feature.settings.main
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -58,12 +59,18 @@ fun SettingsScreen(
             text = { Text(text = stringResource(id = R.string.clear_storage_message)) },
             confirmButton = {
                 TextButton(onClick = { viewModel.obtainEvent(Event.ConfirmClearStorage) }) {
-                    Text(text = stringResource(id = R.string.clear_storage_confirm))
+                    Text(
+                        text = stringResource(id = R.string.clear_storage_confirm),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { viewModel.clearAction() }) {
-                    Text(text = stringResource(id = R.string.clear_storage_cancel))
+                    Text(
+                        text = stringResource(id = R.string.clear_storage_cancel),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 }
             }
         )
