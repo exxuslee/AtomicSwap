@@ -6,6 +6,9 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.navigation.ModalBottomSheetLayout
+import androidx.compose.material.navigation.bottomSheet
+import androidx.compose.material.navigation.rememberBottomSheetNavigator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -30,7 +34,8 @@ import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.history.HistoryScreen
 import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
-import com.exxlexxlee.atomicswap.feature.navigation.Routes
+import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
+import com.exxlexxlee.atomicswap.feature.navigation.RoutesBottom
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.settings.donate.DonateScreen
@@ -39,24 +44,21 @@ import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
 import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationScreen
 import com.exxlexxlee.atomicswap.feature.settings.terms.TermsScreen
 import com.exxlexxlee.atomicswap.feature.taker.TakerScreen
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import com.reown.appkit.ui.appKitGraph
+import com.reown.appkit.ui.components.internal.AppKitComponent
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialNavigationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent() {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberNavController(bottomSheetNavigator)
-
     val backStackEntry by navController.currentBackStackEntryAsState()
     val settingsUseCase = koinInject<SettingsUseCase>()
     val initialRoute = remember { settingsUseCase.selectedRoute() }
     val bottomDestinations = remember {
-        listOf(Routes.Maker, Routes.Taker, Routes.History, Routes.Settings.Main)
+        listOf(RoutesMain.Maker, RoutesMain.Taker, RoutesMain.History, RoutesMain.Settings.Main)
     }
+    val coroutineScope = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator
@@ -67,10 +69,10 @@ fun MainContent() {
                     bottomDestinations.forEach { dest ->
                         val currentRoute = backStackEntry?.destination?.route
                         val title = when (dest) {
-                            is Routes.Maker -> stringResource(R.string.title_maker)
-                            is Routes.Taker -> stringResource(R.string.title_taker)
-                            is Routes.History -> stringResource(R.string.title_history)
-                            is Routes.Settings -> stringResource(R.string.title_settings)
+                            is RoutesMain.Maker -> stringResource(R.string.title_maker)
+                            is RoutesMain.Taker -> stringResource(R.string.title_taker)
+                            is RoutesMain.History -> stringResource(R.string.title_history)
+                            is RoutesMain.Settings -> stringResource(R.string.title_settings)
                         }
                         NavigationBarItem(
                             selected = dest.isParentSelected(currentRoute),
@@ -91,10 +93,10 @@ fun MainContent() {
                             icon = {
                                 Icon(
                                     imageVector = when (dest) {
-                                        is Routes.Maker -> Icons.Filled.Email
-                                        is Routes.Taker -> Icons.Filled.Create
-                                        is Routes.History -> Icons.Filled.DateRange
-                                        is Routes.Settings -> Icons.Filled.Settings
+                                        is RoutesMain.Maker -> Icons.Filled.Email
+                                        is RoutesMain.Taker -> Icons.Filled.Create
+                                        is RoutesMain.History -> Icons.Filled.DateRange
+                                        is RoutesMain.Settings -> Icons.Filled.Settings
                                     },
                                     contentDescription = title
                                 )
@@ -115,33 +117,42 @@ fun MainContent() {
                     startDestination = initialRoute,
                     modifier = Modifier.padding(padding)
                 ) {
-                    animatedComposable(Routes.Maker.route) { MakerScreen() }
-                    animatedComposable(Routes.Taker.route) { TakerScreen() }
-                    animatedComposable(Routes.History.route) { HistoryScreen() }
-                    animatedComposable(Routes.Settings.Main.route) { SettingsScreen() }
+                    animatedComposable(RoutesMain.Maker.route) { MakerScreen() }
+                    animatedComposable(RoutesMain.Taker.route) { TakerScreen() }
+                    animatedComposable(RoutesMain.History.route) { HistoryScreen() }
+                    animatedComposable(RoutesMain.Settings.Main.route) { SettingsScreen() }
                     animatedComposable(
-                        Routes.Settings.Therms.route,
+                        RoutesMain.Settings.Therms.route,
                         animationType = AnimationType.FADE
                     ) { TermsScreen() }
                     animatedComposable(
-                        Routes.Settings.Language.route,
+                        RoutesMain.Settings.Language.route,
                         animationType = AnimationType.FADE
                     ) { LanguageScreen() }
                     animatedComposable(
-                        Routes.Settings.Notification.route,
+                        RoutesMain.Settings.Notification.route,
                         animationType = AnimationType.FADE
                     ) { NotificationScreen() }
                     animatedComposable(
-                        Routes.Settings.About.route,
+                        RoutesMain.Settings.About.route,
                         animationType = AnimationType.FADE
                     ) { AboutScreen() }
                     animatedComposable(
-                        Routes.Settings.Donate.route,
+                        RoutesMain.Settings.Donate.route,
                         animationType = AnimationType.FADE
                     ) { DonateScreen() }
-                    appKitGraph(navController)
+                    bottomSheet(RoutesBottom.ConnectWc.route) {
+                        AppKitComponent(
+                            shouldOpenChooseNetwork = true,
+                            closeModal = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
                 }
             }
         }
     }
+
+
 }

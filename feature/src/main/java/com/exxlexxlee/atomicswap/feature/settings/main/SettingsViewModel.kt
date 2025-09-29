@@ -45,7 +45,7 @@ class SettingsViewModel(
                 viewState = viewState.copy(isDark = viewEvent.newValue)
             }
 
-            Event.OpenWalletConnectDialog -> viewAction = Action.WalletConnectDialog
+            Event.OpenWalletConnectDialog -> viewAction = Action.ConnectWcDialog
             Event.OpenTermsScreen -> viewAction = Action.OpenTermsScreen
             Event.OpenLanguageScreen -> viewAction = Action.OpenLanguageScreen
             Event.OpenNotificationScreen -> viewAction = Action.OpenNotificationScreen

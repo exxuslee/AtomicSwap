@@ -1,7 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.settings.main
 
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -11,10 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.feature.R
-import com.exxlexxlee.atomicswap.feature.navigation.Routes
+import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
+import com.exxlexxlee.atomicswap.feature.navigation.RoutesBottom
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Action
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
-import com.reown.appkit.ui.openAppKit
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -33,27 +32,27 @@ fun SettingsScreen(
     when (viewAction) {
         Action.OpenTermsScreen -> {
             viewModel.clearAction()
-            navController.navigate(Routes.Settings.Therms.route)
+            navController.navigate(RoutesMain.Settings.Therms.route)
         }
 
         Action.OpenLanguageScreen -> {
             viewModel.clearAction()
-            navController.navigate(Routes.Settings.Language.route)
+            navController.navigate(RoutesMain.Settings.Language.route)
         }
 
         Action.OpenNotificationScreen -> {
             viewModel.clearAction()
-            navController.navigate(Routes.Settings.Notification.route)
+            navController.navigate(RoutesMain.Settings.Notification.route)
         }
 
         Action.OpenAboutScreen -> {
             viewModel.clearAction()
-            navController.navigate(Routes.Settings.About.route)
+            navController.navigate(RoutesMain.Settings.About.route)
         }
 
         Action.OpenDonateScreen -> {
             viewModel.clearAction()
-            navController.navigate(Routes.Settings.Donate.route)
+            navController.navigate(RoutesMain.Settings.Donate.route)
         }
 
         Action.LocaleStorageDialog -> AlertDialog(
@@ -78,12 +77,9 @@ fun SettingsScreen(
             }
         )
 
-        Action.WalletConnectDialog -> {
+        Action.ConnectWcDialog -> {
             viewModel.clearAction()
-            navController.openAppKit(
-                shouldOpenChooseNetwork = true,
-                onError = { }
-            )
+            navController.navigate(RoutesBottom.ConnectWc.route)
         }
 
         null -> {}

@@ -6,7 +6,7 @@ import com.exxlexxlee.atomicswap.domain.usecases.ThemeController
 import org.koin.dsl.module
 
 val domainModule = module {
-    single { ThemeController(get()) }
-    factory { SettingsUseCase(get()) }
-    factory { NotificationReaderUseCase(get()) }
+    single<ThemeController> { ThemeController.Base(get()) }
+    factory<SettingsUseCase> { SettingsUseCase.Base(get()) }
+    factory<NotificationReaderUseCase> { NotificationReaderUseCase.Base(get()) }
 }

@@ -6,12 +6,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Locale
 
-class SettingsUseCase(
-    private val settingsRepository: SettingsRepository,
-) {
-    fun selectedRoute() = settingsRepository.selectedRoute()
+interface SettingsUseCase {
+    fun selectedRoute(): String
+    fun selectedRoute(route: String)
 
-    fun selectedRoute(route: String) = settingsRepository.selectedRoute(route)
+    class Base(
+        private val settingsRepository: SettingsRepository,
+    ) : SettingsUseCase {
+
+        override fun selectedRoute() = settingsRepository.selectedRoute()
+
+
+        override fun selectedRoute(route: String) = settingsRepository.selectedRoute(route)
+
+    }
 
 }
 

@@ -1,10 +1,10 @@
 package com.exxlexxlee.atomicswap.feature.navigation
 
-fun Routes.isParentSelected(currentRoute: String?): Boolean {
+fun RoutesMain.isParentSelected(currentRoute: String?): Boolean {
     return when (this) {
-        Routes.Maker -> currentRoute == Routes.Maker.route
-        Routes.Taker -> currentRoute == Routes.Taker.route
-        Routes.History -> currentRoute == Routes.History.route
-        is Routes.Settings -> currentRoute?.startsWith("settings/") == true
+        RoutesMain.Maker -> currentRoute == RoutesMain.Maker.route
+        RoutesMain.Taker -> currentRoute == RoutesMain.Taker.route
+        RoutesMain.History -> currentRoute == RoutesMain.History.route
+        is RoutesMain.Settings -> currentRoute?.startsWith("settings/") == true
     }
 }

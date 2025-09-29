@@ -64,7 +64,7 @@ dependencies {
     implementation(platform(libs.reown.bom))
     implementation(libs.reown.core)
     implementation(libs.reown.appkit)
-    implementation(libs.accompanist.navigation.material)
+    implementation(libs.androidx.compose.material.navigation)
 
     debugImplementation(libs.compose.ui.tooling)
 }
