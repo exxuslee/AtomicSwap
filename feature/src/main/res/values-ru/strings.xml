@@ -39,4 +39,12 @@
 	<string name="notification_empty_list">У вас нет сообщений</string>
     <string name="donate">Донат</string>
 	<string name="about">Об %s</string>
+    <!-- Donate screen -->
+    <string name="donate_header_hint">Если вам нравится приложение, поддержите разработку.</string>
+    <string name="donate_selected_prefix">Выбрано: </string>
+    <string name="donate_currency_usdt">USDT</string>
+    <string name="donate_copy_label">Скопировать адрес</string>
+    <string name="donate_copy_cd">копировать</string>
+    <string name="donate_footer_thanks">Спасибо за вашу поддержку!</string>
+    <string name="blockchain">%s блокчейн</string>
 </resources>

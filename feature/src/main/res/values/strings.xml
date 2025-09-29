@@ -39,4 +39,11 @@
 	<string name="notification_empty_list">You have no messages</string>
     <string name="donate">Donate</string>
 	<string name="about">About %s</string>
+    <string name="donate_header_hint">If you like the app, consider supporting development.</string>
+    <string name="donate_selected_prefix">Selected: </string>
+    <string name="donate_currency_usdt">USDT</string>
+    <string name="donate_copy_label">Copy address</string>
+    <string name="donate_copy_cd">copy</string>
+    <string name="donate_footer_thanks">Thank you for your support!</string>
+	<string name="blockchain">%s blockchain</string>
 </resources>

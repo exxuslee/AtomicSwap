@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,10 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -65,27 +65,24 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        TopAppBar("Donate") { eventHandler.invoke(Event.PopBackStack) }
+        TopAppBar(stringResource(id = R.string.donate)) { eventHandler.invoke(Event.PopBackStack) }
 
         val clipboard = LocalClipboard.current
         val scope = rememberCoroutineScope()
         val uriHandler = LocalUriHandler.current
         val donates = remember {
             listOf(
-                DonateViewItem("Bitcoin blockchain", "bc1q-example-btc-address"),
-                DonateViewItem(
-                    "Ethereum blockchain | BSC blockchain",
-                    "0xExampleEthAddress000000000000000000"
-                ),
-                DonateViewItem("Solana blockchain", "bc1q-example-btc-address"),
-                DonateViewItem("Tron blockchain", "bc1q-example-btc-address"),
+                DonateViewItem("Bitcoin", "bc1q-example-btc-address"),
+                DonateViewItem("Ethereum || BSC", "0xExampleEthAddress000000000000000000"),
+                DonateViewItem("Solana", "bc1q-example-btc-address"),
+                DonateViewItem("Tron", "bc1q-example-btc-address"),
             )
         }
 
         LazyColumn {
             item {
                 Text(
-                    text = "If you like the app, consider supporting development.",
+                    text = stringResource(R.string.donate_header_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -105,11 +102,12 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
                     text = buildAnnotatedString {
-                        append("Selected: ")
+                        append(stringResource(R.string.donate_selected_prefix))
                         withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
                             append(viewState.selectedAmount.toString().padStart(5))
                         }
-                        append(" USDT")
+                        append(" ")
+                        append(stringResource(R.string.donate_currency_usdt))
                     },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
@@ -119,17 +117,26 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             }
 
             items(donates) { donat ->
+                val copyLabel = stringResource(R.string.donate_copy_label)
                 DonateRow(
-                    label = donat.chain,
+                    label = stringResource(R.string.blockchain, donat.chain),
                     address = donat.address,
                     onCopy = {
                         scope.launch {
-                            clipboard.setClipEntry(ClipEntry(ClipData.newPlainText("Copy address", donat.address)))
+                            clipboard.setClipEntry(
+                                ClipEntry(
+                                    ClipData.newPlainText(copyLabel, donat.address)
+                                )
+                            )
                         }
                     },
                     onDonate = {
                         scope.launch {
-                            clipboard.setClipEntry(ClipEntry(ClipData.newPlainText("Copy address", donat.address)))
+                            clipboard.setClipEntry(
+                                ClipEntry(
+                                    ClipData.newPlainText(copyLabel, donat.address)
+                                )
+                            )
                         }
                     },
                 )
@@ -139,7 +146,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "Thank you for your support!",
+            text = stringResource(R.string.donate_footer_thanks),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -165,7 +172,7 @@ private fun DonateRow(
             Text(
                 text = label,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
             )
 
             Row(
@@ -190,7 +197,7 @@ private fun DonateRow(
                     HsIconButton(onCopy) {
                         Icon(
                             painter = painterResource(id = R.drawable.outline_content_copy_24),
-                            contentDescription = "copy",
+                            contentDescription = stringResource(R.string.donate_copy_cd),
                         )
                     }
                 }
@@ -199,14 +206,14 @@ private fun DonateRow(
 
         TextButton(
             onClick = onDonate,
-            colors = androidx.compose.material3.ButtonDefaults.textButtonColors(
+            colors = ButtonDefaults.textButtonColors(
                 containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ),
             modifier = Modifier.height(36.dp)
         ) {
             Text(
-                "DONATE",
+                stringResource(R.string.donate).uppercase(),
                 maxLines = 1
             )
         }
