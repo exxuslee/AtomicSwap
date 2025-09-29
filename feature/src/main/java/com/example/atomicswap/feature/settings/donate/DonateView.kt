@@ -1,5 +1,6 @@
 package com.example.atomicswap.feature.settings.donate
 
+import android.content.ClipData
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,8 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
@@ -46,6 +50,7 @@ import com.example.atomicswap.core.common.ui.TopAppBar
 import com.example.atomicswap.feature.R
 import com.example.atomicswap.feature.settings.donate.models.Event
 import com.example.atomicswap.feature.settings.donate.models.ViewState
+import kotlinx.coroutines.launch
 
 private data class DonateViewItem(
     val chain: String,
@@ -62,9 +67,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     ) {
         TopAppBar("Donate") { eventHandler.invoke(Event.PopBackStack) }
 
-        val clipboard = LocalClipboardManager.current
+        val clipboard = LocalClipboard.current
+        val scope = rememberCoroutineScope()
         val uriHandler = LocalUriHandler.current
-
         val donates = remember {
             listOf(
                 DonateViewItem("Bitcoin blockchain", "bc1q-example-btc-address"),
@@ -117,8 +122,16 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 DonateRow(
                     label = donat.chain,
                     address = donat.address,
-                    onCopy = { clipboard.setText(AnnotatedString(donat.address)) },
-                    onDonate = { clipboard.setText(AnnotatedString(donat.address)) },
+                    onCopy = {
+                        scope.launch {
+                            clipboard.setClipEntry(ClipEntry(ClipData.newPlainText("Copy address", donat.address)))
+                        }
+                    },
+                    onDonate = {
+                        scope.launch {
+                            clipboard.setClipEntry(ClipEntry(ClipData.newPlainText("Copy address", donat.address)))
+                        }
+                    },
                 )
             }
 
@@ -146,7 +159,7 @@ private fun DonateRow(
     ) {
         Column(
             modifier = Modifier
-                .padding(vertical = 8.dp)
+                .padding(vertical = 12.dp)
                 .weight(1f),
         ) {
             Text(
