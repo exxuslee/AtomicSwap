@@ -40,7 +40,6 @@ class WalletConnectManagerImpl : WalletConnectManager {
                 icons = listOf(AppConfig.APP_URL),
                 redirect = AppConfig.REDIRECT_URL
             )
-
             CoreClient.initialize(
                 application = app,
                 projectId = AppConfig.PROJECT_ID,
@@ -50,9 +49,9 @@ class WalletConnectManagerImpl : WalletConnectManager {
             )
 
             AppKit.setChains(AppKitChainsPresets.ethChains.values.toList())
+            AppKit.setDelegate(DappDelegate)
 
             val initParams = Modal.Params.Init(CoreClient)
-
             AppKit.initialize(
                 init = initParams,
                 onSuccess = {

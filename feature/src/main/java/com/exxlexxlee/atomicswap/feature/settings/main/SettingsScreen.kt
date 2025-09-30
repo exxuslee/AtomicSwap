@@ -81,12 +81,7 @@ fun SettingsScreen(
         )
 
         Action.ConnectWcDialog -> {
-            ConnectWcBottomSheet(
-                modifier = Modifier.padding(LocalPaddingController.current),
-                onDismissRequest = {
-                    viewModel.clearAction()
-                }
-            ) {
+            ConnectWcBottomSheet {
                 viewModel.clearAction()
             }
         }
