@@ -1,5 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.settings.main
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,6 +38,7 @@ import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.main.models.ViewState
+import timber.log.Timber
 
 @Composable
 fun SettingsView(
@@ -199,7 +201,14 @@ fun SettingsView(
                             eventHandler.invoke(Event.OpenTermsScreen)
                         },
                         arrowRight = true,
-                    )
+                    ) {
+                        if (!viewState.isTermsOfUseRead) Icon(
+                            painter = painterResource(R.drawable.rounded_warning_24),
+                            contentDescription = viewState.priceAggregator.label,
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
                 },
                 {
                     HsRow(
@@ -242,7 +251,9 @@ fun SettingsView(
 fun ProfileView_Preview() {
     AppTheme {
         SettingsView(
-            viewState = ViewState(),
+            viewState = ViewState(
+                isTermsOfUseRead = false,
+            ),
             eventHandler = {},
         )
     }

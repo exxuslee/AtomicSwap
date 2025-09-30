@@ -21,13 +21,14 @@ class SettingsViewModel(
     private val aggregatorUseCase: AggregatorUseCase,
     private val settingsUseCase: SettingsUseCase,
     private val walletConnectManager: WalletConnectManager,
-) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
+) : BaseViewModel<ViewState, Action, Event>(
+    initialState = ViewState(
+        isTermsOfUseRead = settingsUseCase.isTermsOfUseRead(),
+    )
+) {
     private val avatarGenerator = AvatarGenerator()
 
     init {
-        viewState = viewState.copy(
-            isTermsOfUseRead = settingsUseCase.isTermsOfUseRead(),
-        )
         viewModelScope.launch {
             combine(
                 notificationReaderUseCase.unreadCount,
@@ -36,6 +37,7 @@ class SettingsViewModel(
                 themeController.isDark,
             ) { unreadCount, connectionState, selectedAggregator, isDark ->
                 ViewState(
+                    isTermsOfUseRead = settingsUseCase.isTermsOfUseRead(),
                     avatar = avatarGenerator.generateIdenticonBitmap("0", 360),
                     isDark = isDark,
                     unreadCount = unreadCount,
