@@ -35,9 +35,10 @@ class SettingsViewModel(
                 walletConnectManager.delegate.connectionState,
                 aggregatorUseCase.selected,
                 themeController.isDark,
-            ) { unreadCount, connectionState, selectedAggregator, isDark ->
+                settingsUseCase.isTermsOfUseRead,
+            ) { unreadCount, connectionState, selectedAggregator, isDark, isTermsOfUseRead ->
                 ViewState(
-                    isTermsOfUseRead = settingsUseCase.isTermsOfUseRead(),
+                    isTermsOfUseRead = isTermsOfUseRead,
                     avatar = avatarGenerator.generateIdenticonBitmap("0", 360),
                     isDark = isDark,
                     unreadCount = unreadCount,

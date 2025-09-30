@@ -41,7 +41,7 @@ interface SettingsUseCase {
             _isTermsOfUseRead.value = ok
         }
 
-        override fun badgeType() = if (isTermsOfUseRead()) null else 0
+        override fun badgeType() = if (_isTermsOfUseRead.value) null else 0
 
 
     }

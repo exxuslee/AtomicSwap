@@ -2,7 +2,6 @@ package com.exxlexxlee.atomicswap.feature.root
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
-import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
 import com.exxlexxlee.atomicswap.feature.root.models.Action
@@ -26,7 +25,7 @@ class MainViewModel(
         viewModelScope.launch {
             settingsUseCase.isTermsOfUseRead.collect {
                 viewState = viewState.copy(
-                    settings = RoutesMain.Settings.Main(settingsUseCase.badgeType())
+                    settings = RoutesMain.Settings.Main(settingsUseCase.badgeType()),
                 )
             }
         }

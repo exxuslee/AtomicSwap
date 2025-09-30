@@ -30,7 +30,6 @@ import com.exxlexxlee.atomicswap.core.common.navigation.LocalPaddingController
 import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
-import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.history.HistoryScreen
 import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
@@ -61,7 +60,12 @@ fun MainContent(
     Scaffold(
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
-                viewState.bottomDestinations.forEach { dest ->
+                listOf(
+                    viewState.taker,
+                    viewState.maker,
+                    viewState.history,
+                    viewState.settings,
+                ).forEach { dest ->
                     val currentRoute = backStackEntry?.destination?.route
                     val title = when (dest) {
                         is RoutesMain.Maker -> stringResource(R.string.title_maker)
