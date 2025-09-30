@@ -1,37 +1,25 @@
 package com.exxlexxlee.atomicswap.core.common.walletconnect
 
-import com.exxlexxlee.atomicswap.core.common.base.CoreApp
+import android.app.Application
+import android.content.Context
 import com.reown.android.Core
 import com.reown.android.CoreClient
 import com.reown.android.relay.ConnectionType
 import com.reown.appkit.client.AppKit
 import com.reown.appkit.client.Modal
 import com.reown.appkit.presets.AppKitChainsPresets
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import timber.log.Timber
 
-class WalletConnectManagerImpl : WalletConnectManager {
+class WalletConnectManagerImpl(
+    app: Context,
+) : WalletConnectManager {
+    override val delegate by lazy { DappDelegate }
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
-    private val _isConnected = MutableStateFlow(false)
-    override val isConnected: StateFlow<Boolean> = _isConnected
-
-    override suspend fun connect() {
-        _isConnected.value = true
-        Timber.i("WalletConnect: connected")
+    init {
+        initializeReownCore(app)
     }
 
-    override suspend fun disconnect() {
-        _isConnected.value = false
-        Timber.i("WalletConnect: disconnected")
-    }
-
-    override fun initializeReownCore(app: CoreApp) {
+    private fun initializeReownCore(app: Context) {
         runCatching {
             val appMetaData = Core.Model.AppMetaData(
                 name = "Histopia",
@@ -41,7 +29,7 @@ class WalletConnectManagerImpl : WalletConnectManager {
                 redirect = AppConfig.REDIRECT_URL
             )
             CoreClient.initialize(
-                application = app,
+                application = app as Application,
                 projectId = AppConfig.PROJECT_ID,
                 metaData = appMetaData,
                 connectionType = ConnectionType.AUTOMATIC,
@@ -49,7 +37,6 @@ class WalletConnectManagerImpl : WalletConnectManager {
             )
 
             AppKit.setChains(AppKitChainsPresets.ethChains.values.toList())
-            AppKit.setDelegate(DappDelegate)
 
             val initParams = Modal.Params.Init(CoreClient)
             AppKit.initialize(

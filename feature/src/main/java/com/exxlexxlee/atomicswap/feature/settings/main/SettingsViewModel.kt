@@ -36,6 +36,11 @@ class SettingsViewModel(
                 viewState = viewState.copy(unreadCount = it)
             }
         }
+        viewModelScope.launch {
+            walletConnectManager.delegate.connectionState.collect {
+                viewState = viewState.copy(isWalletConnect = it.isAvailable)
+            }
+        }
     }
 
     override fun obtainEvent(viewEvent: Event) {

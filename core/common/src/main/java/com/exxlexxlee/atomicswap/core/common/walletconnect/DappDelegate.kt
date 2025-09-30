@@ -26,6 +26,7 @@ object DappDelegate : AppKit.ModalDelegate, CoreClient.CoreDelegate {
         private set
 
     init {
+        Timber.d("DappDelegate init")
         AppKit.setDelegate(this)
         CoreClient.setDelegate(this)
     }
@@ -115,7 +116,7 @@ object DappDelegate : AppKit.ModalDelegate, CoreClient.CoreDelegate {
     }
 
     override fun onError(error: Modal.Model.Error) {
-        Timber.d(error.throwable.stackTraceToString())
+        Timber.e(error.throwable.stackTraceToString())
         scope.launch {
             _wcEventModels.emit(error)
         }
