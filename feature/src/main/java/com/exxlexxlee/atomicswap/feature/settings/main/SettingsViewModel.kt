@@ -26,7 +26,7 @@ class SettingsViewModel(
 
     init {
         viewState = viewState.copy(
-            isTermsOfUseRead = settingsUseCase.isTermsOfUseRead()
+            isTermsOfUseRead = settingsUseCase.isTermsOfUseRead(),
         )
         viewModelScope.launch {
             combine(

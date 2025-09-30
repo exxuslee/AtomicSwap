@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.core.common.ui.CellUniversalSection
@@ -33,7 +34,6 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
-import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.main.models.ViewState
@@ -184,15 +184,7 @@ fun SettingsView(
                             eventHandler.invoke(Event.OpenLanguageScreen)
                         },
                         arrowRight = true,
-                    ) {
-                        Image(
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp)
-                                .size(32.dp),
-                            painter = painterResource(viewState.language.icon),
-                            contentDescription = viewState.language.name
-                        )
-                    }
+                    )
                 },
                 {
                     HsRow(

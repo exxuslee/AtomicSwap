@@ -15,5 +15,4 @@ data class ViewState(
     val avatar: Bitmap = createBitmap(360, 360),
     val showClearStorageConfirm: Boolean = false,
     val priceAggregator: SupportedAggregators = SupportedAggregators.COIN_MARKET_CAP,
-    val language: SupportedLocales = SupportedLocales.EN_US,
 )
