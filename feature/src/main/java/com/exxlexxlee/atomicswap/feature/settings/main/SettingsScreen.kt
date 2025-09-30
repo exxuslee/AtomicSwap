@@ -1,5 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.settings.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -7,11 +8,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
+import com.exxlexxlee.atomicswap.core.common.navigation.LocalPaddingController
+import com.exxlexxlee.atomicswap.core.common.walletconnect.ConnectWcBottomSheet
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
-import com.exxlexxlee.atomicswap.feature.navigation.RoutesBottom
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Action
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
 import org.koin.androidx.compose.koinViewModel
@@ -78,8 +81,14 @@ fun SettingsScreen(
         )
 
         Action.ConnectWcDialog -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesBottom.ConnectWc.route)
+            ConnectWcBottomSheet(
+                modifier = Modifier.padding(LocalPaddingController.current),
+                onDismissRequest = {
+                    viewModel.clearAction()
+                }
+            ) {
+                viewModel.clearAction()
+            }
         }
 
         null -> {}
