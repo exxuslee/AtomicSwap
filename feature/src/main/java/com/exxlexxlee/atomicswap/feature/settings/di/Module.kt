@@ -6,11 +6,13 @@ import com.exxlexxlee.atomicswap.feature.settings.language.LanguageViewModel
 import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationViewModel
 import org.koin.core.module.dsl.viewModel
 import com.exxlexxlee.atomicswap.core.common.walletconnect.WalletConnectManager
+import com.exxlexxlee.atomicswap.feature.settings.aggregator.AggregatorViewModel
 import org.koin.dsl.module
 
 val settingsModule = module {
     viewModel { DonateViewModel() }
     viewModel { LanguageViewModel() }
     viewModel { NotificationViewModel(get()) }
+    viewModel { AggregatorViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get<WalletConnectManager>()) }
 }

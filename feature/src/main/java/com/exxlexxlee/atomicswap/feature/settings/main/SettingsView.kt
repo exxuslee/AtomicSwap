@@ -117,7 +117,7 @@ fun SettingsView(
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
                         },
-                        onClick = {},
+                        onClick = { eventHandler.invoke(Event.OpenAggregatorScreen) },
                         arrowRight = true,
                     )
                 },

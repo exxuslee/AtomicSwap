@@ -57,6 +57,7 @@ class SettingsViewModel(
             Event.OpenAboutScreen -> viewAction = Action.OpenAboutScreen
             Event.OpenDonateScreen -> viewAction = Action.OpenDonateScreen
             Event.OpenClearStorage -> viewAction = Action.LocaleStorageDialog
+            Event.OpenAggregatorScreen -> viewAction = Action.OpenAggregatorScreen
             Event.ConfirmClearStorage -> {
                 viewModelScope.launch {
                     notificationReaderUseCase.deleteAll()

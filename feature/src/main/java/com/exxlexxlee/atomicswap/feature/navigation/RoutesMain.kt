@@ -11,6 +11,7 @@ sealed class RoutesMain(val route: String, val pos: Int) {
         data object Notification : Settings("notification")
         data object Donate : Settings("donate")
         data object About : Settings("about")
+        data object PriceAggregator : Settings("aggregator")
     }
 
 }

@@ -5,4 +5,6 @@ interface SettingsRepository {
 	fun isDark(value: Boolean)
 	fun selectedRoute(): String
 	fun selectedRoute(route: String)
+	fun selectedAggregator(): String
+	fun selectedAggregator(route: String)
 }

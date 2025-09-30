@@ -23,4 +23,12 @@ class SettingsRepositoryImpl(
     override fun selectedRoute(route: String) {
         prefs.edit { putString("selectedRoute", route) }
     }
+
+    override fun selectedAggregator(): String {
+        return prefs.getString("selectedAggregator", "") ?: ""
+    }
+
+    override fun selectedAggregator(label: String) {
+        prefs.edit { putString("selectedAggregator", label) }
+    }
 }

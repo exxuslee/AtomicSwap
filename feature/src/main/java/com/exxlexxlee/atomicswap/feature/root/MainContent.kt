@@ -34,6 +34,7 @@ import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
 import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.settings.about.AboutScreen
+import com.exxlexxlee.atomicswap.feature.settings.aggregator.AggregatorScreen
 import com.exxlexxlee.atomicswap.feature.settings.donate.DonateScreen
 import com.exxlexxlee.atomicswap.feature.settings.language.LanguageScreen
 import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
@@ -132,6 +133,10 @@ fun MainContent() {
                     RoutesMain.Settings.Donate.route,
                     animationType = AnimationType.FADE
                 ) { DonateScreen() }
+                animatedComposable(
+                    RoutesMain.Settings.PriceAggregator.route,
+                    animationType = AnimationType.FADE
+                ) { AggregatorScreen() }
 
             }
 
