@@ -4,6 +4,7 @@ plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
 	alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -57,6 +58,7 @@ android {
 
 dependencies {
 	implementation(platform(libs.compose.bom))
+    implementation(platform(libs.firebase.bom))
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.compose.ui)
@@ -70,6 +72,11 @@ dependencies {
 
 	implementation(libs.reown.appkit)
 
+    implementation(libs.firebase.messaging)
+	implementation(libs.google.firebase.messaging)
+	implementation(libs.timber)
+	implementation(libs.gson)
+
 	implementation(project(":domain"))
 	implementation(project(":data"))
 	implementation(project(":core:network"))
@@ -78,6 +85,6 @@ dependencies {
 	implementation(project(":core:common"))
 	implementation(project(":feature"))
 
-	debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.tooling)
 	debugImplementation(libs.androidx.ui.test.manifest)
 }
