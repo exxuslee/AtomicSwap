@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 val domainModule = module {
     single<ThemeController> { ThemeController.Base(get()) }
-    factory<SettingsUseCase> { SettingsUseCase.Base(get()) }
-    factory<NotificationReaderUseCase> { NotificationReaderUseCase.Base(get()) }
-    factory<AggregatorUseCase> { AggregatorUseCase.Base(get()) }
+    single<SettingsUseCase> { SettingsUseCase.Base(get()) }
+    single<NotificationReaderUseCase> { NotificationReaderUseCase.Base(get()) }
+    single<AggregatorUseCase> { AggregatorUseCase.Base(get()) }
 }

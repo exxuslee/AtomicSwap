@@ -50,4 +50,5 @@
     <string name="donate_copy_cd">copy</string>
     <string name="donate_footer_thanks">Thank you for your support!</string>
 	<string name="blockchain">%s blockchain</string>
+    <string name="terms_accept_button">Terms accept</string>
 </resources>

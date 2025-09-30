@@ -119,9 +119,16 @@ fun SettingsView(
                         },
                         onClick = { eventHandler.invoke(Event.OpenAggregatorScreen) },
                         arrowRight = true,
-                    )
+                    ) {
+                        Icon(
+                            painter = painterResource(viewState.priceAggregator.icon),
+                            contentDescription = viewState.priceAggregator.label,
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                        )
+                    }
                 },
                 {
+                    val click = { eventHandler.invoke(Event.OpenClearStorage) }
                     HsRow(
                         iconRes = R.drawable.outline_database_off_24,
                         titleContent = {
@@ -130,8 +137,8 @@ fun SettingsView(
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
                         },
-                        onClick = { eventHandler.invoke(Event.OpenClearStorage) },
-                        arrowRight = true,
+                        onClick = if (!viewState.isEmptyLocalStorage) click else null,
+                        arrowRight = !viewState.isEmptyLocalStorage,
                     )
                 },
             )
@@ -177,7 +184,15 @@ fun SettingsView(
                             eventHandler.invoke(Event.OpenLanguageScreen)
                         },
                         arrowRight = true,
-                    )
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .size(32.dp),
+                            painter = painterResource(viewState.language.icon),
+                            contentDescription = viewState.language.name
+                        )
+                    }
                 },
                 {
                     HsRow(

@@ -24,6 +24,14 @@ class SettingsRepositoryImpl(
         prefs.edit { putString("selectedRoute", route) }
     }
 
+    override fun isTermsOfUseRead(): Boolean {
+        return prefs.getBoolean("isTermsOfUseRead", false)
+    }
+
+    override fun isTermsOfUseRead(ok: Boolean) {
+        prefs.edit { putBoolean("isTermsOfUseRead", ok) }
+    }
+
     override fun selectedAggregator(): String {
         return prefs.getString("selectedAggregator", "") ?: ""
     }

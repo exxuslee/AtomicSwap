@@ -10,14 +10,20 @@ interface SettingsUseCase {
     fun selectedRoute(): String
     fun selectedRoute(route: String)
 
+    fun isTermsOfUseRead(): Boolean
+    fun isTermsOfUseRead(ok: Boolean)
+
     class Base(
         private val settingsRepository: SettingsRepository,
     ) : SettingsUseCase {
 
         override fun selectedRoute() = settingsRepository.selectedRoute()
 
-
         override fun selectedRoute(route: String) = settingsRepository.selectedRoute(route)
+
+        override fun isTermsOfUseRead() = settingsRepository.isTermsOfUseRead()
+
+        override fun isTermsOfUseRead(ok: Boolean) = settingsRepository.isTermsOfUseRead(ok)
 
     }
 

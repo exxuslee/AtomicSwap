@@ -4,5 +4,5 @@ import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 
 data class ViewState(
     val emitters: List<SupportedAggregators> = listOf(),
-    val selected: String = ""
+    val selected: SupportedAggregators = SupportedAggregators.COIN_MARKET_CAP
 )

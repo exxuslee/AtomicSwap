@@ -440,7 +440,7 @@ fun SectionItemBorderedRowUniversalClear(
             )
         }
         RowUniversal(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 12.dp),
             onClick = onClick,
             content = content
         )
@@ -505,7 +505,7 @@ fun <T> CellUniversalLawrenceSection(
 
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 12.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .then(frameModifier)

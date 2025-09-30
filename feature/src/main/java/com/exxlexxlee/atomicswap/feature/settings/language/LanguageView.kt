@@ -40,9 +40,7 @@ fun LanguageView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             eventHandler.invoke(Event.PopBackStack)
         }
         Column(
-            modifier = Modifier
-                .verticalScroll(scrollState)
-                .padding(horizontal = 16.dp)
+            modifier = Modifier.verticalScroll(scrollState)
         ) {
             Spacer(Modifier.height(12.dp))
             CellUniversalLawrenceSection(viewState.languageItems) { item ->
@@ -73,10 +71,10 @@ private fun LanguageCell(
     ) {
         Image(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 12.dp)
                 .size(32.dp),
             painter = painterResource(icon),
-            contentDescription = null
+            contentDescription = title
         )
         Column(modifier = Modifier.weight(1f)) {
             Text(title)
