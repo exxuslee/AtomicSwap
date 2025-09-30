@@ -69,7 +69,6 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 
         val clipboard = LocalClipboard.current
         val scope = rememberCoroutineScope()
-        val uriHandler = LocalUriHandler.current
         val donates = remember {
             listOf(
                 DonateViewItem("Bitcoin", "bc1q-example-btc-address"),
@@ -138,6 +137,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                                 )
                             )
                         }
+                        eventHandler.invoke(Event.AddressCopied)
                     },
                     onDonate = {
                         scope.launch {
@@ -147,6 +147,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                                 )
                             )
                         }
+                        eventHandler.invoke(Event.AddressCopied)
                     },
                 )
             }
@@ -154,10 +155,11 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
         }
 
         Spacer(modifier = Modifier.weight(1f))
-        Text(
+        if (viewState.isAddressCopied) Text(
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.donate_footer_thanks),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
         )
     }
 }

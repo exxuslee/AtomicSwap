@@ -14,6 +14,10 @@ class DonateViewModel(
             is Event.OnAmountSelected -> {
                 viewState = viewState.copy(selectedAmount = viewEvent.amount)
             }
+
+            Event.AddressCopied -> {
+                viewState = viewState.copy(isAddressCopied = true)
+            }
         }
     }
 }

@@ -11,4 +11,5 @@ data class ViewState(
         R.drawable.outline_money_bag_24 to 10000,
     ),
     val selectedAmount: Int = availableAmounts[1].second,
+    val isAddressCopied: Boolean = false,
 )
