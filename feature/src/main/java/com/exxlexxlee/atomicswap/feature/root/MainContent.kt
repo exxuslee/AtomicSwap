@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,12 +28,15 @@ import com.exxlexxlee.atomicswap.core.common.navigation.AnimationType
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalPaddingController
 import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
+import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
+import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.history.HistoryScreen
 import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
 import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
+import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.settings.aggregator.AggregatorScreen
 import com.exxlexxlee.atomicswap.feature.settings.donate.DonateScreen
@@ -41,23 +45,23 @@ import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
 import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationScreen
 import com.exxlexxlee.atomicswap.feature.settings.terms.TermsScreen
 import com.exxlexxlee.atomicswap.feature.taker.TakerScreen
-import org.koin.compose.koinInject
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainContent() {
+fun MainContent(
+    viewModel: MainViewModel = koinViewModel(),
+) {
+    val viewState by viewModel.viewStates().collectAsState()
+    val viewAction by viewModel.viewActions().collectAsState(null)
+
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val settingsUseCase = koinInject<SettingsUseCase>()
-    val initialRoute = remember { settingsUseCase.selectedRoute() }
-    val bottomDestinations = remember {
-        listOf(RoutesMain.Maker, RoutesMain.Taker, RoutesMain.History, RoutesMain.Settings.Main)
-    }
 
     Scaffold(
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
-                bottomDestinations.forEach { dest ->
+                viewState.bottomDestinations.forEach { dest ->
                     val currentRoute = backStackEntry?.destination?.route
                     val title = when (dest) {
                         is RoutesMain.Maker -> stringResource(R.string.title_maker)
@@ -71,7 +75,7 @@ fun MainContent() {
                             if (dest.isParentSelected(currentRoute)) {
                                 navController.popBackStack(dest.route, inclusive = false)
                             } else {
-                                settingsUseCase.selectedRoute(dest.route)
+                                viewModel.obtainEvent(Event.SelectedRoute(dest.route))
                                 navController.navigate(dest.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
@@ -82,15 +86,17 @@ fun MainContent() {
                             }
                         },
                         icon = {
-                            Icon(
-                                imageVector = when (dest) {
-                                    is RoutesMain.Maker -> Icons.Filled.Email
-                                    is RoutesMain.Taker -> Icons.Filled.Create
-                                    is RoutesMain.History -> Icons.Filled.DateRange
-                                    is RoutesMain.Settings -> Icons.Filled.Settings
-                                },
-                                contentDescription = title
-                            )
+                            BadgedIcon(BadgeType.fromInt(dest.badge)) {
+                                Icon(
+                                    imageVector = when (dest) {
+                                        is RoutesMain.Maker -> Icons.Filled.Email
+                                        is RoutesMain.Taker -> Icons.Filled.Create
+                                        is RoutesMain.History -> Icons.Filled.DateRange
+                                        is RoutesMain.Settings -> Icons.Filled.Settings
+                                    },
+                                    contentDescription = title
+                                )
+                            }
                         },
                         label = {
                             Text(title)
@@ -106,13 +112,13 @@ fun MainContent() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = initialRoute,
+                startDestination = viewState.initialRoute,
                 modifier = Modifier.padding(padding)
             ) {
-                animatedComposable(RoutesMain.Maker.route) { MakerScreen() }
-                animatedComposable(RoutesMain.Taker.route) { TakerScreen() }
-                animatedComposable(RoutesMain.History.route) { HistoryScreen() }
-                animatedComposable(RoutesMain.Settings.Main.route) { SettingsScreen() }
+                animatedComposable(RoutesMain.Maker().route) { MakerScreen() }
+                animatedComposable(RoutesMain.Taker().route) { TakerScreen() }
+                animatedComposable(RoutesMain.History().route) { HistoryScreen() }
+                animatedComposable(RoutesMain.Settings.Main().route) { SettingsScreen() }
                 animatedComposable(
                     RoutesMain.Settings.Therms.route,
                     animationType = AnimationType.FADE

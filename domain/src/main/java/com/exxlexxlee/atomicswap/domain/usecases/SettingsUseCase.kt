@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.domain.usecases
 
 import android.util.Log
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,12 +12,19 @@ interface SettingsUseCase {
     fun selectedRoute(): String
     fun selectedRoute(route: String)
 
+    val isTermsOfUseRead: StateFlow<Boolean>
+
     fun isTermsOfUseRead(): Boolean
     fun isTermsOfUseRead(ok: Boolean)
+
+    fun badgeType(): Int?
 
     class Base(
         private val settingsRepository: SettingsRepository,
     ) : SettingsUseCase {
+
+        private val _isTermsOfUseRead = MutableStateFlow(isTermsOfUseRead())
+        override val isTermsOfUseRead: StateFlow<Boolean> = _isTermsOfUseRead
 
         override fun selectedRoute() = settingsRepository.selectedRoute()
 
@@ -28,7 +36,13 @@ interface SettingsUseCase {
             return isTermsOfUseRead
         }
 
-        override fun isTermsOfUseRead(ok: Boolean) = settingsRepository.isTermsOfUseRead(ok)
+        override fun isTermsOfUseRead(ok: Boolean) {
+            settingsRepository.isTermsOfUseRead(ok)
+            _isTermsOfUseRead.value = ok
+        }
+
+        override fun badgeType() = if (isTermsOfUseRead()) null else 0
+
 
     }
 

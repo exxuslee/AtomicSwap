@@ -1,11 +1,11 @@
 package com.exxlexxlee.atomicswap.feature.navigation
 
-sealed class RoutesMain(val route: String, val pos: Int) {
-    data object Maker : RoutesMain("maker", 0)
-    data object Taker : RoutesMain("taker", 1)
-    data object History : RoutesMain("history", 2)
-    sealed class Settings(id: String) : RoutesMain("settings/$id", 3) {
-        data object Main : Settings("main")
+sealed class RoutesMain(val route: String, open val badge: Int? = null) {
+    data class Maker(override val badge: Int? = null) : RoutesMain("maker")
+    data class Taker(override val badge: Int? = null) : RoutesMain("taker")
+    data class History(override val badge: Int? = null) : RoutesMain("history")
+    sealed class Settings(id: String) : RoutesMain("settings/$id") {
+        data class Main(override val badge: Int? = null) : Settings("main")
         data object Therms : Settings("terms")
         data object Language : Settings("language")
         data object Notification : Settings("notification")

@@ -1,21 +1,25 @@
 package com.exxlexxlee.atomicswap.core.common.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 sealed class BadgeType {
     object BadgeDot : BadgeType()
     class BadgeNumber(val number: Int) : BadgeType()
+
+    companion object {
+        fun fromInt(number: Int?): BadgeType? = number?.let {
+            when (it) {
+                0 -> BadgeDot
+                else -> BadgeNumber(it)
+            }
+        }
+    }
 }
 
 @Composable
@@ -40,16 +44,7 @@ fun BadgedIcon(
 
         BadgeType.BadgeDot ->
             BadgedBox(
-                badge = {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .background(
-                                MaterialTheme.colorScheme.error,
-                                shape = RoundedCornerShape(4.dp)
-                            )
-                    ) { }
-                },
+                badge = { Badge() },
                 content = icon
             )
 

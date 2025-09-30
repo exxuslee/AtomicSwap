@@ -1,6 +1,7 @@
 package com.exxlexxlee.atomicswap.core.common.base
 
 import androidx.lifecycle.ViewModel
+import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 

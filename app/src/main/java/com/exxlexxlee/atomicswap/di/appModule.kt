@@ -9,6 +9,7 @@ import com.exxlexxlee.atomicswap.data.di.fakeDataModule
 import com.exxlexxlee.atomicswap.domain.di.domainModule
 import com.exxlexxlee.atomicswap.feature.history.historyModule
 import com.exxlexxlee.atomicswap.feature.maker.makerModule
+import com.exxlexxlee.atomicswap.feature.root.di.rootModule
 import com.exxlexxlee.atomicswap.feature.settings.di.settingsModule
 import com.exxlexxlee.atomicswap.feature.taker.takerModule
 import org.koin.dsl.module
@@ -18,6 +19,7 @@ val appModule = module {
     includes(domainModule)
     includes(networkModule)
     includes(databaseModule)
+    includes(rootModule)
     includes(takerModule)
     includes(makerModule)
     includes(historyModule)
