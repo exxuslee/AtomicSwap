@@ -10,7 +10,6 @@ import com.exxlexxlee.atomicswap.core.swap.model.Swap
 
 class SwapInitiator(
     private val swapInitiatorDoer: SwapInitiatorDoer,
-    private val isReactive: Boolean,
 ) {
 
     suspend fun processNext() = when (swapInitiatorDoer.state) {
@@ -31,8 +30,7 @@ class SwapInitiator(
 
         Swap.State.RESPONDER_BAILED -> {
             Log.d("SwapKit", "SwapInitiator4 RESPONDER_BAILED")
-            if (!isReactive) swapInitiatorDoer.redeem()
-            else swapInitiatorDoer.reveal()
+            swapInitiatorDoer.redeem()
         }
 
         Swap.State.INITIATOR_REDEEMED -> {
@@ -57,8 +55,6 @@ class SwapInitiator(
     }
 
     suspend fun refund() = swapInitiatorDoer.refund()
-    fun initiatorBailTx() = swapInitiatorDoer.initiatorBailTx()
-    fun responderBailTx() = swapInitiatorDoer.responderBailTx()
 }
 
 class SwapInitiatorDoer(

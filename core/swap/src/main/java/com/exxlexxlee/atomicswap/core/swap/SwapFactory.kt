@@ -150,12 +150,6 @@ class SwapFactory(
         return digest.digest(input)
     }
 
-    private fun sha3(data: ByteArray): ByteArray {
-        val digest = MessageDigest.getInstance("ETH-KECCAK-256")
-        digest.update(data)
-        return digest.digest()
-    }
-
     fun swapContractAddress(coinCode: String) =
         swapBlockchainCreators[coinCode]?.swapContractAddress()
 

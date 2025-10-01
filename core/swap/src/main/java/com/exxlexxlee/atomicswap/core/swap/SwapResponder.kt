@@ -10,7 +10,6 @@ import com.exxlexxlee.atomicswap.core.swap.model.Swap
 
 class SwapResponder(
     private val swapResponderDoer: SwapResponderDoer,
-    private val isReactive: Boolean,
 ) {
 
     suspend fun processNext() = when (swapResponderDoer.state) {
@@ -31,8 +30,7 @@ class SwapResponder(
 
         Swap.State.RESPONDER_BAILED -> {
             Log.d("SwapKit", "SwapResponder4 RESPONDER_BAILED")
-            if (!isReactive) swapResponderDoer.watchInitiatorRedeem()
-            else swapResponderDoer.watchReactRedeem()
+            swapResponderDoer.watchInitiatorRedeem()
         }
 
         Swap.State.INITIATOR_REDEEMED -> {
@@ -57,8 +55,6 @@ class SwapResponder(
     }
 
     suspend fun refund() = swapResponderDoer.refund()
-    fun initiatorBailTx() = swapResponderDoer.initiatorBailTx()
-    fun responderBailTx() = swapResponderDoer.responderBailTx()
 }
 
 class SwapResponderDoer(
@@ -127,14 +123,6 @@ class SwapResponderDoer(
         responderBlockchain.setRedeemTxListener(
             this@SwapResponderDoer,
             responderBlockchain.deserializeBailTx(swap.responderBailTx)!!
-        )
-    }
-
-    suspend fun watchReactRedeem() {
-        Log.d("SwapKit Responder", "Start watching for react redeem tx")
-        initiatorBlockchain.setRedeemTxListener(
-            this@SwapResponderDoer,
-            initiatorBlockchain.deserializeBailTx(swap.initiatorBailTx)!!
         )
     }
 
@@ -209,8 +197,5 @@ class SwapResponderDoer(
             }
         } while (swap.state != Swap.State.REFUNDED)
     }
-
-    fun initiatorBailTx() = initiatorBlockchain.deserializeBailTx(swap.initiatorBailTx)
-    fun responderBailTx() = responderBlockchain.deserializeBailTx(swap.responderBailTx)
 
 }
