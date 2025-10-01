@@ -60,9 +60,10 @@ import com.exxlexxlee.atomicswap.feature.settings.donate.models.ViewState
 import com.reown.android.internal.common.scope
 import kotlinx.coroutines.launch
 
-private data class DonateViewItem(
+data class DonateViewItem(
     val chain: String,
     val address: String,
+    val icon: Int,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,21 +77,12 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
         TopAppBar(stringResource(id = R.string.donate)) { eventHandler.invoke(Event.PopBackStack) }
 
         val clipboard = LocalClipboard.current
-        val donates = remember {
-            listOf(
-                DonateViewItem("Bitcoin", "36b5Z19fLrbgEcV1dwhwiFjix86bGweXKC"),
-                DonateViewItem("Ethereum || BSC", "0x6F1C4B2bd0489e32AF741C405CcA696E8a95ce9C"),
-                DonateViewItem("Solana", "2zMufqDhhiMbcQRVLiAVrBv9SWdHvxrHgAsdQfMbUaJS"),
-                DonateViewItem("Tron", "TKQMJN2aFAyPwaFCdg3AxhRT9xqsRuTvb3"),
-            )
-        }
-
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier.verticalScroll(scrollState),
         ) {
             Text(
-                modifier = Modifier.padding(12.dp,0.dp,12.dp,12.dp,),
+                modifier = Modifier.padding(12.dp, 0.dp, 12.dp, 12.dp),
                 text = stringResource(R.string.donate_header_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -101,7 +93,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
             )
             Row(
-                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
@@ -125,7 +119,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             }
 
             CellUniversalSection(
-                donates.mapIndexed { index, donat ->
+                viewState.donates.mapIndexed { index, donat ->
                     {
                         HsRow(
                             iconRes = R.drawable.outline_database_off_24,
