@@ -6,7 +6,6 @@ import java.security.MessageDigest
 import java.util.UUID
 
 class SwapFactory(
-    private val db: SwapDatabase,
 ) {
     val supportedCoins get() = swapBlockchainCreators.keys
 
@@ -29,7 +28,7 @@ class SwapFactory(
         val initiatorBlockchain = createBlockchain(swap.initiatorCoinCode)
         val responderBlockchain = createBlockchain(swap.responderCoinCode)
         val swapResponderDoer =
-            SwapResponderDoer(initiatorBlockchain, responderBlockchain, swap, db.swapDao)
+            SwapResponderDoer(initiatorBlockchain, responderBlockchain, swap)
         val swapResponder = SwapResponder(swapResponderDoer, swap.isReactive)
         swapResponderDoer.delegate = swapResponder
         return swapResponder
@@ -39,7 +38,7 @@ class SwapFactory(
         val initiatorBlockchain = createBlockchain(swap.initiatorCoinCode)
         val responderBlockchain = createBlockchain(swap.responderCoinCode)
         val swapInitiatorDoer =
-            SwapInitiatorDoer(initiatorBlockchain, responderBlockchain, swap, db.swapDao)
+            SwapInitiatorDoer(initiatorBlockchain, responderBlockchain, swap)
         val swapInitiator = SwapInitiator(swapInitiatorDoer, swap.isReactive)
         swapInitiatorDoer.delegate = swapInitiator
         return swapInitiator
@@ -82,7 +81,6 @@ class SwapFactory(
             this.initiatorRefundTime = timeToRefund
             this.isReactive = isReactive
         }
-        db.swapDao.save(swap)
         return swap
     }
 
@@ -123,30 +121,29 @@ class SwapFactory(
             this.initiatorRefundTime = initiatorBlockchain.dayAfterTomorrow(initiatorRefundTime)
             this.isReactive = isReactive
         }
-        db.swapDao.save(swap)
         return swap
     }
 
-    fun retrieveSwapForResponse(
-        id: String,
-        responderRedeemPKH: ByteArray,
-        responderRefundPKH: ByteArray,
-        responderRefundTime: Long,
-        initiatorRefundTime: Long,
-        responderAmount: String,
-    ): Swap {
-        val swapFromDB = db.swapDao.load(id) ?: throw AtomicSwapNotExist(id)
-        swapFromDB.apply {
-            if (this.state == Swap.State.REQUESTED) this.state = Swap.State.RESPONDED
-            this.responderRedeemPKH = responderRedeemPKH
-            this.responderRefundPKH = responderRefundPKH
-            this.responderRefundTime = responderRefundTime
-            this.initiatorRefundTime = initiatorRefundTime
-            this.responderAmount = responderAmount
-        }
-        db.swapDao.save(swapFromDB)
-        return swapFromDB
-    }
+//    fun retrieveSwapForResponse(
+//        id: String,
+//        responderRedeemPKH: ByteArray,
+//        responderRefundPKH: ByteArray,
+//        responderRefundTime: Long,
+//        initiatorRefundTime: Long,
+//        responderAmount: String,
+//    ): Swap {
+//        val swapFromDB = db.swapDao.load(id) ?: throw AtomicSwapNotExist(id)
+//        swapFromDB.apply {
+//            if (this.state == Swap.State.REQUESTED) this.state = Swap.State.RESPONDED
+//            this.responderRedeemPKH = responderRedeemPKH
+//            this.responderRefundPKH = responderRefundPKH
+//            this.responderRefundTime = responderRefundTime
+//            this.initiatorRefundTime = initiatorRefundTime
+//            this.responderAmount = responderAmount
+//        }
+//        db.swapDao.save(swapFromDB)
+//        return swapFromDB
+//    }
 
     private fun sha256(input: ByteArray): ByteArray {
         val digest = MessageDigest.getInstance("SHA-256")
