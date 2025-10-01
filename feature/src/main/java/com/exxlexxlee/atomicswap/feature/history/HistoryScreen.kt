@@ -9,7 +9,6 @@ import com.exxlexxlee.atomicswap.feature.R
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 
 @Composable
@@ -21,6 +20,6 @@ fun HistoryScreen() {
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
-		Text(stringResource(R.string.title_history))
+		Text(stringResource(R.string.title_chronicle))
 	}
 }

@@ -17,8 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -61,18 +61,13 @@ fun MainContent(
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 listOf(
-                    viewState.taker,
                     viewState.maker,
+                    viewState.taker,
                     viewState.history,
                     viewState.settings,
                 ).forEach { dest ->
                     val currentRoute = backStackEntry?.destination?.route
-                    val title = when (dest) {
-                        is RoutesMain.Maker -> stringResource(R.string.title_maker)
-                        is RoutesMain.Taker -> stringResource(R.string.title_taker)
-                        is RoutesMain.History -> stringResource(R.string.title_history)
-                        is RoutesMain.Settings -> stringResource(R.string.title_settings)
-                    }
+                    val title = stringResource(dest.label)
                     NavigationBarItem(
                         selected = dest.isParentSelected(currentRoute),
                         onClick = {
@@ -92,19 +87,12 @@ fun MainContent(
                         icon = {
                             BadgedIcon(BadgeType.fromInt(dest.badge)) {
                                 Icon(
-                                    imageVector = when (dest) {
-                                        is RoutesMain.Maker -> Icons.Filled.Email
-                                        is RoutesMain.Taker -> Icons.Filled.Create
-                                        is RoutesMain.History -> Icons.Filled.DateRange
-                                        is RoutesMain.Settings -> Icons.Filled.Settings
-                                    },
+                                    painterResource(dest.icon),
                                     contentDescription = title
                                 )
                             }
                         },
-                        label = {
-                            Text(title)
-                        }
+                        label = { Text(title) }
                     )
                 }
             }
