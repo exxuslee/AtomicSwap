@@ -57,4 +57,6 @@ dependencies {
 	implementation(platform(libs.reown.bom))
 	implementation(libs.reown.core)
 	implementation(libs.reown.appkit)
+
+	debugImplementation(libs.compose.ui.tooling)
 }

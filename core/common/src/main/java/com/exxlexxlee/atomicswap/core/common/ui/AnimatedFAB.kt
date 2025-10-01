@@ -7,14 +7,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.R
+import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -22,7 +25,7 @@ fun AnimatedFAB(show: Boolean, onClick: () -> Unit) {
     AnimatedVisibility(
         visible = show,
         enter = slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth }, // выезд справа
+            initialOffsetX = { fullWidth -> fullWidth },
             animationSpec = tween(durationMillis = 500)
         ) + fadeIn(animationSpec = tween(500)),
         exit = slideOutHorizontally(
@@ -40,8 +43,8 @@ fun AnimatedFAB(show: Boolean, onClick: () -> Unit) {
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFFff8a65),
-                            Color(0xFFff5722)
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.tertiaryContainer
                         )
                     ),
                     shape = CircleShape
@@ -54,5 +57,13 @@ fun AnimatedFAB(show: Boolean, onClick: () -> Unit) {
                 modifier = Modifier.size(32.dp)
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun AnimatedFAB_PreView() {
+    AppTheme {
+        AnimatedFAB(true) { }
     }
 }
