@@ -1,51 +1,82 @@
-CREATE TABLE Swap (
-    id TEXT NOT NULL PRIMARY KEY,
-    responderRedeemTx BLOB,
-    initiatorRedeemTx BLOB,
-    initiatorRevealTx BLOB,
-    responderBailTx BLOB,
-    initiatorBailTx BLOB,
-    refundTx BLOB
+CREATE TABLE SwapEntity (
+    id TEXT PRIMARY KEY NOT NULL,
+    timestamp INTEGER NOT NULL,
+    takerId TEXT NOT NULL,
+    makerId TEXT NOT NULL,
+    swapState TEXT NOT NULL,
+    
+    -- Taker Token
+    takerTokenId TEXT NOT NULL,
+    takerTokenSymbol TEXT NOT NULL,
+    takerTokenName TEXT NOT NULL,
+    takerTokenIconUrl TEXT NOT NULL,
+    takerTokenContractAddress TEXT,
+    takerTokenBlockchain TEXT NOT NULL,
+    takerTokenDecimal INTEGER NOT NULL,
+    
+    -- Maker Token
+    makerTokenId TEXT NOT NULL,
+    makerTokenSymbol TEXT NOT NULL,
+    makerTokenName TEXT NOT NULL,
+    makerTokenIconUrl TEXT NOT NULL,
+    makerTokenContractAddress TEXT,
+    makerTokenBlockchain TEXT NOT NULL,
+    makerTokenDecimal INTEGER NOT NULL,
+    
+    -- Addresses
+    takerRefundAddress TEXT NOT NULL,
+    takerRefundAddressId TEXT NOT NULL,
+    makerRefundAddress TEXT NOT NULL,
+    makerRefundAddressId TEXT NOT NULL,
+    takerRedeemAddress TEXT NOT NULL,
+    takerRedeemAddressId TEXT NOT NULL,
+    makerRedeemAddress TEXT NOT NULL,
+    makerRedeemAddressId TEXT NOT NULL,
+    
+    -- Secret
+    secret TEXT NOT NULL,
+    secretHash TEXT NOT NULL,
+    
+    -- Time
+    takerRefundTime INTEGER NOT NULL,
+    makerRefundTime INTEGER NOT NULL,
+    takerSafeTxTime INTEGER NOT NULL,
+    makerSafeTxTime INTEGER NOT NULL,
+    
+    -- Transactions
+    takerSafeTx TEXT NOT NULL,
+    makerSafeTx TEXT NOT NULL,
+    takerRedeemTx TEXT NOT NULL,
+    makerRedeemTx TEXT NOT NULL,
+    takerRefundTx TEXT NOT NULL,
+    makerRefundTx TEXT NOT NULL,
+    
+    -- Amounts (stored as TEXT to preserve precision)
+    takerSafeAmount TEXT NOT NULL,
+    makerSafeAmount TEXT NOT NULL,
+    makerExactAmount TEXT NOT NULL,
+    takerExactAmount TEXT NOT NULL,
+    makerStartAmount TEXT NOT NULL,
+    takerStartAmount TEXT NOT NULL,
+    makerFinalAmount TEXT NOT NULL,
+    takerFinalAmount TEXT NOT NULL
 );
 
--- Swap queries
-save:
-INSERT OR REPLACE INTO Swap(
-    id,
-    responderRedeemTx,
-    initiatorRedeemTx,
-    initiatorRevealTx,
-    responderBailTx,
-    initiatorBailTx,
-    refundTx
-) VALUES (?, ?, ?, ?, ?, ?, ?);
+-- Queries
+selectAll:
+SELECT * FROM SwapEntity ORDER BY timestamp DESC;
 
-load:
-SELECT * FROM Swap WHERE id = ?;
+selectById:
+SELECT * FROM SwapEntity WHERE id = ?;
 
-all:
-SELECT * FROM Swap;
+insert:
+INSERT OR REPLACE INTO SwapEntity VALUES ?;
 
 deleteAll:
-DELETE FROM Swap;
+DELETE FROM SwapEntity;
 
-delete:
-DELETE FROM Swap WHERE id = ?;
+deleteHistory:
+DELETE FROM SwapEntity WHERE swapState IN ('RESPONDER_REDEEMED', 'REFUNDED');
 
-updateId:
-UPDATE Swap SET id = ? WHERE id = ?;
-
-responderRedeemTx:
-SELECT responderRedeemTx FROM Swap WHERE id = ?;
-
-initiatorRedeemTx:
-SELECT initiatorRedeemTx FROM Swap WHERE id = ?;
-
-initiatorRevealTx:
-SELECT initiatorRevealTx FROM Swap WHERE id = ?;
-
-responderBailTx:
-SELECT responderBailTx FROM Swap WHERE id = ?;
-
-refundTx:
-SELECT refundTx FROM Swap WHERE id = ?;
+deleteById:
+DELETE FROM SwapEntity WHERE id = ?;
