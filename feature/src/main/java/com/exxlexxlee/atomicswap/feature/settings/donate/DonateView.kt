@@ -15,14 +15,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -45,11 +48,16 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
+import com.exxlexxlee.atomicswap.core.common.ui.CellUniversalSection
+import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
+import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.TopAppBar
+import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.settings.donate.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.donate.models.ViewState
+import com.reown.android.internal.common.scope
 import kotlinx.coroutines.launch
 
 private data class DonateViewItem(
@@ -62,161 +70,111 @@ private data class DonateViewItem(
 fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopAppBar(stringResource(id = R.string.donate)) { eventHandler.invoke(Event.PopBackStack) }
 
         val clipboard = LocalClipboard.current
-        val scope = rememberCoroutineScope()
         val donates = remember {
             listOf(
-                DonateViewItem("Bitcoin", "bc1q-example-btc-address"),
-                DonateViewItem("Ethereum || BSC", "0xExampleEthAddress000000000000000000"),
-                DonateViewItem("Solana", "bc1q-example-btc-address"),
-                DonateViewItem("Tron", "bc1q-example-btc-address"),
+                DonateViewItem("Bitcoin", "36b5Z19fLrbgEcV1dwhwiFjix86bGweXKC"),
+                DonateViewItem("Ethereum || BSC", "0x6F1C4B2bd0489e32AF741C405CcA696E8a95ce9C"),
+                DonateViewItem("Solana", "2zMufqDhhiMbcQRVLiAVrBv9SWdHvxrHgAsdQfMbUaJS"),
+                DonateViewItem("Tron", "TKQMJN2aFAyPwaFCdg3AxhRT9xqsRuTvb3"),
             )
         }
 
-        LazyColumn {
-            item {
-                Text(
-                    text = stringResource(R.string.donate_header_hint),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-
-            stickyHeader {
-                DonationAmountSelector(
-                    selectedAmount = viewState.selectedAmount,
-                    availableAmounts = viewState.availableAmounts,
-                    onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
-                )
-            }
-
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = stringResource(R.string.donate_selected_prefix),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
-                                append(viewState.selectedAmount.toString().padStart(6))
-                            }
-                            append(" ")
-                            append(stringResource(R.string.donate_currency_usdt))
-                        },
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.End
-                    )
-                }
-
-            }
-
-            items(donates) { donat ->
-                val copyLabel = stringResource(R.string.donate_copy_label)
-                DonateRow(
-                    label = stringResource(R.string.blockchain, donat.chain),
-                    address = donat.address,
-                    onCopy = {
-                        scope.launch {
-                            clipboard.setClipEntry(
-                                ClipEntry(
-                                    ClipData.newPlainText(copyLabel, donat.address)
-                                )
-                            )
-                        }
-                        eventHandler.invoke(Event.AddressCopied)
-                    },
-                    onDonate = {
-                        scope.launch {
-                            clipboard.setClipEntry(
-                                ClipEntry(
-                                    ClipData.newPlainText(copyLabel, donat.address)
-                                )
-                            )
-                        }
-                        eventHandler.invoke(Event.AddressCopied)
-                    },
-                )
-            }
-
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-        if (viewState.isAddressCopied) Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(R.string.donate_footer_thanks),
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-private fun DonateRow(
-    label: String,
-    address: String,
-    onCopy: () -> Unit,
-    onDonate: () -> Unit,
-) {
-    Row(
-        modifier = Modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
+        val scrollState = rememberScrollState()
         Column(
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .weight(1f),
+            modifier = Modifier.verticalScroll(scrollState),
         ) {
             Text(
-                text = label,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(12.dp,0.dp,12.dp,12.dp,),
+                text = stringResource(R.string.donate_header_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-
+            DonationAmountSelector(
+                selectedAmount = viewState.selectedAmount,
+                availableAmounts = viewState.availableAmounts,
+                onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
+            )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                horizontalArrangement = Arrangement.End
             ) {
-                Row(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = address,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f)
-                    )
-                    HsIconButton(onCopy) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.outline_content_copy_24),
-                            contentDescription = stringResource(R.string.donate_copy_cd),
-                        )
+                Text(
+                    text = stringResource(R.string.donate_selected_prefix),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
+                            append(viewState.selectedAmount.toString().padStart(6))
+                        }
+                        append(" ")
+                        append(stringResource(R.string.donate_currency_usdt))
+                    },
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.End
+                )
+            }
+
+            CellUniversalSection(
+                donates.mapIndexed { index, donat ->
+                    {
+                        HsRow(
+                            iconRes = R.drawable.outline_database_off_24,
+                            titleContent = {
+                                Column(
+                                    modifier = Modifier.padding(horizontal = 12.dp)
+                                ) {
+                                    Text(
+                                        text = donat.chain,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                    )
+                                    Text(
+                                        text = donat.address,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                }
+                            },
+                            onClick = {
+                                eventHandler.invoke(Event.OnTokenSelected(index))
+                            },
+                            onSelect = index == viewState.selectedToken,
+                            arrowRight = false,
+                        ) {
+                            HsIconButton({
+                                scope.launch {
+                                    clipboard.setClipEntry(
+                                        ClipEntry(
+                                            ClipData.newPlainText(donat.chain, donat.address)
+                                        )
+                                    )
+                                }
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.outline_content_copy_24),
+                                    contentDescription = stringResource(R.string.donate_copy_cd),
+                                )
+                            }
+                        }
                     }
                 }
-            }
+            )
         }
 
+        VSpacer(24.dp)
         TextButton(
-            onClick = onDonate,
+            onClick = {},
             colors = ButtonDefaults.textButtonColors(
                 containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentColor = MaterialTheme.colorScheme.onPrimary
@@ -225,9 +183,19 @@ private fun DonateRow(
         ) {
             Text(
                 stringResource(R.string.donate).uppercase(),
-                maxLines = 1
+                maxLines = 1,
+                modifier = Modifier.padding(horizontal = 36.dp)
             )
         }
+
+        Spacer(modifier = Modifier.weight(0.5f))
+        if (viewState.isAddressCopied) Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.donate_footer_thanks),
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+        )
+        Spacer(modifier = Modifier.weight(0.5f))
     }
 
 }
@@ -241,7 +209,7 @@ private fun DonationAmountSelector(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp),
+            .padding(horizontal = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         availableAmounts.forEach { amount ->

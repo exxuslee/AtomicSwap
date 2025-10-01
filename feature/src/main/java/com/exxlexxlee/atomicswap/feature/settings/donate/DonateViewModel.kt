@@ -11,13 +11,9 @@ class DonateViewModel(
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
             is Event.PopBackStack -> viewAction = Action.PopBackStack
-            is Event.OnAmountSelected -> {
-                viewState = viewState.copy(selectedAmount = viewEvent.amount)
-            }
-
-            Event.AddressCopied -> {
-                viewState = viewState.copy(isAddressCopied = true)
-            }
+            is Event.OnAmountSelected -> viewState = viewState.copy(selectedAmount = viewEvent.amount)
+            is Event.OnTokenSelected -> viewState = viewState.copy(selectedToken = viewEvent.pos)
+            Event.AddressCopied -> viewState = viewState.copy(isAddressCopied = true)
         }
     }
 }
