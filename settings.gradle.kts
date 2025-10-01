@@ -26,6 +26,7 @@ include(
 	":core:database",
 	":core:localize",
     ":core:common",
+    ":core:swap",
 	":domain",
 	":data",
 	":feature"

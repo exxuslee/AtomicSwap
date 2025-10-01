@@ -1,0 +1,51 @@
+CREATE TABLE Swap (
+    id TEXT NOT NULL PRIMARY KEY,
+    responderRedeemTx BLOB,
+    initiatorRedeemTx BLOB,
+    initiatorRevealTx BLOB,
+    responderBailTx BLOB,
+    initiatorBailTx BLOB,
+    refundTx BLOB
+);
+
+-- Swap queries
+save:
+INSERT OR REPLACE INTO Swap(
+    id,
+    responderRedeemTx,
+    initiatorRedeemTx,
+    initiatorRevealTx,
+    responderBailTx,
+    initiatorBailTx,
+    refundTx
+) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+load:
+SELECT * FROM Swap WHERE id = ?;
+
+all:
+SELECT * FROM Swap;
+
+deleteAll:
+DELETE FROM Swap;
+
+delete:
+DELETE FROM Swap WHERE id = ?;
+
+updateId:
+UPDATE Swap SET id = ? WHERE id = ?;
+
+responderRedeemTx:
+SELECT responderRedeemTx FROM Swap WHERE id = ?;
+
+initiatorRedeemTx:
+SELECT initiatorRedeemTx FROM Swap WHERE id = ?;
+
+initiatorRevealTx:
+SELECT initiatorRevealTx FROM Swap WHERE id = ?;
+
+responderBailTx:
+SELECT responderBailTx FROM Swap WHERE id = ?;
+
+refundTx:
+SELECT refundTx FROM Swap WHERE id = ?;
