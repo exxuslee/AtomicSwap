@@ -51,7 +51,7 @@ fun AnimatedFAB(show: Boolean, onClick: () -> Unit) {
                 )
         ) {
             Icon(
-                painterResource(R.drawable.outline_add_24),
+                painterResource(R.drawable.outline_note_stack_add_24),
                 contentDescription = "Add",
                 tint = Color.White,
                 modifier = Modifier.size(32.dp)
