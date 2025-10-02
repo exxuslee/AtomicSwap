@@ -36,7 +36,7 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
-import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.main.models.ViewState
 
@@ -70,7 +70,7 @@ fun SettingsView(
             )
             HsIconButton(
                 onClick = {
-                    navController.navigate(RoutesMain.Settings.Notification.route)
+                    navController.navigate(Routes.Settings.Notification.route)
                 },
             ) {
                 BadgedIcon(
@@ -122,7 +122,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(RoutesMain.Settings.PriceAggregator.route)
+                            navController.navigate(Routes.Settings.PriceAggregator.route)
                         },
                         arrowRight = true,
                     ) {
@@ -187,7 +187,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(RoutesMain.Settings.Language.route)
+                            navController.navigate(Routes.Settings.Language.route)
                         },
                         arrowRight = true,
                     )
@@ -202,7 +202,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(RoutesMain.Settings.Therms.route)
+                            navController.navigate(Routes.Settings.Therms.route)
                         },
                         arrowRight = true,
                     ) {
@@ -224,7 +224,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(RoutesMain.Settings.Donate.route)
+                            navController.navigate(Routes.Settings.Donate.route)
                         },
                         arrowRight = true,
                     )
@@ -239,7 +239,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(RoutesMain.Settings.About.route)
+                            navController.navigate(Routes.Settings.About.route)
                         },
                         arrowRight = true,
                     )

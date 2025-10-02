@@ -2,7 +2,7 @@ package com.exxlexxlee.atomicswap.feature.navigation
 
 import com.exxlexxlee.atomicswap.feature.R
 
-sealed class RoutesMain(
+sealed class Routes(
     val route: String,
     open val badge: Int? = null,
     val label: Int,
@@ -10,22 +10,15 @@ sealed class RoutesMain(
 ) {
     data class Maker(
         override val badge: Int? = null,
-    ) : RoutesMain(
+    ) : Routes(
         "maker",
         label = R.string.title_maker,
         icon = R.drawable.outline_book_2_24
     )
 
-    data class Taker(override val badge: Int? = null) :
-        RoutesMain(
-            "taker",
-            label = R.string.title_taker,
-            icon = R.drawable.outline_gavel_24
-        )
-
     sealed class Chronicle(subRoute: String) :
-        RoutesMain(
-            "chronicle",
+        Routes(
+            "chronicle/",
             label = R.string.title_chronicle,
             icon = R.drawable.outline_chronic_24
         ) {
@@ -34,7 +27,7 @@ sealed class RoutesMain(
     }
 
     sealed class Settings(subRoute: String) :
-        RoutesMain(
+        Routes(
             "settings/$subRoute",
             label = R.string.title_settings,
             icon = R.drawable.outline_settings_24

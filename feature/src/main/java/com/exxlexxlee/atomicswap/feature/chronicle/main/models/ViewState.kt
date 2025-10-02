@@ -1,16 +1,11 @@
 package com.exxlexxlee.atomicswap.feature.chronicle.main.models
 
+import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.Swap
 
-enum class SwapFilterState {
-    ALL,
-    ACTIVE,
-    REDEEM,
-    REFUND
-}
 
 data class ViewState(
-    val selectedTab: SwapFilterState = SwapFilterState.ALL,
+    val selectedTab: FilterStateChronicle = FilterStateChronicle.ACTIVE,
     val allSwaps: List<Swap> = emptyList(),
     val filteredSwaps: List<Swap> = emptyList(),
     val isLoading: Boolean = false,

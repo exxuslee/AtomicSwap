@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
-import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.root.models.Action
 import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.root.models.ViewState
@@ -16,10 +16,10 @@ class MainViewModel(
 ) : BaseViewModel<ViewState, Action, Event>(
     initialState = ViewState(
         initialRoute = settingsUseCase.selectedRoute(),
-        taker = RoutesMain.Taker(),
-        maker = RoutesMain.Maker(),
-        history = RoutesMain.Chronicle.Main(swapUseCase.badgeType()),
-        settings = RoutesMain.Settings.Main(settingsUseCase.badgeType()),
+        maker = Routes.Maker(),
+        chronicle = Routes.Chronicle.Main(swapUseCase.badgeType()),
+        settings = Routes.Settings.Main(settingsUseCase.badgeType()),
+        selectedChronicleTab = settingsUseCase.selectedFilterStateChronicle()
     )
 ) {
 
@@ -27,8 +27,13 @@ class MainViewModel(
         viewModelScope.launch {
             settingsUseCase.isTermsOfUseRead.collect {
                 viewState = viewState.copy(
-                    settings = RoutesMain.Settings.Main(settingsUseCase.badgeType()),
+                    settings = Routes.Settings.Main(settingsUseCase.badgeType()),
                 )
+            }
+        }
+        viewModelScope.launch {
+            settingsUseCase.selectedFilterStateChronicle.collect {
+                viewState = viewState.copy(selectedChronicleTab = it)
             }
         }
     }

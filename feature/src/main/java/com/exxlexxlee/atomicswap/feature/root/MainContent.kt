@@ -1,13 +1,13 @@
 package com.exxlexxlee.atomicswap.feature.root
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -26,9 +27,10 @@ import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
 import com.exxlexxlee.atomicswap.core.common.ui.AnimatedFAB
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
+import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.feature.chronicle.main.HistoryScreen
 import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
-import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.about.AboutScreen
@@ -38,7 +40,6 @@ import com.exxlexxlee.atomicswap.feature.settings.language.LanguageScreen
 import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
 import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationScreen
 import com.exxlexxlee.atomicswap.feature.settings.terms.TermsScreen
-import com.exxlexxlee.atomicswap.feature.taker.TakerScreen
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,8 +58,7 @@ fun MainContent(
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 listOf(
                     viewState.maker,
-                    viewState.taker,
-                    viewState.history,
+                    viewState.chronicle,
                     viewState.settings,
                 ).forEach { dest ->
                     val currentRoute = backStackEntry?.destination?.route
@@ -83,17 +83,20 @@ fun MainContent(
                             BadgedIcon(BadgeType.fromInt(dest.badge)) {
                                 Icon(
                                     painterResource(dest.icon),
-                                    contentDescription = title
+                                    contentDescription = title,
+                                    modifier = Modifier.size(30.dp)
                                 )
                             }
                         },
-                        label = { Text(title) }
                     )
                 }
             }
         },
         floatingActionButton = {
-            AnimatedFAB(backStackEntry?.destination?.route == RoutesMain.Maker().route) {
+            AnimatedFAB(backStackEntry?.destination?.route == Routes.Maker().route ||
+                    (backStackEntry?.destination?.route == Routes.Chronicle.Main().route &&
+                    viewState.selectedChronicleTab == FilterStateChronicle.MAKE)
+            ) {
 
             }
         }
@@ -107,32 +110,31 @@ fun MainContent(
                 startDestination = viewState.initialRoute,
                 modifier = Modifier.padding(padding)
             ) {
-                animatedComposable(RoutesMain.Maker().route) { MakerScreen() }
-                animatedComposable(RoutesMain.Taker().route) { TakerScreen() }
-                animatedComposable(RoutesMain.Chronicle.Main().route) { HistoryScreen() }
-                animatedComposable(RoutesMain.Settings.Main().route) { SettingsScreen() }
+                animatedComposable(Routes.Maker().route) { MakerScreen() }
+                animatedComposable(Routes.Chronicle.Main().route) { HistoryScreen() }
+                animatedComposable(Routes.Settings.Main().route) { SettingsScreen() }
                 animatedComposable(
-                    RoutesMain.Settings.Therms.route,
+                    Routes.Settings.Therms.route,
                     animationType = AnimationType.FADE
                 ) { TermsScreen() }
                 animatedComposable(
-                    RoutesMain.Settings.Language.route,
+                    Routes.Settings.Language.route,
                     animationType = AnimationType.FADE
                 ) { LanguageScreen() }
                 animatedComposable(
-                    RoutesMain.Settings.Notification.route,
+                    Routes.Settings.Notification.route,
                     animationType = AnimationType.FADE
                 ) { NotificationScreen() }
                 animatedComposable(
-                    RoutesMain.Settings.About.route,
+                    Routes.Settings.About.route,
                     animationType = AnimationType.FADE
                 ) { AboutScreen() }
                 animatedComposable(
-                    RoutesMain.Settings.Donate.route,
+                    Routes.Settings.Donate.route,
                     animationType = AnimationType.FADE
                 ) { DonateScreen() }
                 animatedComposable(
-                    RoutesMain.Settings.PriceAggregator.route,
+                    Routes.Settings.PriceAggregator.route,
                     animationType = AnimationType.FADE
                 ) { AggregatorScreen() }
 

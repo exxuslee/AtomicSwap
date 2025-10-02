@@ -2,18 +2,23 @@ package com.exxlexxlee.atomicswap.feature.chronicle.main
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
+import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
+import com.exxlexxlee.atomicswap.domain.model.Swap
 import com.exxlexxlee.atomicswap.domain.model.SwapState
+import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.Action
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.Event
-import com.exxlexxlee.atomicswap.feature.chronicle.main.models.SwapFilterState
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.ViewState
 import kotlinx.coroutines.launch
 
 class ChronicleViewModel(
     private val swapUseCase: SwapUseCase,
+    private val settingsUseCase: SettingsUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(
-    initialState = ViewState()
+    initialState = ViewState(
+        selectedTab = settingsUseCase.selectedFilterStateChronicle()
+    )
 ) {
 
     init {
@@ -44,17 +49,18 @@ class ChronicleViewModel(
         }
     }
 
-    private fun selectTab(filterState: SwapFilterState) {
+    private fun selectTab(filterState: FilterStateChronicle) {
         viewState = viewState.copy(
             selectedTab = filterState,
             filteredSwaps = filterSwaps(viewState.allSwaps, filterState)
         )
+        settingsUseCase.selectedFilterStateChronicle(filterState)
     }
 
-    private fun filterSwaps(swaps: List<com.exxlexxlee.atomicswap.domain.model.Swap>, filterState: SwapFilterState): List<com.exxlexxlee.atomicswap.domain.model.Swap> {
+    private fun filterSwaps(swaps: List<Swap>, filterState: FilterStateChronicle): List<Swap> {
         return when (filterState) {
-            SwapFilterState.ALL -> swaps
-            SwapFilterState.ACTIVE -> swaps.filter { swap ->
+            FilterStateChronicle.MAKE -> swaps
+            FilterStateChronicle.ACTIVE -> swaps.filter { swap ->
                 swap.swapState in listOf(
                     SwapState.REQUESTED,
                     SwapState.RESPONDED,
@@ -62,13 +68,13 @@ class ChronicleViewModel(
                     SwapState.RESPONDER_BAILED
                 )
             }
-            SwapFilterState.REDEEM -> swaps.filter { swap ->
+            FilterStateChronicle.COMPLETE -> swaps.filter { swap ->
                 swap.swapState in listOf(
                     SwapState.INITIATOR_REDEEMED,
                     SwapState.RESPONDER_REDEEMED
                 )
             }
-            SwapFilterState.REFUND -> swaps.filter { swap ->
+            FilterStateChronicle.REFUND -> swaps.filter { swap ->
                 swap.swapState == SwapState.REFUNDED
             }
         }

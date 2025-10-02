@@ -3,9 +3,15 @@ package com.exxlexxlee.atomicswap.data.repository
 import android.content.SharedPreferences
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import androidx.core.content.edit
+import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOf
 
 class SettingsRepositoryImpl(
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences,
 ) : SettingsRepository {
 
     override fun isDark(): Boolean {
@@ -38,5 +44,18 @@ class SettingsRepositoryImpl(
 
     override fun selectedAggregator(label: String) {
         prefs.edit { putString("selectedAggregator", label) }
+    }
+
+    private val _selectedFilterStateChronicle = MutableStateFlow(selectedFilterStateChronicle())
+    override val selectedFilterStateChronicle: StateFlow<FilterStateChronicle> = _selectedFilterStateChronicle
+
+    override fun selectedFilterStateChronicle(): FilterStateChronicle {
+        val pos = prefs.getInt("filterStateChronicle", 1)
+        return FilterStateChronicle.entries[pos]
+    }
+
+    override fun selectedFilterStateChronicle(filterStateChronicle: FilterStateChronicle) {
+        _selectedFilterStateChronicle.value = filterStateChronicle
+        prefs.edit { putInt("filterStateChronicle", filterStateChronicle.ordinal) }
     }
 }
