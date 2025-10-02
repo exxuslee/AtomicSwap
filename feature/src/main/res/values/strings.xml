@@ -41,6 +41,7 @@
     <string name="price_aggregator">Price aggregator</string>
     <string name="notifications">Notifications</string>
 	<string name="notification_empty_list">You have no messages</string>
+	<string name="swaps_empty_list">No swaps</string>
     <string name="donate">Donate</string>
 	<string name="about">About %s</string>
     <string name="donate_header_hint">If you like the app, consider supporting development.</string>

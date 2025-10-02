@@ -80,15 +80,6 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 makerTokenSymbol = "BNB"
             ),
             createFakeSwap(
-                swapId = "swap-3",
-                makeId = "make-3",
-                takeId = "take-3",
-                state = SwapState.REFUNDED,
-                timestamp = System.currentTimeMillis() - 172800000, // 2 days ago
-                takerTokenSymbol = "LTC",
-                makerTokenSymbol = "BTC"
-            ),
-            createFakeSwap(
                 swapId = "swap-4",
                 makeId = "make-4",
                 takeId = "take-4",
@@ -96,7 +87,43 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
                 takerTokenSymbol = "BNB",
                 makerTokenSymbol = "ETH"
-            )
+            ),
+            createFakeSwap(
+                swapId = "swap-5",
+                makeId = "make-5",
+                takeId = "take-5",
+                state = SwapState.RESPONDED,
+                timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
+                takerTokenSymbol = "BNB",
+                makerTokenSymbol = "ETH"
+            ),
+            createFakeSwap(
+                swapId = "swap-6",
+                makeId = "make-6",
+                takeId = "take-6",
+                state = SwapState.RESPONDED,
+                timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
+                takerTokenSymbol = "BNB",
+                makerTokenSymbol = "ETH"
+            ),
+            createFakeSwap(
+                swapId = "swap-7",
+                makeId = "make-7",
+                takeId = "take-7",
+                state = SwapState.RESPONDED,
+                timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
+                takerTokenSymbol = "BNB",
+                makerTokenSymbol = "ETH"
+            ),
+            createFakeSwap(
+                swapId = "swap-8",
+                makeId = "make-8",
+                takeId = "take-8",
+                state = SwapState.REQUESTED,
+                timestamp = System.currentTimeMillis() - 3600000, // 1 hour ago
+                takerTokenSymbol = "ETH",
+                makerTokenSymbol = "BNB"
+            ),
         )
         
         fakeSwaps.forEach { swapStorage[it.swapId] = it }
@@ -120,8 +147,8 @@ class SwapRepositoryFakeImpl : SwapRepository {
             takerId = "taker-$swapId",
             makerId = "maker-$swapId",
             swapState = state,
-            takerToken = createFakeToken(takerTokenSymbol, Blockchain.Bitcoin),
-            makerToken = createFakeToken(makerTokenSymbol, Blockchain.Ethereum),
+            takerToken = createFakeToken(takerTokenSymbol, Blockchain.Bitcoin(true)),
+            makerToken = createFakeToken(makerTokenSymbol, Blockchain.Ethereum(false)),
             takerRefundAddress = "taker-refund-address",
             takerRefundAddressId = "taker-refund-id",
             makerRefundAddress = "maker-refund-address",
@@ -167,7 +194,13 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 "LTC" -> "Litecoin"
                 else -> symbol
             },
-            iconUrl = "https://example.com/icon/$symbol.png",
+            iconUrl = when (symbol) {
+                "BTC" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
+                "ETH" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
+                "BNB" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
+                "LTC" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
+                else -> symbol
+            },
             contractAddress = if (symbol != "BTC" && symbol != "LTC") "0x123...abc" else null,
             blockchain = blockchain,
             decimal = 18

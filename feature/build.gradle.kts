@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+    implementation(libs.coil.compose)
 
     implementation(platform(libs.reown.bom))
     implementation(libs.reown.core)

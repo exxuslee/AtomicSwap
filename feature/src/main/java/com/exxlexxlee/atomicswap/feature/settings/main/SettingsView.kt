@@ -78,7 +78,7 @@ fun SettingsView(
                     else null
                 ) {
                     Icon(
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.padding(horizontal = 2.dp).size(24.dp),
                         painter = painterResource(id = R.drawable.outline_notifications_24),
                         contentDescription = "notification center",
                     )
