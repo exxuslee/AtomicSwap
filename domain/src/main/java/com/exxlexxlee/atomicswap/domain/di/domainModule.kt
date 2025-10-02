@@ -3,6 +3,7 @@ package com.exxlexxlee.atomicswap.domain.di
 import com.exxlexxlee.atomicswap.domain.usecases.AggregatorUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.NotificationReaderUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
+import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.ThemeController
 import org.koin.dsl.module
 
@@ -11,4 +12,5 @@ val domainModule = module {
     single<SettingsUseCase> { SettingsUseCase.Base(get()) }
     single<NotificationReaderUseCase> { NotificationReaderUseCase.Base(get()) }
     single<AggregatorUseCase> { AggregatorUseCase.Base(get()) }
+    single<SwapUseCase> { SwapUseCase.Base(get()) }
 }

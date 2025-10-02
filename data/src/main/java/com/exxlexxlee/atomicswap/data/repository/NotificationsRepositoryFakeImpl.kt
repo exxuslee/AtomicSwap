@@ -3,6 +3,7 @@ package com.exxlexxlee.atomicswap.data.repository
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class NotificationsRepositoryFakeImpl : NotificationRepository.Reader {
 
@@ -89,7 +90,7 @@ class NotificationsRepositoryFakeImpl : NotificationRepository.Reader {
         )
     )
 
-    private val _unreadCount = kotlinx.coroutines.flow.MutableStateFlow(
+    private val _unreadCount = MutableStateFlow(
         mockNotifications.count { !it.isRead }
     )
 
