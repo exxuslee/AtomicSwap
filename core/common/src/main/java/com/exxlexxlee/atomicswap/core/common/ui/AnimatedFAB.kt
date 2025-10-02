@@ -38,13 +38,13 @@ fun AnimatedFAB(show: Boolean, onClick: () -> Unit) {
             shape = CircleShape,
             containerColor = Color.Transparent,
             modifier = Modifier
-                .size(64.dp)
+                .size(56.dp)
                 .shadow(8.dp, CircleShape)
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            MaterialTheme.colorScheme.tertiaryContainer
+                            Color(0xFF3AB90B),
+                            MaterialTheme.colorScheme.onSecondaryContainer,
                         )
                     ),
                     shape = CircleShape
