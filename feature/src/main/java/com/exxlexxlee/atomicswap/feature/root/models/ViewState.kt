@@ -6,6 +6,6 @@ data class ViewState(
     val initialRoute: String,
     val taker: RoutesMain.Taker,
     val maker: RoutesMain.Maker,
-    val history: RoutesMain.History,
+    val history: RoutesMain.Chronicle,
     val settings: RoutesMain.Settings,
 )

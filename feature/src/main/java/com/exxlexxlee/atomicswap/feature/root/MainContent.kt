@@ -109,7 +109,7 @@ fun MainContent(
             ) {
                 animatedComposable(RoutesMain.Maker().route) { MakerScreen() }
                 animatedComposable(RoutesMain.Taker().route) { TakerScreen() }
-                animatedComposable(RoutesMain.History().route) { HistoryScreen() }
+                animatedComposable(RoutesMain.Chronicle.Main().route) { HistoryScreen() }
                 animatedComposable(RoutesMain.Settings.Main().route) { SettingsScreen() }
                 animatedComposable(
                     RoutesMain.Settings.Therms.route,

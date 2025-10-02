@@ -3,6 +3,7 @@ package com.exxlexxlee.atomicswap.feature.root
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
+import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
 import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
 import com.exxlexxlee.atomicswap.feature.root.models.Action
 import com.exxlexxlee.atomicswap.feature.root.models.Event
@@ -11,12 +12,13 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val settingsUseCase: SettingsUseCase,
+    private val swapUseCase: SwapUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(
     initialState = ViewState(
         initialRoute = settingsUseCase.selectedRoute(),
         taker = RoutesMain.Taker(),
         maker = RoutesMain.Maker(),
-        history = RoutesMain.History(),
+        history = RoutesMain.Chronicle.Main(swapUseCase.badgeType()),
         settings = RoutesMain.Settings.Main(settingsUseCase.badgeType()),
     )
 ) {

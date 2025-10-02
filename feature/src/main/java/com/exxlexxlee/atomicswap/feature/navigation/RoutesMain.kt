@@ -23,16 +23,19 @@ sealed class RoutesMain(
             icon = R.drawable.outline_gavel_24
         )
 
-    data class History(override val badge: Int? = null) :
+    sealed class Chronicle(subRoute: String) :
         RoutesMain(
-            "history",
+            "chronicle",
             label = R.string.title_chronicle,
             icon = R.drawable.outline_chronic_24
-        )
+        ) {
+        data class Main(override val badge: Int? = null) : Chronicle("main")
+        data class Swap(val swapId: String) : Chronicle("swap?swapId=$swapId")
+    }
 
-    sealed class Settings(id: String) :
+    sealed class Settings(subRoute: String) :
         RoutesMain(
-            "settings/$id",
+            "settings/$subRoute",
             label = R.string.title_settings,
             icon = R.drawable.outline_settings_24
         ) {

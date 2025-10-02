@@ -12,7 +12,7 @@ interface SwapUseCase {
     val swapsFlow: Flow<List<Swap>>
     fun swap(swapId: String): Swap
 
-
+    fun badgeType(): Int?
 
     class Base(
         private val swapRepository: SwapRepository,
@@ -20,5 +20,7 @@ interface SwapUseCase {
         override val swapsFlow = swapRepository.swaps
 
         override fun swap(swapId: String) = swapRepository.swap(swapId)
+
+        override fun badgeType(): Int = 3
     }
 }
