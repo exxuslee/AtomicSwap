@@ -2,26 +2,27 @@ package com.exxlexxlee.atomicswap.domain.model
 
 import java.math.BigDecimal
 
-class Take(
-    id: String,
-    makerId: String,
-    val takerId: String,
-    takerToken: Token,
-    makerToken: Token,
-    makerRefundAddress: String,
-    makerRedeemAddress: String,
-	val takerRefundAddress: String,
-	val takerRedeemAddress: String,
+open class Take(
+    open val takeId: String,
+    override val makeId: String,
+    override val makerId: String,
+	open val takerId: String,
+    override val takerToken: Token,
+    override val makerToken: Token,
+    override val makerRefundAddress: String,
+    override val makerRedeemAddress: String,
+	open val takerRefundAddress: String,
+	open val takerRedeemAddress: String,
 
-	makerExactAmount: BigDecimal,
-	takerExactAmount: BigDecimal,
+    override val makerExactAmount: BigDecimal,
+    override val takerExactAmount: BigDecimal,
 
-	makerStartAmount: BigDecimal,
-	takerStartAmount: BigDecimal,
-	val makerFinalAmount: BigDecimal,
-	val takerFinalAmount: BigDecimal,
+    override val makerStartAmount: BigDecimal,
+    override val takerStartAmount: BigDecimal,
+	open val makerFinalAmount: BigDecimal,
+	open val takerFinalAmount: BigDecimal,
 ) : Make(
-    id,
+	makeId,
     makerId,
 	makerToken,
 	takerToken,

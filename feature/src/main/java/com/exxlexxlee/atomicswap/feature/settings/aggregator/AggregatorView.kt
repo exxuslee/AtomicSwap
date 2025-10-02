@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.CellUniversalLawrenceSection
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
@@ -33,10 +34,11 @@ import com.exxlexxlee.atomicswap.feature.settings.aggregator.models.ViewState
 @Composable
 fun AggregatorView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     val scrollState = rememberScrollState()
+    val navController = LocalNavController.current
 
     Column {
         TopAppBar(stringResource(R.string.language)) {
-            eventHandler.invoke(Event.PopBackStack)
+            navController.popBackStack()
         }
         Column(
             modifier = Modifier.verticalScroll(scrollState)
@@ -47,7 +49,10 @@ fun AggregatorView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                     title = item.label,
                     icon = item.icon,
                     checked = viewState.selected == item,
-                    onClick = { eventHandler.invoke(Event.Select(item.label)) },
+                    onClick = {
+                        eventHandler.invoke(Event.Select(item.label))
+                        navController.popBackStack()
+                    },
                 )
             }
             Spacer(Modifier.height(24.dp))

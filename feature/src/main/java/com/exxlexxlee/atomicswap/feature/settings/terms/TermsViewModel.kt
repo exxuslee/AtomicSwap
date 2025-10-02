@@ -16,7 +16,6 @@ class TermsViewModel(
 
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
-            is Event.PopBackStack -> viewAction = Action.PopBackStack
             is Event.ReadTerms -> {
                 settingsUseCase.isTermsOfUseRead(true)
                 viewState = viewState.copy(isTermsOfUseRead = true)

@@ -9,7 +9,9 @@ import com.exxlexxlee.atomicswap.domain.model.toStorageName
 import java.math.BigDecimal
 
 internal fun SwapEntity.toDomain() = Swap(
-    id = id,
+    swapId = swapId,
+    makeId = makeId,
+    takeId = takeId,
     timestamp = timestamp,
     takerId = takerId,
     makerId = makerId,
@@ -59,11 +61,13 @@ internal fun SwapEntity.toDomain() = Swap(
     makerStartAmount = BigDecimal(makerStartAmount),
     takerStartAmount = BigDecimal(takerStartAmount),
     makerFinalAmount = BigDecimal(makerFinalAmount),
-    takerFinalAmount = BigDecimal(takerFinalAmount)
+    takerFinalAmount = BigDecimal(takerFinalAmount),
 )
 
 internal fun Swap.toEntity() = SwapEntity(
-    id = id,
+    swapId = swapId,
+    makeId = makeId,
+    takeId = takeId,
     timestamp = timestamp,
     takerId = takerId,
     makerId = makerId,
@@ -109,5 +113,5 @@ internal fun Swap.toEntity() = SwapEntity(
     makerStartAmount = makerStartAmount.toPlainString(),
     takerStartAmount = takerStartAmount.toPlainString(),
     makerFinalAmount = makerFinalAmount.toPlainString(),
-    takerFinalAmount = takerFinalAmount.toPlainString()
+    takerFinalAmount = takerFinalAmount.toPlainString(),
 )

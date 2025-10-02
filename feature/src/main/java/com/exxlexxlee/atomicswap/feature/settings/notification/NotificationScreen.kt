@@ -14,8 +14,6 @@ fun NotificationScreen(
     viewModel: NotificationViewModel = koinViewModel(),
 ) {
     val viewState by viewModel.viewStates().collectAsState()
-    val viewAction by viewModel.viewActions().collectAsState(null)
-    val navController = LocalNavController.current
 
     LaunchedEffect(Unit) {
         if (viewState.items.isEmpty()) viewModel.sync()
@@ -25,11 +23,4 @@ fun NotificationScreen(
         viewModel.obtainEvent(it)
     }
 
-    when (viewAction) {
-        is Action.PopBackStack -> {
-            viewModel.clearAction()
-            navController.popBackStack()
-        }
-        null -> {}
-    }
 }

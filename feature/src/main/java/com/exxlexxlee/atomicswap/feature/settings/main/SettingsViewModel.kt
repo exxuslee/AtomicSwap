@@ -58,21 +58,14 @@ class SettingsViewModel(
                 themeController.setDark(viewEvent.newValue)
                 viewState = viewState.copy(isDark = viewEvent.newValue)
             }
-
-            Event.OpenWalletConnectDialog -> viewAction = Action.ConnectWcDialog
-            Event.OpenTermsScreen -> viewAction = Action.OpenTermsScreen
-            Event.OpenLanguageScreen -> viewAction = Action.OpenLanguageScreen
-            Event.OpenNotificationScreen -> viewAction = Action.OpenNotificationScreen
-            Event.OpenAboutScreen -> viewAction = Action.OpenAboutScreen
-            Event.OpenDonateScreen -> viewAction = Action.OpenDonateScreen
-            Event.OpenClearStorage -> viewAction = Action.LocaleStorageDialog
-            Event.OpenAggregatorScreen -> viewAction = Action.OpenAggregatorScreen
             Event.ConfirmClearStorage -> {
                 viewModelScope.launch {
                     notificationReaderUseCase.deleteAll()
                     clearAction()
                 }
             }
+            Event.OpenWalletConnectDialog -> viewAction = Action.ConnectWcDialog
+            Event.OpenClearStorageDialog -> viewAction = Action.LocaleStorageDialog
         }
 
     }

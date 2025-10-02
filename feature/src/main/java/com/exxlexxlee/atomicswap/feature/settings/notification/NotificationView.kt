@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.base.DateHelper
+import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.LazyStickyHeaderColumn
 import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
@@ -28,9 +29,11 @@ import com.exxlexxlee.atomicswap.feature.settings.notification.models.ViewState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationView(viewState: ViewState, eventHandler: (Event) -> Unit) {
+    val navController = LocalNavController.current
+
     Column {
         TopAppBar(stringResource(R.string.notifications)) {
-            eventHandler.invoke(Event.PopBackStack)
+            navController.popBackStack()
         }
 
         if (viewState.items.isEmpty()) {

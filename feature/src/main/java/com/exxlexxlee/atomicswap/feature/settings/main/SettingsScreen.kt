@@ -23,38 +23,12 @@ fun SettingsScreen(
 
     val viewState by viewModel.viewStates().collectAsState()
     val viewAction by viewModel.viewActions().collectAsState(null)
-    val navController = LocalNavController.current
 
     SettingsView(viewState) {
         viewModel.obtainEvent(it)
     }
 
     when (viewAction) {
-        Action.OpenTermsScreen -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesMain.Settings.Therms.route)
-        }
-
-        Action.OpenLanguageScreen -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesMain.Settings.Language.route)
-        }
-
-        Action.OpenNotificationScreen -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesMain.Settings.Notification.route)
-        }
-
-        Action.OpenAboutScreen -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesMain.Settings.About.route)
-        }
-
-        Action.OpenDonateScreen -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesMain.Settings.Donate.route)
-        }
-
         Action.LocaleStorageDialog -> AlertDialog(
             onDismissRequest = { viewModel.clearAction() },
             title = { Text(text = stringResource(id = R.string.clear_storage_title)) },
@@ -83,10 +57,6 @@ fun SettingsScreen(
             }
         }
 
-        Action.OpenAggregatorScreen -> {
-            viewModel.clearAction()
-            navController.navigate(RoutesMain.Settings.PriceAggregator.route)
-        }
         null -> {}
     }
 }

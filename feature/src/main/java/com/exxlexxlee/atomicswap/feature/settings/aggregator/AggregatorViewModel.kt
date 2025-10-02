@@ -28,9 +28,7 @@ class AggregatorViewModel(
         when (viewEvent) {
             is Event.Select -> {
                 aggregatorUseCase.select(viewEvent.label)
-                viewAction = Action.PopBackStack
             }
-            is Event.PopBackStack -> viewAction = Action.PopBackStack
         }
 
     }

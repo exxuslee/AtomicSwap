@@ -1,6 +1,5 @@
 package com.exxlexxlee.atomicswap.feature.settings.main
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
@@ -36,17 +36,19 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
+import com.exxlexxlee.atomicswap.feature.navigation.RoutesMain
 import com.exxlexxlee.atomicswap.feature.settings.main.models.Event
 import com.exxlexxlee.atomicswap.feature.settings.main.models.ViewState
-import timber.log.Timber
+
 
 @Composable
 fun SettingsView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
-
     val scrollState = rememberScrollState()
+    val navController = LocalNavController.current
+
     Column(
         modifier = Modifier.verticalScroll(scrollState),
     ) {
@@ -68,7 +70,7 @@ fun SettingsView(
             )
             HsIconButton(
                 onClick = {
-                    eventHandler.invoke(Event.OpenNotificationScreen)
+                    navController.navigate(RoutesMain.Settings.Notification.route)
                 },
             ) {
                 BadgedIcon(
@@ -119,7 +121,9 @@ fun SettingsView(
                                 modifier = Modifier.padding(horizontal = 12.dp)
                             )
                         },
-                        onClick = { eventHandler.invoke(Event.OpenAggregatorScreen) },
+                        onClick = {
+                            navController.navigate(RoutesMain.Settings.PriceAggregator.route)
+                        },
                         arrowRight = true,
                     ) {
                         Icon(
@@ -130,7 +134,7 @@ fun SettingsView(
                     }
                 },
                 {
-                    val click = { eventHandler.invoke(Event.OpenClearStorage) }
+                    val click = { eventHandler.invoke(Event.OpenClearStorageDialog) }
                     HsRow(
                         iconRes = R.drawable.outline_database_off_24,
                         titleContent = {
@@ -183,7 +187,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            eventHandler.invoke(Event.OpenLanguageScreen)
+                            navController.navigate(RoutesMain.Settings.Language.route)
                         },
                         arrowRight = true,
                     )
@@ -198,7 +202,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            eventHandler.invoke(Event.OpenTermsScreen)
+                            navController.navigate(RoutesMain.Settings.Therms.route)
                         },
                         arrowRight = true,
                     ) {
@@ -220,7 +224,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            eventHandler.invoke(Event.OpenDonateScreen)
+                            navController.navigate(RoutesMain.Settings.Donate.route)
                         },
                         arrowRight = true,
                     )
@@ -235,7 +239,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            eventHandler.invoke(Event.OpenAboutScreen)
+                            navController.navigate(RoutesMain.Settings.About.route)
                         },
                         arrowRight = true,
                     )

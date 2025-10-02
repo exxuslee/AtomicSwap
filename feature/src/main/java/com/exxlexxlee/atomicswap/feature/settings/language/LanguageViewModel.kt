@@ -11,7 +11,6 @@ class LanguageViewModel(
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
             is Event.Select -> viewAction = Action.SetLocale(viewEvent.type)
-            is Event.PopBackStack -> viewAction = Action.PopBackStack
         }
 
     }

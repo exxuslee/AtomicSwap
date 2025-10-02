@@ -1,5 +1,7 @@
 CREATE TABLE SwapEntity (
-    id TEXT PRIMARY KEY NOT NULL,
+    swapId TEXT PRIMARY KEY NOT NULL,
+    makeId TEXT NOT NULL,
+    takeId TEXT NOT NULL,
     timestamp INTEGER NOT NULL,
     takerId TEXT NOT NULL,
     makerId TEXT NOT NULL,
@@ -25,31 +27,31 @@ CREATE TABLE SwapEntity (
     
     -- Addresses
     takerRefundAddress TEXT NOT NULL,
-    takerRefundAddressId TEXT NOT NULL,
+    takerRefundAddressId TEXT,
     makerRefundAddress TEXT NOT NULL,
-    makerRefundAddressId TEXT NOT NULL,
+    makerRefundAddressId TEXT,
     takerRedeemAddress TEXT NOT NULL,
-    takerRedeemAddressId TEXT NOT NULL,
+    takerRedeemAddressId TEXT,
     makerRedeemAddress TEXT NOT NULL,
-    makerRedeemAddressId TEXT NOT NULL,
+    makerRedeemAddressId TEXT,
     
     -- Secret
-    secret TEXT NOT NULL,
+    secret TEXT,
     secretHash TEXT NOT NULL,
     
     -- Time
     takerRefundTime INTEGER NOT NULL,
     makerRefundTime INTEGER NOT NULL,
-    takerSafeTxTime INTEGER NOT NULL,
-    makerSafeTxTime INTEGER NOT NULL,
+    takerSafeTxTime INTEGER,
+    makerSafeTxTime INTEGER,
     
     -- Transactions
-    takerSafeTx TEXT NOT NULL,
-    makerSafeTx TEXT NOT NULL,
-    takerRedeemTx TEXT NOT NULL,
-    makerRedeemTx TEXT NOT NULL,
-    takerRefundTx TEXT NOT NULL,
-    makerRefundTx TEXT NOT NULL,
+    takerSafeTx TEXT,
+    makerSafeTx TEXT,
+    takerRedeemTx TEXT,
+    makerRedeemTx TEXT,
+    takerRefundTx TEXT,
+    makerRefundTx TEXT,
     
     -- Amounts (stored as TEXT to preserve precision)
     takerSafeAmount TEXT NOT NULL,
@@ -67,7 +69,7 @@ selectAll:
 SELECT * FROM SwapEntity ORDER BY timestamp DESC;
 
 selectById:
-SELECT * FROM SwapEntity WHERE id = ?;
+SELECT * FROM SwapEntity WHERE swapId = ?;
 
 insert:
 INSERT OR REPLACE INTO SwapEntity VALUES ?;
@@ -79,4 +81,4 @@ deleteHistory:
 DELETE FROM SwapEntity WHERE swapState IN ('RESPONDER_REDEEMED', 'REFUNDED');
 
 deleteById:
-DELETE FROM SwapEntity WHERE id = ?;
+DELETE FROM SwapEntity WHERE swapId = ?;

@@ -25,7 +25,6 @@ class NotificationViewModel(
 
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
-            is Event.PopBackStack -> viewAction = Action.PopBackStack
             is Event.Delete -> delete(viewEvent.id)
             is Event.MarkAsRead -> markAsRead(viewEvent.id)
             is Event.Reveal -> revealIndex(viewEvent.id)

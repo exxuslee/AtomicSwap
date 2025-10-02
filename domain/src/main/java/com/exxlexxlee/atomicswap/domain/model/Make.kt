@@ -3,16 +3,16 @@ package com.exxlexxlee.atomicswap.domain.model
 import java.math.BigDecimal
 
 open class Make (
-    val id: String,
-    val makerId: String,
-    val makerToken: Token,
-    val takerToken: Token,
-    val makerRefundAddress: String,
-    val makerRedeemAddress: String,
+    open val makeId: String,
+    open val makerId: String,
+    open val makerToken: Token,
+    open val takerToken: Token,
+    open val makerRefundAddress: String,
+    open val makerRedeemAddress: String,
 
-    val makerExactAmount: BigDecimal,
-    val takerExactAmount: BigDecimal,
+    open val makerExactAmount: BigDecimal,
+    open val takerExactAmount: BigDecimal,
 
-    val makerStartAmount: BigDecimal,
-    val takerStartAmount: BigDecimal,
+    open val makerStartAmount: BigDecimal,
+    open val takerStartAmount: BigDecimal,
 )

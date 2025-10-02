@@ -12,18 +12,9 @@ fun DonateScreen(
     viewModel: DonateViewModel = koinViewModel(),
 ) {
     val viewState by viewModel.viewStates().collectAsState()
-    val viewAction by viewModel.viewActions().collectAsState(null)
-    val navController = LocalNavController.current
 
     DonateView(viewState) {
         viewModel.obtainEvent(it)
     }
 
-    when (viewAction) {
-        is Action.PopBackStack -> {
-            viewModel.clearAction()
-            navController.popBackStack()
-        }
-        null -> {}
-    }
 }

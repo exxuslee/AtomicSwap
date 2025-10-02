@@ -3,9 +3,8 @@ package com.exxlexxlee.atomicswap.data.repository
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
-class FakeNotificationsRepositoryImpl : NotificationRepository.Reader {
+class NotificationsRepositoryFakeImpl : NotificationRepository.Reader {
 
     private val mockNotifications = mutableListOf(
         Notification(

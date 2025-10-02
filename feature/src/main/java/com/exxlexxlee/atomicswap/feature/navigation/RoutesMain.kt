@@ -34,7 +34,7 @@ sealed class RoutesMain(
         RoutesMain(
             "settings/$id",
             label = R.string.title_settings,
-            icon = R.drawable.outline_chronic_24
+            icon = R.drawable.outline_settings_24
         ) {
         data class Main(override val badge: Int? = null) : Settings("main")
         data object Therms : Settings("terms")
