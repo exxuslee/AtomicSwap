@@ -40,7 +40,10 @@
 	<string name="price_aggregator">Аггрегатор цен</string>
     <string name="notifications">Уведомления</string>
 	<string name="notification_empty_list">У вас нет сообщений</string>
-	<string name="swaps_empty_list">Нет обменов</string>
+	<string name="active_empty_list">Нет активных обменов</string>
+	<string name="make_empty_list">Нет заявок на обмен</string>
+	<string name="complete_empty_list">Нет завершенных обменов</string>
+	<string name="refund_empty_list">Нет отмененных обменов</string>
     <string name="donate">Донат</string>
 	<string name="about">Об %s</string>
     <!-- Donate screen -->

@@ -43,7 +43,7 @@ fun AnimatedFAB(show: Boolean, onClick: () -> Unit) {
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFF3AB90B),
+                            Color(0xFF4CAF50),
                             MaterialTheme.colorScheme.onSecondaryContainer,
                         )
                     ),

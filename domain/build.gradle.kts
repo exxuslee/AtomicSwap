@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
 	id("org.jetbrains.kotlin.android")
 	id("com.android.library")
+	alias(libs.plugins.kotlin.serialization)
 }
 
 android {

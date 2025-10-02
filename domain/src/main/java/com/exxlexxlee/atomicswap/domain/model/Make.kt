@@ -1,18 +1,20 @@
 package com.exxlexxlee.atomicswap.domain.model
 
+import com.exxlexxlee.atomicswap.domain.model.serrialize.BigDecimalSerializer
+import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
-open class Make (
-    open val makeId: String,
-    open val makerId: String,
-    open val makerToken: Token,
-    open val takerToken: Token,
-    open val makerRefundAddress: String,
-    open val makerRedeemAddress: String,
+data class Make(
+    val makeId: String,
+    val makerId: String,
+    val makerToken: Token,
+    val takerToken: Token,
+    val makerRefundAddress: String,
+    val makerRedeemAddress: String,
 
-    open val makerExactAmount: BigDecimal,
-    open val takerExactAmount: BigDecimal,
+val makerExactAmount: BigDecimal,
+ val takerExactAmount: BigDecimal,
 
-    open val makerStartAmount: BigDecimal,
-    open val takerStartAmount: BigDecimal,
+ val makerStartAmount: BigDecimal,
+ val takerStartAmount: BigDecimal,
 )

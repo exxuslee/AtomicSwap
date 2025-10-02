@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
@@ -53,8 +54,10 @@ import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.Swap
 import com.exxlexxlee.atomicswap.domain.model.SwapState
 import com.exxlexxlee.atomicswap.feature.R
+import com.exxlexxlee.atomicswap.feature.chronicle.main.models.Action
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.Event
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.ViewState
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -98,7 +101,7 @@ fun ChronicleView(
                 )
             }
         }
-
+        val navController = LocalNavController.current
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -109,7 +112,14 @@ fun ChronicleView(
                 )
             } else if (viewState.filteredSwaps.isEmpty()) {
                 ListEmptyView(
-                    text = stringResource(R.string.swaps_empty_list),
+                    text = stringResource(
+                        when (viewState.selectedTab) {
+                            FilterStateChronicle.MAKE -> R.string.make_empty_list
+                            FilterStateChronicle.ACTIVE -> R.string.active_empty_list
+                            FilterStateChronicle.COMPLETE -> R.string.complete_empty_list
+                            FilterStateChronicle.REFUND -> R.string.refund_empty_list
+                        }
+                    ),
                     icon = R.drawable.outline_empty_dashboard_24
                 )
             } else {
@@ -121,7 +131,9 @@ fun ChronicleView(
                     items(viewState.filteredSwaps) { swap ->
                         SwapItem(
                             swap = swap,
-                            onClick = { eventHandler(Event.OpenSwap(swap.swapId)) }
+                            onClick = {
+                                navController.navigate(Routes.Chronicle.Swap(swap.swapId))
+                            }
                         )
                     }
                 }
@@ -147,8 +159,8 @@ private fun SwapItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TokenPairIcon(
-                makerIconUrl = swap.makerToken.iconUrl,
-                takerIconUrl = swap.takerToken.iconUrl
+                makerIconUrl = swap.make.makerToken.coin.iconUrl,
+                takerIconUrl = swap.make.takerToken.coin.iconUrl,
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -171,7 +183,8 @@ private fun SwapItem(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "${swap.makerExactAmount} ${swap.makerToken.symbol} → ${swap.takerExactAmount} ${swap.takerToken.symbol}",
+                    text = "${swap.make.makerExactAmount} ${swap.make.makerToken.coin.symbol} → " +
+                            "${swap.make.takerExactAmount} ${swap.make.takerToken.coin.symbol}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )

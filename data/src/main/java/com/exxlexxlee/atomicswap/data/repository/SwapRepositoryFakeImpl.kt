@@ -1,64 +1,62 @@
 package com.exxlexxlee.atomicswap.data.repository
 
-import com.exxlexxlee.atomicswap.domain.model.Blockchain
-import com.exxlexxlee.atomicswap.domain.model.Swap
-import com.exxlexxlee.atomicswap.domain.model.SwapState
-import com.exxlexxlee.atomicswap.domain.model.Token
+import com.exxlexxlee.atomicswap.domain.model.*
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.math.BigDecimal
+import kotlin.random.Random
 
 class SwapRepositoryFakeImpl : SwapRepository {
-    
+
     private val _swaps = MutableStateFlow<List<Swap>>(emptyList())
     override val swaps: StateFlow<List<Swap>> = _swaps.asStateFlow()
-    
+
     private val swapStorage = mutableMapOf<String, Swap>()
-    
+
     init {
         addFakeSwaps()
     }
-    
+
     override fun deleteAllHistory() {
-        swapStorage.entries.removeIf { 
+        swapStorage.entries.removeIf {
             it.value.swapState == SwapState.RESPONDER_REDEEMED ||
-            it.value.swapState == SwapState.REFUNDED 
+                    it.value.swapState == SwapState.REFUNDED
         }
         updateFlow()
     }
-    
+
     override fun swaps(): List<Swap> {
         return swapStorage.values
             .sortedByDescending { it.timestamp }
             .toList()
     }
-    
+
     override fun swap(id: String): Swap {
         return swapStorage[id] ?: throw NoSuchElementException("Swap with id $id not found")
     }
-    
+
     fun insertSwap(swap: Swap) {
         swapStorage[swap.swapId] = swap
         updateFlow()
     }
-    
+
     fun deleteSwap(id: String) {
         swapStorage.remove(id)
         updateFlow()
     }
-    
+
     fun clear() {
         swapStorage.clear()
         updateFlow()
     }
-    
+
     private fun updateFlow() {
         _swaps.update { swaps() }
     }
-    
+
     private fun addFakeSwaps() {
         val fakeSwaps = listOf(
             createFakeSwap(
@@ -125,11 +123,11 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 makerTokenSymbol = "BNB"
             ),
         )
-        
+
         fakeSwaps.forEach { swapStorage[it.swapId] = it }
         updateFlow()
     }
-    
+
     private fun createFakeSwap(
         swapId: String,
         makeId: String,
@@ -139,24 +137,44 @@ class SwapRepositoryFakeImpl : SwapRepository {
         takerTokenSymbol: String,
         makerTokenSymbol: String
     ): Swap {
+        val makerToken = createFakeToken(makerTokenSymbol, Blockchain.Ethereum(isMain = true))
+        val takerToken = createFakeToken(takerTokenSymbol, Blockchain.Bitcoin(isMain = true))
+
+        val make = Make(
+            makeId = makeId,
+            makerId = "maker-${makeId}",
+            makerToken = makerToken,
+            takerToken = takerToken,
+            makerRefundAddress = "maker-refund-address-${makeId}",
+            makerRedeemAddress = "maker-redeem-address-${makeId}",
+            makerExactAmount = BigDecimal("10.0"),
+            takerExactAmount = BigDecimal("1.5"),
+            makerStartAmount = BigDecimal("10.5"),
+            takerStartAmount = BigDecimal("1.6")
+        )
+
+        val take = Take(
+            make = make,
+            takeId = takeId,
+            takerId = "taker-${takeId}",
+            takerRefundAddress = "taker-refund-address-${takeId}",
+            takerRedeemAddress = "taker-redeem-address-${takeId}",
+            makerFinalAmount = BigDecimal("10.0"),
+            takerFinalAmount = BigDecimal("1.5")
+        )
+
         return Swap(
             swapId = swapId,
-            makeId = makeId,
+            take = listOf(take),
             takeId = takeId,
+            make = make,
             timestamp = timestamp,
-            takerId = "taker-$swapId",
-            makerId = "maker-$swapId",
             swapState = state,
-            takerToken = createFakeToken(takerTokenSymbol, Blockchain.Bitcoin(true)),
-            makerToken = createFakeToken(makerTokenSymbol, Blockchain.Ethereum(false)),
-            takerRefundAddress = "taker-refund-address",
             takerRefundAddressId = "taker-refund-id",
-            makerRefundAddress = "maker-refund-address",
             makerRefundAddressId = "maker-refund-id",
-            takerRedeemAddress = "taker-redeem-address",
             takerRedeemAddressId = "taker-redeem-id",
-            makerRedeemAddress = "maker-redeem-address",
             makerRedeemAddressId = "maker-redeem-id",
+            isRead = Random.nextBoolean(),
             secret = if (state == SwapState.RESPONDER_REDEEMED) "secret-value" else null,
             secretHash = "secret-hash-${swapId}",
             takerRefundTime = 3600,
@@ -169,22 +187,16 @@ class SwapRepositoryFakeImpl : SwapRepository {
             makerRedeemTx = if (state == SwapState.RESPONDER_REDEEMED) "maker-redeem-tx" else null,
             takerRefundTx = if (state == SwapState.REFUNDED) "taker-refund-tx" else null,
             makerRefundTx = if (state == SwapState.REFUNDED) "maker-refund-tx" else null,
-            makerExactAmount = BigDecimal("10.0"),
-            takerExactAmount = BigDecimal("1.5"),
-            makerStartAmount = BigDecimal("10.5"),
-            takerStartAmount = BigDecimal("1.6"),
             takerSafeAmount = BigDecimal("1.5"),
-            makerSafeAmount = BigDecimal("10.0"),
-            makerFinalAmount = BigDecimal("9.9"),
-            takerFinalAmount = BigDecimal("1.49")
+            makerSafeAmount = BigDecimal("10.0")
         )
     }
-    
+
     private fun createFakeToken(
         symbol: String,
         blockchain: Blockchain
     ): Token {
-        return Token(
+        val coin = Coin(
             id = "token-$symbol",
             symbol = symbol,
             name = when (symbol) {
@@ -196,11 +208,14 @@ class SwapRepositoryFakeImpl : SwapRepository {
             },
             iconUrl = when (symbol) {
                 "BTC" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
-                "ETH" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
-                "BNB" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
-                "LTC" -> "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
-                else -> symbol
-            },
+                "ETH" -> "https://assets.coingecko.com/coins/images/279/small/ethereum.png"
+                "BNB" -> "https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png"
+                "LTC" -> "https://assets.coingecko.com/coins/images/2/small/litecoin.png"
+                else -> ""
+            }
+        )
+        return Token(
+            coin = coin,
             contractAddress = if (symbol != "BTC" && symbol != "LTC") "0x123...abc" else null,
             blockchain = blockchain,
             decimal = 18

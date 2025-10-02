@@ -17,9 +17,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.exxlexxlee.atomicswap.core.common.navigation.AnimationType
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalPaddingController
@@ -29,6 +31,7 @@ import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.feature.chronicle.main.HistoryScreen
+import com.exxlexxlee.atomicswap.feature.chronicle.swap.SwapScreen
 import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
@@ -111,7 +114,22 @@ fun MainContent(
                 modifier = Modifier.padding(padding)
             ) {
                 animatedComposable(Routes.Maker().route) { MakerScreen() }
+
                 animatedComposable(Routes.Chronicle.Main().route) { HistoryScreen() }
+//                animatedComposable(
+//                    route = "chronicle/swap/{swapId}",
+//                    arguments = listOf(
+//                        navArgument("swapId") { type = NavType.StringType }
+//                    )
+//                ) { backStackEntry ->
+//                    val swapId = backStackEntry.arguments?.getString("swapId")
+//                    SwapScreen(swapId = swapId ?: "")
+//                }
+                animatedComposable(Routes.Chronicle.Swap.createRoute()) {  backStackEntry ->
+                    val swapId = backStackEntry.arguments?.getString("swapId")
+                    SwapScreen(swapId = swapId ?: "")
+                }
+
                 animatedComposable(Routes.Settings.Main().route) { SettingsScreen() }
                 animatedComposable(
                     Routes.Settings.Therms.route,

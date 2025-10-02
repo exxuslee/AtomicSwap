@@ -27,9 +27,6 @@ class ChronicleViewModel(
 
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
-            is Event.OpenSwap -> {
-                viewAction = Action.OpenSwap(viewEvent.swapId)
-            }
             is Event.SelectTab -> {
                 selectTab(viewEvent.filterState)
             }

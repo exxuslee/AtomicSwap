@@ -1,84 +1,132 @@
-CREATE TABLE SwapEntity (
-    swapId TEXT PRIMARY KEY NOT NULL,
-    makeId TEXT NOT NULL,
-    takeId TEXT NOT NULL,
-    timestamp INTEGER NOT NULL,
-    takerId TEXT NOT NULL,
+import kotlin.Boolean;
+import kotlin.Int;
+import kotlin.String;
+import kotlin.collections.List;
+
+CREATE TABLE IF NOT EXISTS MakeEntity (
+    makeId TEXT NOT NULL PRIMARY KEY,
     makerId TEXT NOT NULL,
-    swapState TEXT NOT NULL,
-    
-    -- Taker Token
-    takerTokenId TEXT NOT NULL,
-    takerTokenSymbol TEXT NOT NULL,
-    takerTokenName TEXT NOT NULL,
-    takerTokenIconUrl TEXT NOT NULL,
-    takerTokenContractAddress TEXT,
-    takerTokenBlockchain TEXT NOT NULL,
-    takerTokenDecimal INTEGER NOT NULL,
-    
+    makerRefundAddress TEXT NOT NULL,
+    makerRedeemAddress TEXT NOT NULL,
+    makerExactAmount TEXT NOT NULL,
+    takerExactAmount TEXT NOT NULL,
+    makerStartAmount TEXT NOT NULL,
+    takerStartAmount TEXT NOT NULL,
+
     -- Maker Token
-    makerTokenId TEXT NOT NULL,
-    makerTokenSymbol TEXT NOT NULL,
-    makerTokenName TEXT NOT NULL,
-    makerTokenIconUrl TEXT NOT NULL,
+    makerTokenCoinId TEXT NOT NULL,
+    makerTokenCoinSymbol TEXT NOT NULL,
+    makerTokenCoinName TEXT NOT NULL,
+    makerTokenCoinIconUrl TEXT NOT NULL,
     makerTokenContractAddress TEXT,
     makerTokenBlockchain TEXT NOT NULL,
     makerTokenDecimal INTEGER NOT NULL,
-    
-    -- Addresses
+
+    -- Taker Token
+    takerTokenCoinId TEXT NOT NULL,
+    takerTokenCoinSymbol TEXT NOT NULL,
+    takerTokenCoinName TEXT NOT NULL,
+    takerTokenCoinIconUrl TEXT NOT NULL,
+    takerTokenContractAddress TEXT,
+    takerTokenBlockchain TEXT NOT NULL,
+    takerTokenDecimal INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS TakeEntity (
+    takeId TEXT NOT NULL PRIMARY KEY,
+    takerId TEXT NOT NULL,
     takerRefundAddress TEXT NOT NULL,
-    takerRefundAddressId TEXT,
-    makerRefundAddress TEXT NOT NULL,
-    makerRefundAddressId TEXT,
     takerRedeemAddress TEXT NOT NULL,
+    makerFinalAmount TEXT NOT NULL,
+    takerFinalAmount TEXT NOT NULL,
+    makeId TEXT NOT NULL,
+    FOREIGN KEY (makeId) REFERENCES MakeEntity(makeId) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS SwapEntity (
+    swapId TEXT NOT NULL PRIMARY KEY,
+    timestamp INTEGER NOT NULL,
+    swapState INTEGER NOT NULL,
+    isRead INTEGER AS Boolean NOT NULL DEFAULT 0,
+
+    makeId TEXT NOT NULL,
+    takeId TEXT,
+
+    -- Address IDs
+    takerRefundAddressId TEXT,
+    makerRefundAddressId TEXT,
     takerRedeemAddressId TEXT,
-    makerRedeemAddress TEXT NOT NULL,
     makerRedeemAddressId TEXT,
-    
-    -- Secret
+
+    -- Secret data
     secret TEXT,
     secretHash TEXT NOT NULL,
-    
-    -- Time
+
+    -- Refund times
     takerRefundTime INTEGER NOT NULL,
     makerRefundTime INTEGER NOT NULL,
     takerSafeTxTime INTEGER,
     makerSafeTxTime INTEGER,
-    
-    -- Transactions
+
+    -- Transaction hashes
     takerSafeTx TEXT,
     makerSafeTx TEXT,
     takerRedeemTx TEXT,
     makerRedeemTx TEXT,
     takerRefundTx TEXT,
     makerRefundTx TEXT,
-    
-    -- Amounts (stored as TEXT to preserve precision)
+
+    -- Amounts
     takerSafeAmount TEXT NOT NULL,
     makerSafeAmount TEXT NOT NULL,
-    makerExactAmount TEXT NOT NULL,
-    takerExactAmount TEXT NOT NULL,
-    makerStartAmount TEXT NOT NULL,
-    takerStartAmount TEXT NOT NULL,
-    makerFinalAmount TEXT NOT NULL,
-    takerFinalAmount TEXT NOT NULL
+
+    FOREIGN KEY (makeId) REFERENCES MakeEntity(makeId) ON DELETE CASCADE
 );
 
--- Queries
 selectAll:
 SELECT * FROM SwapEntity ORDER BY timestamp DESC;
 
-selectById:
+selectByIdFull:
 SELECT * FROM SwapEntity WHERE swapId = ?;
 
+selectMakeById:
+SELECT * FROM MakeEntity WHERE makeId = ?;
+
+selectTakesByMakeId:
+SELECT * FROM TakeEntity WHERE makeId = ?;
+
+selectTakeById:
+SELECT * FROM TakeEntity WHERE takeId = ?;
+
 insert:
-INSERT OR REPLACE INTO SwapEntity VALUES ?;
+INSERT OR REPLACE INTO SwapEntity (
+    swapId, timestamp, swapState, isRead,
+    makeId, takeId,
+    takerRefundAddressId, makerRefundAddressId, takerRedeemAddressId, makerRedeemAddressId,
+    secret, secretHash,
+    takerRefundTime, makerRefundTime, takerSafeTxTime, makerSafeTxTime,
+    takerSafeTx, makerSafeTx, takerRedeemTx, makerRedeemTx, takerRefundTx, makerRefundTx,
+    takerSafeAmount, makerSafeAmount
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
-deleteAll:
-DELETE FROM SwapEntity;
+insertMake:
+INSERT OR REPLACE INTO MakeEntity (
+    makeId, makerId, makerRefundAddress, makerRedeemAddress,
+    makerExactAmount, takerExactAmount, makerStartAmount, takerStartAmount,
+    makerTokenCoinId, makerTokenCoinSymbol, makerTokenCoinName, makerTokenCoinIconUrl,
+    makerTokenContractAddress, makerTokenBlockchain, makerTokenDecimal,
+    takerTokenCoinId, takerTokenCoinSymbol, takerTokenCoinName, takerTokenCoinIconUrl,
+    takerTokenContractAddress, takerTokenBlockchain, takerTokenDecimal
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
-deleteHistory:
-DELETE FROM SwapEntity WHERE swapState IN ('RESPONDER_REDEEMED', 'REFUNDED');
+insertTake:
+INSERT OR REPLACE INTO TakeEntity (
+    takeId, takerId, takerRefundAddress, takerRedeemAddress,
+    makerFinalAmount, takerFinalAmount, makeId
+) VALUES (?, ?, ?, ?, ?, ?, ?);
 
 deleteById:
 DELETE FROM SwapEntity WHERE swapId = ?;
+
+deleteHistory:
+DELETE FROM SwapEntity;

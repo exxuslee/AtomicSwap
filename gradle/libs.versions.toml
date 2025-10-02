@@ -25,6 +25,7 @@ navigation = "2.9.5"
 firebaseMessaging = "25.0.1"
 timber = "5.0.1"
 gson = "2.13.2"
+kotlinx-serialization = "1.9.0"
 
 [libraries]
 reown-bom = { group = "com.reown", name = "android-bom", version.ref = "reown-bom" }
@@ -66,6 +67,7 @@ sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", ver
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -86,3 +88,4 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
