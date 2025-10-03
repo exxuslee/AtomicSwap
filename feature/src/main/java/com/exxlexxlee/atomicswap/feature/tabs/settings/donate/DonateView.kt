@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.feature.tabs.settings.donate
 
 import android.content.ClipData
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -48,6 +50,8 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.TopAppBar
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
+import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.DonateChainItem
+import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.DonateTickerItem
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.ViewState
 import com.reown.android.internal.common.scope
@@ -85,10 +89,10 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             )
             VSpacer(24.dp)
             CellUniversalSection(
-                viewState.donates.mapIndexed { index, donat ->
+                viewState.donates.map { donat ->
                     {
                         HsRow(
-                            iconRes = R.drawable.outline_database_off_24,
+                            iconRes = donat.icon,
                             titleContent = {
                                 Column(
                                     modifier = Modifier.padding(horizontal = 12.dp)
@@ -107,9 +111,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                                 }
                             },
                             onClick = {
-                                eventHandler.invoke(Event.OnTokenSelected(index))
+                                eventHandler.invoke(Event.OnChainSelected(donat))
                             },
-                            onSelect = index == viewState.selectedChain,
+                            onSelect = donat == viewState.selectedChain,
                             arrowRight = false,
                         ) {
                             HsIconButton({
@@ -120,6 +124,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                                         )
                                     )
                                 }
+                                eventHandler.invoke(Event.AddressCopied)
                             }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.outline_content_copy_24),
@@ -130,13 +135,14 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                     }
                 }
             )
-
             VSpacer(24.dp)
+
             DonationTickerSelector(
-                items = viewState.availableTicker,
+                items = viewState.tickers,
                 selectedAmount = viewState.selectedTicker,
-                onAmountSelected = { pos -> eventHandler(Event.OnTickerSelected(pos)) }
+                onItemSelected = { item -> eventHandler(Event.OnTickerSelected(item)) }
             )
+            VSpacer(12.dp)
         }
 
         Row(
@@ -156,7 +162,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                         append(viewState.selectedAmount.toString().padStart(6))
                     }
                     append(" ")
-                    append(stringResource(R.string.donate_currency_usdt))
+                    withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
+                        append(viewState.selectedTicker.label.padStart(4))
+                    }
                 },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
@@ -167,7 +175,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 
         VSpacer(12.dp)
         TextButton(
-            onClick = {},
+            onClick = {
+                eventHandler.invoke(Event.AddressCopied)
+            },
             colors = ButtonDefaults.textButtonColors(
                 containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentColor = MaterialTheme.colorScheme.onPrimary
@@ -195,9 +205,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 
 @Composable
 private fun DonationTickerSelector(
-    items: List<Pair<Int, Int>>,
-    selectedAmount: Int,
-    onAmountSelected: (Int) -> Unit,
+    items: List<DonateTickerItem>,
+    selectedAmount: DonateTickerItem,
+    onItemSelected: (DonateTickerItem) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -205,12 +215,12 @@ private fun DonationTickerSelector(
             .padding(horizontal = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items.forEach { amount ->
+        items.forEach { item ->
             DonateTickerButton(
-                amount = amount.second,
-                iconId = amount.first,
-                isSelected = amount.second == selectedAmount,
-                onClick = { onAmountSelected(amount.second) },
+                label = item.label,
+                iconId = item.icon,
+                isSelected = selectedAmount == item,
+                onClick = { onItemSelected(item) },
                 modifier = Modifier.weight(1f)
             )
         }
@@ -275,14 +285,15 @@ private fun DonateAmountButton(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(4.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    painterResource(id = iconId),
+                    modifier = Modifier.size(36.dp),
+                    painter = painterResource(id = iconId),
                     contentDescription = amount.toString()
                 )
             }
@@ -292,7 +303,7 @@ private fun DonateAmountButton(
 
 @Composable
 private fun DonateTickerButton(
-    amount: Int,
+    label: String,
     @DrawableRes iconId: Int,
     isSelected: Boolean,
     onClick: () -> Unit,
@@ -330,9 +341,10 @@ private fun DonateTickerButton(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    painterResource(id = iconId),
-                    contentDescription = amount.toString()
+                Image(
+                    painter = painterResource(id = iconId),
+                    modifier = Modifier.size(36.dp),
+                    contentDescription = label
                 )
             }
         }
@@ -344,7 +356,12 @@ private fun DonateTickerButton(
 fun DonateView_Preview() {
     AppTheme {
         DonateView(
-            viewState = ViewState(listOf()),
+            viewState = ViewState(
+                donates = DonateChainItem.chains(),
+                tickers = DonateTickerItem.btcList(),
+                selectedTicker = DonateTickerItem.Bitcoin,
+                selectedChain = DonateChainItem.Bitcoin,
+            ),
             eventHandler = {}
         )
     }
