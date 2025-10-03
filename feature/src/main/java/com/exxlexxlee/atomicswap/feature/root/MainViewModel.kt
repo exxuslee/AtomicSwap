@@ -36,6 +36,13 @@ class MainViewModel(
                 viewState = viewState.copy(selectedChronicleTab = it)
             }
         }
+        viewModelScope.launch {
+            swapUseCase.mainBadgeType.collect {
+                viewState = viewState.copy(
+                    chronicleRoute = Routes.ChronicleRoute.MainRoute(it)
+                )
+            }
+        }
     }
 
     override fun obtainEvent(viewEvent: Event) {

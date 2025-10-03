@@ -3,8 +3,6 @@ package com.exxlexxlee.atomicswap.feature.tabs.chronicle.main
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.domain.model.Swap
-import com.exxlexxlee.atomicswap.domain.model.SwapState
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.Action
@@ -22,7 +20,11 @@ class ChronicleViewModel(
 ) {
 
     init {
-        viewState = viewState.copy(badeType = swapUseCase.filterBadgeType())
+        viewModelScope.launch {
+            swapUseCase.filterBadgeType.collect {
+                viewState = viewState.copy(badgeType = it)
+            }
+        }
     }
 
     override fun obtainEvent(viewEvent: Event) {

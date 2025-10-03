@@ -13,7 +13,9 @@ interface SwapUseCase {
 
     fun swaps(filter: FilterStateChronicle): Flow<List<Swap>>
 
+    val filterBadgeType: Flow<Map<FilterStateChronicle, Int?>>
     fun filterBadgeType(): Map<FilterStateChronicle, Int?>
+    val mainBadgeType: Flow<Int?>
     fun mainBadgeType(): Int?
 
     class Base(
@@ -29,6 +31,9 @@ interface SwapUseCase {
             swapRepository.swaps.map { list ->
                 list.filter { it.swapState in filter.relatedStates }
             }
+
+        override val filterBadgeType: Flow<Map<FilterStateChronicle, Int?>> =
+            swapRepository.swaps.map { filterBadgeType() }
 
         override fun filterBadgeType(): Map<FilterStateChronicle, Int?> {
             val all = swapRepository.swapsAll()
@@ -49,6 +54,7 @@ interface SwapUseCase {
             )
         }
 
+        override val mainBadgeType: Flow<Int?> = swapRepository.swaps.map { mainBadgeType() }
         override fun mainBadgeType(): Int? {
             return swapRepository.swapsAll()
                 .filter { it.swapState in FilterStateChronicle.Active.relatedStates }.size
