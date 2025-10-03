@@ -311,7 +311,7 @@ private fun DonateTickerButton(
 ) {
     Card(
         modifier = modifier
-            .clickable { onClick() }
+            .clickable(onClick = onClick)
             .then(
                 if (isSelected) {
                     Modifier.border(

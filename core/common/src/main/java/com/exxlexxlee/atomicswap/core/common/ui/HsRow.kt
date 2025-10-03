@@ -40,7 +40,6 @@ fun HsRow(
             modifier = Modifier.size(30.dp),
             painter = painterResource(id = iconRes),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.outlineVariant),
         )
 
         Box(
