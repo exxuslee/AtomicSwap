@@ -1,5 +1,11 @@
 package com.exxlexxlee.atomicswap.feature.tabs.chronicle.main
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +37,7 @@ import androidx.compose.material3.TabRowDefaults.PrimaryIndicator
 import androidx.compose.material3.TabRowDefaults.primaryContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +53,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
+import com.exxlexxlee.atomicswap.core.common.navigation.TabAnimation
 import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
@@ -72,7 +80,7 @@ fun ChronicleView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
-    val navController = rememberNavController()
+
     Column {
         PrimaryTabRow(
             selectedTabIndex = viewState.selectedTab.pos,
@@ -93,17 +101,7 @@ fun ChronicleView(
                     selected = viewState.selectedTab == filterState,
                     onClick = {
                         eventHandler(Event.SelectTab(filterState))
-                        val tab = when (filterState) {
-                            FilterStateChronicle.Active -> Routes.ChronicleRoute.ActiveRoute.route
-                            FilterStateChronicle.Complete -> Routes.ChronicleRoute.CompleteRoute.route
-                            FilterStateChronicle.MyMake -> Routes.ChronicleRoute.MyMakeRoute.route
-                            FilterStateChronicle.Refund -> Routes.ChronicleRoute.RefundRoute.route
-                        }
-                        navController.navigate(tab) {
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                              },
+                    },
                     icon = {
                         BadgedIcon(
                             badge = BadgeType.BadgeNumber(3)
@@ -119,22 +117,19 @@ fun ChronicleView(
             }
         }
 
-        NavHost(
-            navController = navController,
-            startDestination = Routes.ChronicleRoute.MyMakeRoute.route,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            animatedComposable(Routes.ChronicleRoute.MyMakeRoute.route) {
-                MyMakeChronicleScreen()
-            }
-            animatedComposable(Routes.ChronicleRoute.ActiveRoute.route) {
-                ActiveChronicleScreen()
-            }
-            animatedComposable(Routes.ChronicleRoute.CompleteRoute.route) {
-                ConfirmedChronicleScreen()
-            }
-            animatedComposable(Routes.ChronicleRoute.RefundRoute.route) {
-                RefundedChronicleScreen()
+        AnimatedContent(
+            targetState = viewState.selectedTab,
+            transitionSpec = {
+                TabAnimation.enterTransition(initialState.pos, targetState.pos) togetherWith
+                        TabAnimation.exitTransition(initialState.pos, targetState.pos)
+            },
+            label = "ChronicleTabTransition"
+        ) { tab ->
+            when (tab) {
+                FilterStateChronicle.MyMake -> MyMakeChronicleScreen()
+                FilterStateChronicle.Active -> ActiveChronicleScreen()
+                FilterStateChronicle.Complete -> ConfirmedChronicleScreen()
+                FilterStateChronicle.Refund -> RefundedChronicleScreen()
             }
         }
     }
