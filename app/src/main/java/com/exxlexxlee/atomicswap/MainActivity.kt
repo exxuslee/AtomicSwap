@@ -16,6 +16,7 @@ import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.domain.usecases.ThemeController
 import com.exxlexxlee.atomicswap.core.common.ui.rememberDoubleBackPressHandler
 import com.exxlexxlee.atomicswap.feature.root.MainContent
+import com.exxlexxlee.atomicswap.service.ServiceManager
 import com.reown.appkit.ui.AppKitTheme
 import org.koin.compose.koinInject
 
@@ -43,6 +44,10 @@ class MainActivity : ComponentActivity() {
         }
 
         enableEdgeToEdge()
+        
+        // Запускаем BackgroundService при старте приложения
+        ServiceManager.startBackgroundService(this)
+        
         setContent {
             val themeController: ThemeController = koinInject()
             val isDark by themeController.isDark.collectAsState()

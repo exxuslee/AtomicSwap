@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.exxlexxlee.atomicswap.R
+import com.exxlexxlee.atomicswap.service.ServiceManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -29,6 +30,10 @@ class PushMessagingService : FirebaseMessagingService() {
         val title =
             message.notification?.title ?: message.data["title"] ?: getString(R.string.app_name)
         val body = message.notification?.body ?: message.data["body"] ?: ""
+        
+        // Запускаем BackgroundService при получении push-уведомления
+        ServiceManager.handlePushNotification(this, title, body)
+        
         showNotification(title, body)
     }
 
