@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import com.exxlexxlee.atomicswap.feature.R
 
 @Composable
-fun ActiveChronicleScreen() {
+	fun ActiveChronicleScreen() {
 	Column(
 		modifier = Modifier.fillMaxSize(),
 		verticalArrangement = Arrangement.Center,

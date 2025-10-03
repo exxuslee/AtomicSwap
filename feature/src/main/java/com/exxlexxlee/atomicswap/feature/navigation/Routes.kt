@@ -24,7 +24,10 @@ sealed class Routes(
             icon = R.drawable.outline_chronic_24
         ) {
         data class MainRoute(override val badge: Int? = null) : ChronicleRoute("main")
-
+        data object MyMakeRoute : ChronicleRoute("myMake")
+        data object ActiveRoute : ChronicleRoute("active")
+        data object CompleteRoute : ChronicleRoute("complete")
+        data object RefundRoute : ChronicleRoute("refund")
         data object SwapRoute : ChronicleRoute("swap/{swapId}") {
             fun createRoute(swapId: String) = "chronicle/swap/$swapId"
         }

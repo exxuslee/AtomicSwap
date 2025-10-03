@@ -5,7 +5,7 @@ import com.exxlexxlee.atomicswap.domain.model.Swap
 
 
 data class ViewState(
-    val selectedTab: FilterStateChronicle = FilterStateChronicle.ACTIVE,
+    val selectedTab: FilterStateChronicle = FilterStateChronicle.Active,
     val allSwaps: List<Swap> = emptyList(),
     val filteredSwaps: List<Swap> = emptyList(),
     val isLoading: Boolean = false,

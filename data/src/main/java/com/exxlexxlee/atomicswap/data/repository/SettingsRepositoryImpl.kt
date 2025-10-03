@@ -51,11 +51,11 @@ class SettingsRepositoryImpl(
 
     override fun selectedFilterStateChronicle(): FilterStateChronicle {
         val pos = prefs.getInt("filterStateChronicle", 1)
-        return FilterStateChronicle.entries[pos]
+        return FilterStateChronicle.fromPos(pos)
     }
 
     override fun selectedFilterStateChronicle(filterStateChronicle: FilterStateChronicle) {
         _selectedFilterStateChronicle.value = filterStateChronicle
-        prefs.edit { putInt("filterStateChronicle", filterStateChronicle.ordinal) }
+        prefs.edit { putInt("filterStateChronicle", filterStateChronicle.pos) }
     }
 }

@@ -56,8 +56,8 @@ class ChronicleViewModel(
 
     private fun filterSwaps(swaps: List<Swap>, filterState: FilterStateChronicle): List<Swap> {
         return when (filterState) {
-            FilterStateChronicle.MAKE -> swaps
-            FilterStateChronicle.ACTIVE -> swaps.filter { swap ->
+            FilterStateChronicle.MyMake -> swaps
+            FilterStateChronicle.Active -> swaps.filter { swap ->
                 swap.swapState in listOf(
                     SwapState.REQUESTED,
                     SwapState.RESPONDED,
@@ -65,13 +65,13 @@ class ChronicleViewModel(
                     SwapState.RESPONDER_BAILED
                 )
             }
-            FilterStateChronicle.COMPLETE -> swaps.filter { swap ->
+            FilterStateChronicle.Complete -> swaps.filter { swap ->
                 swap.swapState in listOf(
                     SwapState.INITIATOR_REDEEMED,
                     SwapState.RESPONDER_REDEEMED
                 )
             }
-            FilterStateChronicle.REFUND -> swaps.filter { swap ->
+            FilterStateChronicle.Refund -> swaps.filter { swap ->
                 swap.swapState == SwapState.REFUNDED
             }
         }

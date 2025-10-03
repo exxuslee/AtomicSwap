@@ -31,6 +31,7 @@ import androidx.compose.material3.TabRowDefaults.PrimaryIndicator
 import androidx.compose.material3.TabRowDefaults.primaryContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,8 +42,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
+import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
@@ -54,6 +58,10 @@ import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.ViewState
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.MyMakeChronicleScreen
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveChronicleScreen
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.confirmed.ConfirmedChronicleScreen
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.refunded.RefundedChronicleScreen
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -64,25 +72,38 @@ fun ChronicleView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
+    val navController = rememberNavController()
     Column {
         PrimaryTabRow(
-            selectedTabIndex = viewState.selectedTab.ordinal,
+            selectedTabIndex = viewState.selectedTab.pos,
             indicator = {
                 PrimaryIndicator(
                     color = primaryContentColor,
                     modifier = Modifier
                         .tabIndicatorOffset(
-                            viewState.selectedTab.ordinal,
+                            viewState.selectedTab.pos,
                             matchContentSize = false
                         ),
                     width = Dp.Unspecified,
                 )
             },
         ) {
-            FilterStateChronicle.entries.forEach { filterState ->
+            FilterStateChronicle.values.forEach { filterState ->
                 Tab(
                     selected = viewState.selectedTab == filterState,
-                    onClick = { eventHandler(Event.SelectTab(filterState)) },
+                    onClick = {
+                        eventHandler(Event.SelectTab(filterState))
+                        val tab = when (filterState) {
+                            FilterStateChronicle.Active -> Routes.ChronicleRoute.ActiveRoute.route
+                            FilterStateChronicle.Complete -> Routes.ChronicleRoute.CompleteRoute.route
+                            FilterStateChronicle.MyMake -> Routes.ChronicleRoute.MyMakeRoute.route
+                            FilterStateChronicle.Refund -> Routes.ChronicleRoute.RefundRoute.route
+                        }
+                        navController.navigate(tab) {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                              },
                     icon = {
                         BadgedIcon(
                             badge = BadgeType.BadgeNumber(3)
@@ -90,49 +111,30 @@ fun ChronicleView(
                             Icon(
                                 modifier = Modifier.padding(horizontal = 4.dp),
                                 painter = painterResource(filterState.icon),
-                                contentDescription = filterState.name
+                                contentDescription = filterState.pos.toString()
                             )
                         }
                     },
                 )
             }
         }
-        val navController = LocalNavController.current
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
+
+        NavHost(
+            navController = navController,
+            startDestination = Routes.ChronicleRoute.MyMakeRoute.route,
+            modifier = Modifier.fillMaxSize()
         ) {
-            if (viewState.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else if (viewState.filteredSwaps.isEmpty()) {
-                ListEmptyView(
-                    text = stringResource(
-                        when (viewState.selectedTab) {
-                            FilterStateChronicle.MAKE -> R.string.make_empty_list
-                            FilterStateChronicle.ACTIVE -> R.string.active_empty_list
-                            FilterStateChronicle.COMPLETE -> R.string.complete_empty_list
-                            FilterStateChronicle.REFUND -> R.string.refund_empty_list
-                        }
-                    ),
-                    icon = R.drawable.outline_empty_dashboard_24
-                )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(viewState.filteredSwaps) { swap ->
-                        SwapItem(
-                            swap = swap,
-                            onClick = {
-                                navController.navigate(Routes.ChronicleRoute.SwapRoute.createRoute(swap.swapId))
-                            }
-                        )
-                    }
-                }
+            animatedComposable(Routes.ChronicleRoute.MyMakeRoute.route) {
+                MyMakeChronicleScreen()
+            }
+            animatedComposable(Routes.ChronicleRoute.ActiveRoute.route) {
+                ActiveChronicleScreen()
+            }
+            animatedComposable(Routes.ChronicleRoute.CompleteRoute.route) {
+                ConfirmedChronicleScreen()
+            }
+            animatedComposable(Routes.ChronicleRoute.RefundRoute.route) {
+                RefundedChronicleScreen()
             }
         }
     }
