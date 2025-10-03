@@ -48,10 +48,12 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.TopAppBar
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
+import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.DonateViewItem
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.ViewState
 import com.reown.android.internal.common.scope
 import kotlinx.coroutines.launch
+import kotlin.collections.List
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +66,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(stringResource(id = R.string.donate)) { navController.popBackStack()}
+        TopAppBar(stringResource(id = R.string.donate)) { navController.popBackStack() }
 
         val clipboard = LocalClipboard.current
         val scrollState = rememberScrollState()
@@ -77,37 +79,12 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            DonationAmountSelector(
+            DonationSelector(
                 selectedAmount = viewState.selectedAmount,
                 availableAmounts = viewState.availableAmounts,
                 onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = stringResource(R.string.donate_selected_prefix),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
-                            append(viewState.selectedAmount.toString().padStart(6))
-                        }
-                        append(" ")
-                        append(stringResource(R.string.donate_currency_usdt))
-                    },
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.End
-                )
-            }
-
+            VSpacer(24.dp)
             CellUniversalSection(
                 viewState.donates.mapIndexed { index, donat ->
                     {
@@ -133,7 +110,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                             onClick = {
                                 eventHandler.invoke(Event.OnTokenSelected(index))
                             },
-                            onSelect = index == viewState.selectedToken,
+                            onSelect = index == viewState.selectedChain,
                             arrowRight = false,
                         ) {
                             HsIconButton({
@@ -154,9 +131,42 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                     }
                 }
             )
+
+            VSpacer(24.dp)
+            DonationSelector(
+                availableAmounts = viewState.availableTicker,
+                selectedAmount = viewState.selectedTicker,
+                onAmountSelected = { pos -> eventHandler(Event.OnTickerSelected(pos)) }
+            )
         }
 
-        VSpacer(24.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(
+                text = stringResource(R.string.donate_selected_prefix),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
+                        append(viewState.selectedAmount.toString().padStart(6))
+                    }
+                    append(" ")
+                    append(stringResource(R.string.donate_currency_usdt))
+                },
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.End
+            )
+        }
+
+        VSpacer(12.dp)
         TextButton(
             onClick = {},
             colors = ButtonDefaults.textButtonColors(
@@ -185,7 +195,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 }
 
 @Composable
-private fun DonationAmountSelector(
+private fun DonationSelector(
     availableAmounts: List<Pair<Int, Int>>,
     selectedAmount: Int,
     onAmountSelected: (Int) -> Unit,
@@ -262,7 +272,7 @@ private fun DonateAmountButton(
 fun DonateView_Preview() {
     AppTheme {
         DonateView(
-            viewState = ViewState(),
+            viewState = ViewState(listOf()),
             eventHandler = {}
         )
     }
