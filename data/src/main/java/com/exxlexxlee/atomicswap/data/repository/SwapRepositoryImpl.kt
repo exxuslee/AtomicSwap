@@ -43,7 +43,7 @@ class SwapRepositoryImpl(
 		queries.deleteHistory()
 	}
 
-	override fun swaps(): List<Swap> =
+	override fun swapsAll(): List<Swap> =
 		queries.selectAll().executeAsList().map { swapEntity ->
 			val makeEntity = queries.selectMakeById(swapEntity.makeId).executeAsOne()
 			val takeEntities = queries.selectTakesByMakeId(swapEntity.makeId).executeAsList()

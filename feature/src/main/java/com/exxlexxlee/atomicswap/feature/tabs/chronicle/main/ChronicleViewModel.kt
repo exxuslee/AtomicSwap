@@ -21,10 +21,6 @@ class ChronicleViewModel(
     )
 ) {
 
-    init {
-        loadSwaps()
-    }
-
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
             is Event.SelectTab -> {
@@ -33,47 +29,11 @@ class ChronicleViewModel(
         }
     }
 
-    private fun loadSwaps() {
-        viewModelScope.launch {
-            viewState = viewState.copy(isLoading = true)
-            swapUseCase.swapsFlow.collect { swaps ->
-                viewState = viewState.copy(
-                    allSwaps = swaps,
-                    filteredSwaps = filterSwaps(swaps, viewState.selectedTab),
-                    isLoading = false
-                )
-            }
-        }
-    }
-
     private fun selectTab(filterState: FilterStateChronicle) {
         viewState = viewState.copy(
             selectedTab = filterState,
-            filteredSwaps = filterSwaps(viewState.allSwaps, filterState)
         )
         settingsUseCase.selectedFilterStateChronicle(filterState)
     }
 
-    private fun filterSwaps(swaps: List<Swap>, filterState: FilterStateChronicle): List<Swap> {
-        return when (filterState) {
-            FilterStateChronicle.MyMake -> swaps
-            FilterStateChronicle.Active -> swaps.filter { swap ->
-                swap.swapState in listOf(
-                    SwapState.REQUESTED,
-                    SwapState.RESPONDED,
-                    SwapState.INITIATOR_BAILED,
-                    SwapState.RESPONDER_BAILED
-                )
-            }
-            FilterStateChronicle.Complete -> swaps.filter { swap ->
-                swap.swapState in listOf(
-                    SwapState.INITIATOR_REDEEMED,
-                    SwapState.RESPONDER_REDEEMED
-                )
-            }
-            FilterStateChronicle.Refund -> swaps.filter { swap ->
-                swap.swapState == SwapState.REFUNDED
-            }
-        }
-    }
 }

@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.refunded.models
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.models
 
 import com.exxlexxlee.atomicswap.domain.model.Swap
 

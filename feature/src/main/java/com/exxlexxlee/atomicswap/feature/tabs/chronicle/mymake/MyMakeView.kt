@@ -1,18 +1,25 @@
 package com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
+import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
+import com.exxlexxlee.atomicswap.feature.R
+import com.exxlexxlee.atomicswap.feature.common.SwapViewItem
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.models.ViewState
 
@@ -22,16 +29,35 @@ fun MyMakeView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     val navController = LocalNavController.current
 
-    Column(
-        modifier = Modifier.verticalScroll(scrollState)
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Spacer(Modifier.height(12.dp))
-        Text(viewState.asd)
-        Spacer(Modifier.height(24.dp))
+        if (viewState.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        } else if (viewState.swaps.isEmpty()) {
+            ListEmptyView(
+                text = stringResource(R.string.make_empty_list),
+                icon = R.drawable.outline_empty_dashboard_24
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(viewState.swaps) { swap ->
+                    SwapViewItem(swap = swap) {
+                        navController.navigate(Routes.ChronicleRoute.SwapRoute.createRoute(swap.swapId))
+                    }
+                }
+            }
+        }
     }
+
 }
 
 

@@ -83,7 +83,7 @@ internal fun SwapEntity.toDomain(
         make = make,
         swapId = swapId,
         timestamp = timestamp,
-        swapState = SwapState.entries.first { it.value == swapState.toInt() },
+        swapState = SwapState.fromValue(swapState.toInt()),
         takerRefundAddressId = takerRefundAddressId,
         makerRefundAddressId = makerRefundAddressId,
         takerRedeemAddressId = takerRedeemAddressId,
@@ -110,7 +110,7 @@ internal fun Swap.toEntity(): SwapEntity {
     return SwapEntity(
         swapId = swapId,
         timestamp = timestamp,
-        swapState = swapState.value.toLong(),
+        swapState = swapState.step.toLong(),
         isRead = isRead,
         makeId = make.makeId,
         takeId = takeId,

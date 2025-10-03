@@ -1,19 +1,13 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.active
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +20,12 @@ import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.common.SwapViewItem
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.models.Event
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.models.ViewState
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.models.Event
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.models.ViewState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ActiveView(
+fun CompleteView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
@@ -46,7 +40,7 @@ fun ActiveView(
             )
         } else if (viewState.swaps.isEmpty()) {
             ListEmptyView(
-                text = stringResource(R.string.active_empty_list),
+                text = stringResource(R.string.complete_empty_list),
                 icon = R.drawable.outline_empty_dashboard_24
             )
         } else {
@@ -68,11 +62,13 @@ fun ActiveView(
 
 @Preview
 @Composable
-fun ActiveView_Preview() {
+fun ConfirmedView_Preview() {
     AppTheme {
-        ActiveView(
+        CompleteView(
             viewState = ViewState(),
             eventHandler = {},
         )
     }
 }
+
+

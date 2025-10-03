@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.confirmed
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -7,11 +7,11 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ConfirmedChronicleScreen(
-    viewModel: ConfirmedViewModel = koinViewModel(),
+    viewModel: CompleteViewModel = koinViewModel(),
 ) {
     val viewState by viewModel.viewStates().collectAsState()
 
-    ConfirmedView(viewState) {
+    CompleteView(viewState) {
         viewModel.obtainEvent(it)
     }
 

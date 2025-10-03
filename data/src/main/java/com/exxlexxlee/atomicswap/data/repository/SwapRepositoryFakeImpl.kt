@@ -22,13 +22,13 @@ class SwapRepositoryFakeImpl : SwapRepository {
 
     override fun deleteAllHistory() {
         swapStorage.entries.removeIf {
-            it.value.swapState == SwapState.RESPONDER_REDEEMED ||
-                    it.value.swapState == SwapState.REFUNDED
+            it.value.swapState == SwapState.ResponderRedeemed ||
+                    it.value.swapState == SwapState.Refunded
         }
         updateFlow()
     }
 
-    override fun swaps(): List<Swap> {
+    override fun swapsAll(): List<Swap> {
         return swapStorage.values
             .sortedByDescending { it.timestamp }
             .toList()
@@ -54,7 +54,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
     }
 
     private fun updateFlow() {
-        _swaps.update { swaps() }
+        _swaps.update { swapsAll() }
     }
 
     private fun addFakeSwaps() {
@@ -63,7 +63,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-1",
                 makeId = "make-1",
                 takeId = "take-1",
-                state = SwapState.RESPONDER_REDEEMED,
+                state = SwapState.ResponderRedeemed,
                 timestamp = System.currentTimeMillis() - 86400000, // 1 day ago
                 takerTokenSymbol = "BTC",
                 makerTokenSymbol = "ETH"
@@ -72,7 +72,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-2",
                 makeId = "make-2",
                 takeId = "take-2",
-                state = SwapState.REQUESTED,
+                state = SwapState.Requested,
                 timestamp = System.currentTimeMillis() - 3600000, // 1 hour ago
                 takerTokenSymbol = "ETH",
                 makerTokenSymbol = "BNB"
@@ -81,7 +81,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-4",
                 makeId = "make-4",
                 takeId = "take-4",
-                state = SwapState.RESPONDED,
+                state = SwapState.Responded,
                 timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
                 takerTokenSymbol = "BNB",
                 makerTokenSymbol = "ETH"
@@ -90,7 +90,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-5",
                 makeId = "make-5",
                 takeId = "take-5",
-                state = SwapState.RESPONDED,
+                state = SwapState.Responded,
                 timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
                 takerTokenSymbol = "BNB",
                 makerTokenSymbol = "ETH"
@@ -99,7 +99,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-6",
                 makeId = "make-6",
                 takeId = "take-6",
-                state = SwapState.RESPONDED,
+                state = SwapState.Responded,
                 timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
                 takerTokenSymbol = "BNB",
                 makerTokenSymbol = "ETH"
@@ -108,7 +108,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-7",
                 makeId = "make-7",
                 takeId = "take-7",
-                state = SwapState.RESPONDED,
+                state = SwapState.Responded,
                 timestamp = System.currentTimeMillis() - 7200000, // 2 hours ago
                 takerTokenSymbol = "BNB",
                 makerTokenSymbol = "ETH"
@@ -117,7 +117,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 swapId = "swap-8",
                 makeId = "make-8",
                 takeId = "take-8",
-                state = SwapState.REQUESTED,
+                state = SwapState.Requested,
                 timestamp = System.currentTimeMillis() - 3600000, // 1 hour ago
                 takerTokenSymbol = "ETH",
                 makerTokenSymbol = "BNB"
@@ -175,18 +175,18 @@ class SwapRepositoryFakeImpl : SwapRepository {
             takerRedeemAddressId = "taker-redeem-id",
             makerRedeemAddressId = "maker-redeem-id",
             isRead = Random.nextBoolean(),
-            secret = if (state == SwapState.RESPONDER_REDEEMED) "secret-value" else null,
+            secret = if (state == SwapState.ResponderRedeemed) "secret-value" else null,
             secretHash = "secret-hash-${swapId}",
             takerRefundTime = 3600,
             makerRefundTime = 7200,
-            takerSafeTxTime = if (state != SwapState.REQUESTED) timestamp else null,
-            makerSafeTxTime = if (state >= SwapState.RESPONDED) timestamp else null,
-            takerSafeTx = if (state != SwapState.REQUESTED) "taker-safe-tx-${swapId}" else null,
-            makerSafeTx = if (state >= SwapState.RESPONDED) "maker-safe-tx-${swapId}" else null,
-            takerRedeemTx = if (state == SwapState.RESPONDER_REDEEMED) "taker-redeem-tx" else null,
-            makerRedeemTx = if (state == SwapState.RESPONDER_REDEEMED) "maker-redeem-tx" else null,
-            takerRefundTx = if (state == SwapState.REFUNDED) "taker-refund-tx" else null,
-            makerRefundTx = if (state == SwapState.REFUNDED) "maker-refund-tx" else null,
+            takerSafeTxTime = if (state != SwapState.Requested) timestamp else null,
+            makerSafeTxTime = if (state.step >= SwapState.Responded.step) timestamp else null,
+            takerSafeTx = if (state != SwapState.Requested) "taker-safe-tx-${swapId}" else null,
+            makerSafeTx = if (state.step >= SwapState.Responded.step) "maker-safe-tx-${swapId}" else null,
+            takerRedeemTx = if (state == SwapState.ResponderRedeemed) "taker-redeem-tx" else null,
+            makerRedeemTx = if (state == SwapState.ResponderRedeemed) "maker-redeem-tx" else null,
+            takerRefundTx = if (state == SwapState.Refunded) "taker-refund-tx" else null,
+            makerRefundTx = if (state == SwapState.Refunded) "maker-refund-tx" else null,
             takerSafeAmount = BigDecimal("1.5"),
             makerSafeAmount = BigDecimal("10.0")
         )

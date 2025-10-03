@@ -1,11 +1,28 @@
 package com.exxlexxlee.atomicswap.domain.model
 
-enum class SwapState(val value: Int) {
-    REQUESTED(1),
-    RESPONDED(2),
-    INITIATOR_BAILED(3),
-    RESPONDER_BAILED(4),
-    INITIATOR_REDEEMED(5),
-    RESPONDER_REDEEMED(6),
-    REFUNDED(7);
+sealed class SwapState(val step: Int) {
+
+    data object Requested : SwapState(1)
+    data object Responded : SwapState(2)
+    data object InitiatorBailed : SwapState(3)
+    data object ResponderBailed : SwapState(4)
+    data object InitiatorRedeemed : SwapState(5)
+    data object ResponderRedeemed : SwapState(6)
+    data object Refunded : SwapState(7)
+
+    companion object {
+        fun fromValue(value: Int): SwapState =
+            when (value) {
+                1 -> Requested
+                2 -> Responded
+                3 -> InitiatorBailed
+                4 -> ResponderBailed
+                5 -> InitiatorRedeemed
+                6 -> ResponderRedeemed
+                7 -> Refunded
+                else -> throw IllegalArgumentException("Unknown SwapState value=$value")
+            }
+    }
+
+
 }

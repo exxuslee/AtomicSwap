@@ -5,7 +5,7 @@ import com.exxlexxlee.atomicswap.feature.common.swap.SwapViewModel
 import com.exxlexxlee.atomicswap.feature.root.MainViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleViewModel
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.confirmed.ConfirmedViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.CompleteViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.MyMakeViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.refunded.RefundedViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorViewModel
@@ -28,7 +28,7 @@ val featureModule = module {
     viewModel { SettingsViewModel(get(), get(), get(), get(), get<WalletConnectManager>()) }
     viewModel { TermsViewModel(get()) }
     viewModel { ActiveViewModel(get()) }
-    viewModel { ConfirmedViewModel(get()) }
+    viewModel { CompleteViewModel(get()) }
     viewModel { MyMakeViewModel(get()) }
     viewModel { RefundedViewModel(get()) }
 }

@@ -1,7 +1,5 @@
 package com.exxlexxlee.atomicswap.domain.model
 
-import com.exxlexxlee.atomicswap.domain.model.serrialize.BigDecimalSerializer
-import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
 data class Make(
@@ -12,9 +10,9 @@ data class Make(
     val makerRefundAddress: String,
     val makerRedeemAddress: String,
 
-val makerExactAmount: BigDecimal,
- val takerExactAmount: BigDecimal,
+    val makerExactAmount: BigDecimal,
+    val takerExactAmount: BigDecimal,
 
- val makerStartAmount: BigDecimal,
- val takerStartAmount: BigDecimal,
+    val makerStartAmount: BigDecimal,
+    val takerStartAmount: BigDecimal,
 )
