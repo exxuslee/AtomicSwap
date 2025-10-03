@@ -48,7 +48,6 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.TopAppBar
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
-import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.DonateViewItem
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.ViewState
 import com.reown.android.internal.common.scope
@@ -79,9 +78,9 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            DonationSelector(
+            DonationAmountSelector(
                 selectedAmount = viewState.selectedAmount,
-                availableAmounts = viewState.availableAmounts,
+                items = viewState.availableAmounts,
                 onAmountSelected = { amount -> eventHandler(Event.OnAmountSelected(amount)) }
             )
             VSpacer(24.dp)
@@ -133,8 +132,8 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             )
 
             VSpacer(24.dp)
-            DonationSelector(
-                availableAmounts = viewState.availableTicker,
+            DonationTickerSelector(
+                items = viewState.availableTicker,
                 selectedAmount = viewState.selectedTicker,
                 onAmountSelected = { pos -> eventHandler(Event.OnTickerSelected(pos)) }
             )
@@ -195,8 +194,8 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 }
 
 @Composable
-private fun DonationSelector(
-    availableAmounts: List<Pair<Int, Int>>,
+private fun DonationTickerSelector(
+    items: List<Pair<Int, Int>>,
     selectedAmount: Int,
     onAmountSelected: (Int) -> Unit,
 ) {
@@ -206,7 +205,31 @@ private fun DonationSelector(
             .padding(horizontal = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        availableAmounts.forEach { amount ->
+        items.forEach { amount ->
+            DonateTickerButton(
+                amount = amount.second,
+                iconId = amount.first,
+                isSelected = amount.second == selectedAmount,
+                onClick = { onAmountSelected(amount.second) },
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun DonationAmountSelector(
+    items: List<Pair<Int, Int>>,
+    selectedAmount: Int,
+    onAmountSelected: (Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items.forEach { amount ->
             DonateAmountButton(
                 amount = amount.second,
                 iconId = amount.first,
@@ -253,6 +276,55 @@ private fun DonateAmountButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    painterResource(id = iconId),
+                    contentDescription = amount.toString()
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun DonateTickerButton(
+    amount: Int,
+    @DrawableRes iconId: Int,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .clickable { onClick() }
+            .then(
+                if (isSelected) {
+                    Modifier.border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                } else {
+                    Modifier
+                }
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surface
+            }
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 4.dp else 1.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(

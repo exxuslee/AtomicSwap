@@ -17,7 +17,12 @@ class DonateViewModel(
                 R.drawable.outline_currency_bitcoin_24
             ),
             DonateViewItem(
-                "Ethereum || BSC",
+                "Ethereum",
+                "0x6F1C4B2bd0489e32AF741C405CcA696E8a95ce9C",
+                R.drawable.outline_currency_bitcoin_24
+            ),
+            DonateViewItem(
+                "BSC",
                 "0x6F1C4B2bd0489e32AF741C405CcA696E8a95ce9C",
                 R.drawable.outline_currency_bitcoin_24
             ),
