@@ -29,6 +29,7 @@ internal fun MakeEntity.toDomain(): Make {
     )
 
     val makerToken = Token(
+        id = "btc",
         coin = makeTokenCoin,
         contractAddress = makerTokenContractAddress,
         blockchain = Blockchain.valueOf(makerTokenBlockchain),
@@ -36,6 +37,7 @@ internal fun MakeEntity.toDomain(): Make {
     )
 
     val takerToken = Token(
+        id = "eth",
         coin = takerTokenCoin,
         contractAddress = takerTokenContractAddress,
         blockchain = Blockchain.valueOf(takerTokenBlockchain),

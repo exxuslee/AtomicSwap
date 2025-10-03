@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import androidx.core.content.edit
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
+import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,6 @@ class SettingsRepositoryImpl(
     override fun isDark(): Boolean {
         return prefs.getBoolean("isDark", false)
     }
-
     override fun isDark(value: Boolean) {
         prefs.edit { putBoolean("isDark", value) }
     }
@@ -25,7 +25,6 @@ class SettingsRepositoryImpl(
     override fun selectedRoute(): String {
         return prefs.getString("selectedRoute", "maker") ?: "maker"
     }
-
     override fun selectedRoute(route: String) {
         prefs.edit { putString("selectedRoute", route) }
     }
@@ -33,27 +32,26 @@ class SettingsRepositoryImpl(
     override fun isTermsOfUseRead(): Boolean {
         return prefs.getBoolean("isTermsOfUseRead", false)
     }
-
     override fun isTermsOfUseRead(ok: Boolean) {
         prefs.edit { putBoolean("isTermsOfUseRead", ok) }
     }
 
-    override fun selectedAggregator(): String {
-        return prefs.getString("selectedAggregator", "") ?: ""
+    private val _selectedAggregator = MutableStateFlow(selectedAggregator())
+    override val selectedAggregator: StateFlow<SupportedAggregators> = _selectedAggregator
+    override fun selectedAggregator(): SupportedAggregators {
+        val label = prefs.getString("selectedAggregator", "") ?: ""
+        return SupportedAggregators.fromLabel(label)
     }
-
     override fun selectedAggregator(label: String) {
         prefs.edit { putString("selectedAggregator", label) }
     }
 
     private val _selectedFilterStateChronicle = MutableStateFlow(selectedFilterStateChronicle())
     override val selectedFilterStateChronicle: StateFlow<FilterStateChronicle> = _selectedFilterStateChronicle
-
     override fun selectedFilterStateChronicle(): FilterStateChronicle {
         val pos = prefs.getInt("filterStateChronicle", 1)
         return FilterStateChronicle.fromPos(pos)
     }
-
     override fun selectedFilterStateChronicle(filterStateChronicle: FilterStateChronicle) {
         _selectedFilterStateChronicle.value = filterStateChronicle
         prefs.edit { putInt("filterStateChronicle", filterStateChronicle.pos) }

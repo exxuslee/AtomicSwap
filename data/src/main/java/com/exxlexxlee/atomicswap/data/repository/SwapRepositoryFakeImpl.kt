@@ -215,6 +215,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
             }
         )
         return Token(
+            id = symbol,
             coin = coin,
             contractAddress = if (symbol != "BTC" && symbol != "LTC") "0x123...abc" else null,
             blockchain = blockchain,
