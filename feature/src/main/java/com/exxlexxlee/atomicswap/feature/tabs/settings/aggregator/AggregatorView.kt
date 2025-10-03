@@ -37,7 +37,7 @@ fun AggregatorView(viewState: ViewState, eventHandler: (Event) -> Unit) {
     val navController = LocalNavController.current
 
     Column {
-        TopAppBar(stringResource(R.string.language)) {
+        TopAppBar(stringResource(R.string.price_aggregator)) {
             navController.popBackStack()
         }
         Column(

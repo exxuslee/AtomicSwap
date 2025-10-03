@@ -10,13 +10,12 @@ import kotlinx.coroutines.launch
 
 class AggregatorViewModel(
     private val aggregatorUseCase: AggregatorUseCase,
-) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
+) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState(
+    emitters = aggregatorUseCase.aggregators
+
+)) {
 
     init {
-        viewState = viewState.copy(
-            emitters = aggregatorUseCase.aggregators,
-        )
-
         viewModelScope.launch {
             aggregatorUseCase.selected.collect { selected ->
                 viewState = viewState.copy(selected = selected)

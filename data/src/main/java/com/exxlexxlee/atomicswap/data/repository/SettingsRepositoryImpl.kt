@@ -44,6 +44,7 @@ class SettingsRepositoryImpl(
     }
     override fun selectedAggregator(label: String) {
         prefs.edit { putString("selectedAggregator", label) }
+        _selectedAggregator.value = SupportedAggregators.fromLabel(label)
     }
 
     private val _selectedFilterStateChronicle = MutableStateFlow(selectedFilterStateChronicle())
