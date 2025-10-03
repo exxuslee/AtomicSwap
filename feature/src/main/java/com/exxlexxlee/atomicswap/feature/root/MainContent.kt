@@ -36,7 +36,6 @@ import com.exxlexxlee.atomicswap.feature.tabs.maker.MakerScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.root.models.Event
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.MyMakeChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateScreen

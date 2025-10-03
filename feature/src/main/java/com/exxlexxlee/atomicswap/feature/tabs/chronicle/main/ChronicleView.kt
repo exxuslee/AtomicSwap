@@ -57,7 +57,7 @@ fun ChronicleView(
                     },
                     icon = {
                         BadgedIcon(
-                            badge = BadgeType.BadgeNumber(3)
+                            badge = BadgeType.fromInt(viewState.badeType[filterState])
                         ) {
                             Icon(
                                 modifier = Modifier.padding(horizontal = 4.dp),

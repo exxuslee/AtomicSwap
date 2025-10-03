@@ -17,7 +17,7 @@ class MainViewModel(
     initialState = ViewState(
         initialRoute = settingsUseCase.selectedRoute(),
         makerRoute = Routes.MakerRoute(),
-        chronicleRoute = Routes.ChronicleRoute.MainRoute(swapUseCase.badgeType()),
+        chronicleRoute = Routes.ChronicleRoute.MainRoute(swapUseCase.mainBadgeType()),
         settingsRoute = Routes.SettingsRoute.MainRoute(settingsUseCase.badgeType()),
         selectedChronicleTab = settingsUseCase.selectedFilterStateChronicle()
     )

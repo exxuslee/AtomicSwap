@@ -21,6 +21,10 @@ class ChronicleViewModel(
     )
 ) {
 
+    init {
+        viewState = viewState.copy(badeType = swapUseCase.filterBadgeType())
+    }
+
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
             is Event.SelectTab -> {

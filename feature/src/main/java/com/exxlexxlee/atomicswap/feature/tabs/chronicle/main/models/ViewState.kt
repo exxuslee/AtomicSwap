@@ -6,4 +6,5 @@ import com.exxlexxlee.atomicswap.domain.model.Swap
 
 data class ViewState(
     val selectedTab: FilterStateChronicle = FilterStateChronicle.Active,
+    val badeType: Map<FilterStateChronicle, Int?> = mapOf(),
 )

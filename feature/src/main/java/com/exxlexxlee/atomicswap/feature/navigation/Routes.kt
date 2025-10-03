@@ -1,7 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.navigation
 
 import com.exxlexxlee.atomicswap.feature.R
-import kotlinx.serialization.Serializable
 
 sealed class Routes(
     val route: String,
