@@ -30,7 +30,7 @@ import com.exxlexxlee.atomicswap.core.common.ui.AnimatedFAB
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.feature.chronicle.main.HistoryScreen
+import com.exxlexxlee.atomicswap.feature.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.chronicle.swap.SwapScreen
 import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
@@ -60,9 +60,9 @@ fun MainContent(
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 listOf(
-                    viewState.maker,
-                    viewState.chronicle,
-                    viewState.settings,
+                    viewState.makerRoute,
+                    viewState.chronicleRoute,
+                    viewState.settingsRoute,
                 ).forEach { dest ->
                     val currentRoute = backStackEntry?.destination?.route
                     val title = stringResource(dest.label)
@@ -96,8 +96,8 @@ fun MainContent(
             }
         },
         floatingActionButton = {
-            AnimatedFAB(backStackEntry?.destination?.route == Routes.Maker().route ||
-                    (backStackEntry?.destination?.route == Routes.Chronicle.Main().route &&
+            AnimatedFAB(backStackEntry?.destination?.route == Routes.MakerRoute().route ||
+                    (backStackEntry?.destination?.route == Routes.ChronicleRoute.MainRoute().route &&
                     viewState.selectedChronicleTab == FilterStateChronicle.MAKE)
             ) {
 
@@ -113,46 +113,42 @@ fun MainContent(
                 startDestination = viewState.initialRoute,
                 modifier = Modifier.padding(padding)
             ) {
-                animatedComposable(Routes.Maker().route) { MakerScreen() }
+                animatedComposable(Routes.MakerRoute().route) { MakerScreen() }
 
-                animatedComposable(Routes.Chronicle.Main().route) { HistoryScreen() }
-//                animatedComposable(
-//                    route = "chronicle/swap/{swapId}",
-//                    arguments = listOf(
-//                        navArgument("swapId") { type = NavType.StringType }
-//                    )
-//                ) { backStackEntry ->
-//                    val swapId = backStackEntry.arguments?.getString("swapId")
-//                    SwapScreen(swapId = swapId ?: "")
-//                }
-                animatedComposable(Routes.Chronicle.Swap.createRoute()) {  backStackEntry ->
-                    val swapId = backStackEntry.arguments?.getString("swapId")
-                    SwapScreen(swapId = swapId ?: "")
+                animatedComposable(Routes.ChronicleRoute.MainRoute().route) { ChronicleScreen() }
+                animatedComposable(
+                    route = Routes.ChronicleRoute.SwapRoute.route,
+                    arguments = listOf(
+                        navArgument("swapId") { type = NavType.StringType }
+                    )
+                ) { backStackEntry ->
+                    val swapId = backStackEntry.arguments?.getString("swapId") ?: ""
+                    SwapScreen(swapId)
                 }
 
-                animatedComposable(Routes.Settings.Main().route) { SettingsScreen() }
+                animatedComposable(Routes.SettingsRoute.MainRoute().route) { SettingsScreen() }
                 animatedComposable(
-                    Routes.Settings.Therms.route,
+                    Routes.SettingsRoute.ThermsRoute.route,
                     animationType = AnimationType.FADE
                 ) { TermsScreen() }
                 animatedComposable(
-                    Routes.Settings.Language.route,
+                    Routes.SettingsRoute.LanguageRoute.route,
                     animationType = AnimationType.FADE
                 ) { LanguageScreen() }
                 animatedComposable(
-                    Routes.Settings.Notification.route,
+                    Routes.SettingsRoute.NotificationRoute.route,
                     animationType = AnimationType.FADE
                 ) { NotificationScreen() }
                 animatedComposable(
-                    Routes.Settings.About.route,
+                    Routes.SettingsRoute.AboutRoute.route,
                     animationType = AnimationType.FADE
                 ) { AboutScreen() }
                 animatedComposable(
-                    Routes.Settings.Donate.route,
+                    Routes.SettingsRoute.DonateRoute.route,
                     animationType = AnimationType.FADE
                 ) { DonateScreen() }
                 animatedComposable(
-                    Routes.Settings.PriceAggregator.route,
+                    Routes.SettingsRoute.PriceAggregatorRoute.route,
                     animationType = AnimationType.FADE
                 ) { AggregatorScreen() }
 

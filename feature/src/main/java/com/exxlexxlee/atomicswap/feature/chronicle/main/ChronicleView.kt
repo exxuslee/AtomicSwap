@@ -26,11 +26,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.PrimaryIndicator
-import androidx.compose.material3.TabRowDefaults.contentColor
 import androidx.compose.material3.TabRowDefaults.primaryContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,7 +51,6 @@ import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.Swap
 import com.exxlexxlee.atomicswap.domain.model.SwapState
 import com.exxlexxlee.atomicswap.feature.R
-import com.exxlexxlee.atomicswap.feature.chronicle.main.models.Action
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.Event
 import com.exxlexxlee.atomicswap.feature.chronicle.main.models.ViewState
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
@@ -132,7 +128,7 @@ fun ChronicleView(
                         SwapItem(
                             swap = swap,
                             onClick = {
-                                navController.navigate(Routes.Chronicle.Swap(swap.swapId))
+                                navController.navigate(Routes.ChronicleRoute.SwapRoute.createRoute(swap.swapId))
                             }
                         )
                     }

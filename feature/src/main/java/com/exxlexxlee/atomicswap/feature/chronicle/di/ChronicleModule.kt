@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val chronicleModule = module {
     viewModel { ChronicleViewModel(get(), get() ) }
-    factory { (swapId: String) -> SwapViewModel(swapId, get()) }
+    viewModel { (swapId: String) -> SwapViewModel(swapId, get()) }
 }

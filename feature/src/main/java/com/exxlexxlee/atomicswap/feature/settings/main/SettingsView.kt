@@ -70,7 +70,7 @@ fun SettingsView(
             )
             HsIconButton(
                 onClick = {
-                    navController.navigate(Routes.Settings.Notification.route)
+                    navController.navigate(Routes.SettingsRoute.NotificationRoute.route)
                 },
             ) {
                 BadgedIcon(
@@ -122,7 +122,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(Routes.Settings.PriceAggregator.route)
+                            navController.navigate(Routes.SettingsRoute.PriceAggregatorRoute.route)
                         },
                         arrowRight = true,
                     ) {
@@ -187,7 +187,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(Routes.Settings.Language.route)
+                            navController.navigate(Routes.SettingsRoute.LanguageRoute.route)
                         },
                         arrowRight = true,
                     )
@@ -202,7 +202,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(Routes.Settings.Therms.route)
+                            navController.navigate(Routes.SettingsRoute.ThermsRoute.route)
                         },
                         arrowRight = true,
                     ) {
@@ -224,7 +224,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(Routes.Settings.Donate.route)
+                            navController.navigate(Routes.SettingsRoute.DonateRoute.route)
                         },
                         arrowRight = true,
                     )
@@ -239,7 +239,7 @@ fun SettingsView(
                             )
                         },
                         onClick = {
-                            navController.navigate(Routes.Settings.About.route)
+                            navController.navigate(Routes.SettingsRoute.AboutRoute.route)
                         },
                         arrowRight = true,
                     )

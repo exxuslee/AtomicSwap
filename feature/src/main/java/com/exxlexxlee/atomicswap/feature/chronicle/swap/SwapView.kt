@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,7 +35,7 @@ fun SwapView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             modifier = Modifier.verticalScroll(scrollState)
         ) {
             Spacer(Modifier.height(12.dp))
-
+            Text(viewState.swapId)
             Spacer(Modifier.height(24.dp))
         }
     }
@@ -46,7 +47,7 @@ fun SwapView(viewState: ViewState, eventHandler: (Event) -> Unit) {
 fun AggregatorView_Preview() {
     AppTheme {
         SwapView(
-            viewState = ViewState(),
+            viewState = ViewState("swapId"),
             eventHandler = { }
         )
     }

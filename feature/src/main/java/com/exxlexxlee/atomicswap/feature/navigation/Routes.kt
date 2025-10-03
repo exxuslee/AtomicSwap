@@ -1,6 +1,7 @@
 package com.exxlexxlee.atomicswap.feature.navigation
 
 import com.exxlexxlee.atomicswap.feature.R
+import kotlinx.serialization.Serializable
 
 sealed class Routes(
     val route: String,
@@ -8,7 +9,7 @@ sealed class Routes(
     val label: Int,
     val icon: Int,
 ) {
-    data class Maker(
+    data class MakerRoute(
         override val badge: Int? = null,
     ) : Routes(
         "maker",
@@ -16,34 +17,32 @@ sealed class Routes(
         icon = R.drawable.outline_book_2_24
     )
 
-    sealed class Chronicle(subRoute: String) :
+    sealed class ChronicleRoute(subRoute: String) :
         Routes(
-            "chronicle/",
+            "chronicle/$subRoute",
             label = R.string.title_chronicle,
             icon = R.drawable.outline_chronic_24
         ) {
-        data class Main(override val badge: Int? = null) : Chronicle("main")
+        data class MainRoute(override val badge: Int? = null) : ChronicleRoute("main")
 
-        data class Swap(val swapId: String) : Chronicle("swap/${swapId}") {
-            companion object {
-                fun createRoute() = "chronicle/swap/{swapId}"
-            }
+        data object SwapRoute : ChronicleRoute("swap/{swapId}") {
+            fun createRoute(swapId: String) = "chronicle/swap/$swapId"
         }
     }
 
-    sealed class Settings(subRoute: String) :
+    sealed class SettingsRoute(private val subRoute: String) :
         Routes(
             "settings/$subRoute",
             label = R.string.title_settings,
             icon = R.drawable.outline_settings_24
         ) {
-        data class Main(override val badge: Int? = null) : Settings("main")
-        data object Therms : Settings("terms")
-        data object Language : Settings("language")
-        data object Notification : Settings("notification")
-        data object Donate : Settings("donate")
-        data object About : Settings("about")
-        data object PriceAggregator : Settings("aggregator")
+        data class MainRoute(override val badge: Int? = null) : SettingsRoute("main")
+        data object ThermsRoute : SettingsRoute("terms")
+        data object LanguageRoute : SettingsRoute("language")
+        data object NotificationRoute : SettingsRoute("notification")
+        data object DonateRoute : SettingsRoute("donate")
+        data object AboutRoute : SettingsRoute("about")
+        data object PriceAggregatorRoute : SettingsRoute("aggregator")
     }
 
 }

@@ -10,7 +10,7 @@ import com.exxlexxlee.atomicswap.feature.chronicle.swap.models.ViewState
 class SwapViewModel(
     swapId: String,
     private val swapUseCase: SwapUseCase,
-) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
+) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState(swapId)) {
 
 
     override fun obtainEvent(viewEvent: Event) {

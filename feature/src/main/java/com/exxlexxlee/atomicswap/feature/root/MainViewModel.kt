@@ -16,9 +16,9 @@ class MainViewModel(
 ) : BaseViewModel<ViewState, Action, Event>(
     initialState = ViewState(
         initialRoute = settingsUseCase.selectedRoute(),
-        maker = Routes.Maker(),
-        chronicle = Routes.Chronicle.Main(swapUseCase.badgeType()),
-        settings = Routes.Settings.Main(settingsUseCase.badgeType()),
+        makerRoute = Routes.MakerRoute(),
+        chronicleRoute = Routes.ChronicleRoute.MainRoute(swapUseCase.badgeType()),
+        settingsRoute = Routes.SettingsRoute.MainRoute(settingsUseCase.badgeType()),
         selectedChronicleTab = settingsUseCase.selectedFilterStateChronicle()
     )
 ) {
@@ -27,7 +27,7 @@ class MainViewModel(
         viewModelScope.launch {
             settingsUseCase.isTermsOfUseRead.collect {
                 viewState = viewState.copy(
-                    settings = Routes.Settings.Main(settingsUseCase.badgeType()),
+                    settingsRoute = Routes.SettingsRoute.MainRoute(settingsUseCase.badgeType()),
                 )
             }
         }
