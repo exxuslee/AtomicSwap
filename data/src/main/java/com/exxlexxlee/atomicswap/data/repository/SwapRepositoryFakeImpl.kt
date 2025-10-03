@@ -214,6 +214,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
                 else -> ""
             }
         )
+
         return Token(
             id = symbol,
             coin = coin,
