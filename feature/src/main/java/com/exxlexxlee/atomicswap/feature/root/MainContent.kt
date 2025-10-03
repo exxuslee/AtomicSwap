@@ -30,19 +30,19 @@ import com.exxlexxlee.atomicswap.core.common.ui.AnimatedFAB
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.feature.chronicle.main.ChronicleScreen
-import com.exxlexxlee.atomicswap.feature.chronicle.swap.SwapScreen
-import com.exxlexxlee.atomicswap.feature.maker.MakerScreen
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
+import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
+import com.exxlexxlee.atomicswap.feature.tabs.maker.MakerScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.root.models.Event
-import com.exxlexxlee.atomicswap.feature.settings.about.AboutScreen
-import com.exxlexxlee.atomicswap.feature.settings.aggregator.AggregatorScreen
-import com.exxlexxlee.atomicswap.feature.settings.donate.DonateScreen
-import com.exxlexxlee.atomicswap.feature.settings.language.LanguageScreen
-import com.exxlexxlee.atomicswap.feature.settings.main.SettingsScreen
-import com.exxlexxlee.atomicswap.feature.settings.notification.NotificationScreen
-import com.exxlexxlee.atomicswap.feature.settings.terms.TermsScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.language.LanguageScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.main.SettingsScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.NotificationScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.terms.TermsScreen
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

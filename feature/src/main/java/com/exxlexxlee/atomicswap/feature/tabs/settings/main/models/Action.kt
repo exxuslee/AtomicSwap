@@ -1,0 +1,7 @@
+package com.exxlexxlee.atomicswap.feature.tabs.settings.main.models
+
+sealed class Action {
+    data object LocaleStorageDialog : Action()
+    data object ConnectWcDialog : Action()
+
+}
