@@ -70,6 +70,7 @@ import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.MyMakeChronicleSc
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.confirmed.ConfirmedChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.refunded.RefundedChronicleScreen
+import org.koin.androidx.compose.koinViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -80,7 +81,6 @@ fun ChronicleView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
-
     Column {
         PrimaryTabRow(
             selectedTabIndex = viewState.selectedTab.pos,
@@ -123,7 +123,6 @@ fun ChronicleView(
                 TabAnimation.enterTransition(initialState.pos, targetState.pos) togetherWith
                         TabAnimation.exitTransition(initialState.pos, targetState.pos)
             },
-            label = "ChronicleTabTransition"
         ) { tab ->
             when (tab) {
                 FilterStateChronicle.MyMake -> MyMakeChronicleScreen()
