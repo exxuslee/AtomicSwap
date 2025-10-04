@@ -27,6 +27,7 @@ include(
 	":core:localize",
     ":core:common",
     ":core:swap",
+    ":core:walletconnect",
 	":domain",
 	":data",
 	":feature"

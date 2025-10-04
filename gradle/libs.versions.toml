@@ -84,7 +84,7 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
 google-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
-timber = { group = "com.jakewharton.timber", name = "timber", version = "timber" }
+timber = { group = "com.jakewharton.timber", name = "timber",  version.ref = "timber" }
 gson = { group = "com.google.code.gson", name = "gson", version = "gson" }
 
 [plugins]

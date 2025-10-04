@@ -2,7 +2,7 @@ package com.exxlexxlee.atomicswap.feature.tabs.settings.main
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
-import com.exxlexxlee.atomicswap.core.common.walletconnect.WalletConnectManager
+import com.exxlexxlee.atomicswap.core.walletconnect.WalletConnectManager
 import com.exxlexxlee.atomicswap.domain.usecases.AggregatorUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.NotificationReaderUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase

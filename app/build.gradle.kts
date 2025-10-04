@@ -88,6 +88,7 @@ dependencies {
 	implementation(project(":core:database"))
 	implementation(project(":core:localize"))
 	implementation(project(":core:common"))
+	implementation(project(":core:walletconnect"))
 	implementation(project(":feature"))
 
     debugImplementation(libs.compose.ui.tooling)

@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.core.common.walletconnect
+package com.exxlexxlee.atomicswap.core.walletconnect
 
 import com.reown.android.Core
 import com.reown.android.CoreClient

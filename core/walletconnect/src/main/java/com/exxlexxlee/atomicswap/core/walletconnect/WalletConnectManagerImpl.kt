@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.core.common.walletconnect
+package com.exxlexxlee.atomicswap.core.walletconnect
 
 import android.app.Application
 import android.content.Context

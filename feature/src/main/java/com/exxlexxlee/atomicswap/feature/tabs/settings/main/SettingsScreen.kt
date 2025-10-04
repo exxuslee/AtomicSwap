@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import com.exxlexxlee.atomicswap.core.common.walletconnect.ConnectWcBottomSheet
+import com.exxlexxlee.atomicswap.core.walletconnect.ui.ConnectWcBottomSheet
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.tabs.settings.main.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.settings.main.models.Event

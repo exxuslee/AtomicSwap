@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.core.common.walletconnect
+package com.exxlexxlee.atomicswap.core.walletconnect
 
 object AppConfig {
     const val PROJECT_ID = "d2a2033679e90c70916a10dd4db9a165"

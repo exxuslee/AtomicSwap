@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:localize"))
     implementation(project(":core:network"))
+    implementation(project(":core:walletconnect"))
     implementation(project(":domain"))
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material3)

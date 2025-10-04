@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-	namespace = "com.exxlexxlee.atomicswap.core.common"
+	namespace = "com.exxlexxlee.atomicswap.core.walletconnect"
 	compileSdk = property("version.compileSdk").toString().toInt()
 
 	defaultConfig {
@@ -44,18 +44,19 @@ android {
 }
 
 dependencies {
-	implementation(project(":core:network"))
 	implementation(platform(libs.compose.bom))
+	implementation(libs.compose.material3)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.navigation.compose)
-
-	implementation(libs.compose.material3)
 	implementation(libs.compose.ui.text.googlefonts)
 	implementation(libs.compose.ui)
 	implementation(libs.compose.ui.tooling.preview)
-	
-	implementation(libs.timber)
+
 	implementation(libs.koin.android)
+
+	implementation(platform(libs.reown.bom))
+	implementation(libs.reown.core)
+	implementation(libs.reown.appkit)
 
 	debugImplementation(libs.compose.ui.tooling)
 }
