@@ -11,14 +11,12 @@ import kotlinx.coroutines.flow.asStateFlow
 
 
 class ConnectionManager(context: Context) {
-
+    private val activeNetworks = mutableSetOf<Network>()
     private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
 
     private val _connectionState = MutableStateFlow(getCurrentConnectionState())
     val connectionState: StateFlow<ConnectionState> = _connectionState.asStateFlow()
 
-
-    private val activeNetworks = mutableSetOf<Network>()
     private var hasValidatedInternet = false
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {

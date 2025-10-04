@@ -5,6 +5,6 @@ import com.exxlexxlee.atomicswap.core.common.walletconnect.WalletConnectManagerI
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val coreAppModule = module {
+val commonModule = module {
     single<WalletConnectManager> { WalletConnectManagerImpl(androidContext() ) }
 }

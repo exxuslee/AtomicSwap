@@ -4,8 +4,6 @@ import android.util.Log
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 interface SettingsUseCase {
     fun selectedRoute(): String
@@ -27,8 +25,7 @@ interface SettingsUseCase {
     ) : SettingsUseCase {
         override val selectedFilterStateChronicle = settingsRepository.selectedFilterStateChronicle
 
-        private val _isTermsOfUseRead = MutableStateFlow(isTermsOfUseRead())
-        override val isTermsOfUseRead: StateFlow<Boolean> = _isTermsOfUseRead
+        override val isTermsOfUseRead = settingsRepository.isTermsOfUseRead
 
         override fun selectedRoute() = settingsRepository.selectedRoute()
 
@@ -42,10 +39,9 @@ interface SettingsUseCase {
 
         override fun isTermsOfUseRead(ok: Boolean) {
             settingsRepository.isTermsOfUseRead(ok)
-            _isTermsOfUseRead.value = ok
         }
 
-        override fun badgeType() = if (_isTermsOfUseRead.value) null else 0
+        override fun badgeType() = if (isTermsOfUseRead()) null else 0
 
         override fun selectedFilterStateChronicle(filterState: FilterStateChronicle) =
             settingsRepository.selectedFilterStateChronicle(filterState)

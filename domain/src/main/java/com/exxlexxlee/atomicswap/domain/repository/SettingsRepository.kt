@@ -14,6 +14,7 @@ interface SettingsRepository {
     fun selectedRoute(): String
     fun selectedRoute(route: String)
 
+    val isTermsOfUseRead: Flow<Boolean>
     fun isTermsOfUseRead(): Boolean
     fun isTermsOfUseRead(ok: Boolean)
 

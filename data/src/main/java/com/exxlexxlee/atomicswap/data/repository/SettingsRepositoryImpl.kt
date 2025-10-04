@@ -33,11 +33,15 @@ class SettingsRepositoryImpl(
         prefs.edit { putString("selectedRoute", route) }
     }
 
+    private val _isTermsOfUseRead = MutableStateFlow(isTermsOfUseRead())
+    override val isTermsOfUseRead: StateFlow<Boolean> = _isTermsOfUseRead
+
     override fun isTermsOfUseRead(): Boolean {
         return prefs.getBoolean("isTermsOfUseRead", false)
     }
     override fun isTermsOfUseRead(ok: Boolean) {
         prefs.edit { putBoolean("isTermsOfUseRead", ok) }
+        _isTermsOfUseRead.value = ok
     }
 
     private val _selectedAggregator = MutableStateFlow(selectedAggregator())
