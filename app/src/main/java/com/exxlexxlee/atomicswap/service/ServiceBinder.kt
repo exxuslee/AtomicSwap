@@ -7,9 +7,6 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import timber.log.Timber
 
-/**
- * Helper object for binding to service and checking state
- */
 object ServiceBinder {
 
     private var isBound = false
@@ -20,7 +17,7 @@ object ServiceBinder {
             val localBinder = binder as? BackgroundService.LocalBinder
             service = localBinder?.getService()
             isBound = true
-            Timber.d("Service connected")
+            Timber.d("Service connected (bound: $isBound)")
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -54,6 +51,6 @@ object ServiceBinder {
     internal fun onServiceDestroyed() {
         service = null
         isBound = false
-        Timber.d("Service instance destroyed")
+        Timber.d("Service instance destroyed (flag cleared)")
     }
 }

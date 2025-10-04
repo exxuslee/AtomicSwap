@@ -25,19 +25,12 @@ class AtomicSwapApp : BaseApp() {
     override fun onCreate() {
         super.onCreate()
 
-        initializeTimber()
         initializeKoin()
         createNotificationChannels()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(
             AppLifecycleObserver(this)
         )
-    }
-
-    private fun initializeTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
     }
 
     private fun initializeKoin() {

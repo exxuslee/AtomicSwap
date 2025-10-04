@@ -16,6 +16,7 @@ import com.exxlexxlee.atomicswap.MainActivity
 import com.exxlexxlee.atomicswap.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -31,6 +32,7 @@ class BackgroundService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private lateinit var notificationManager: NotificationManager
     private var isAppInForeground = false
+    private var periodicTaskJob: Job? = null
 
     inner class LocalBinder : Binder() {
         fun getService(): BackgroundService = this@BackgroundService
@@ -62,6 +64,7 @@ class BackgroundService : Service() {
     override fun onBind(intent: Intent?): IBinder = binder
 
     override fun onDestroy() {
+        stopPeriodicTask()
         serviceScope.cancel()
         ServiceBinder.onServiceDestroyed()
         Timber.d("BackgroundService destroyed")
@@ -75,6 +78,7 @@ class BackgroundService : Service() {
             silent = isAppInForeground
         )
         startForeground(NOTIFICATION_ID, notification)
+        startPeriodicTask()
         Timber.d("BackgroundService started in foreground (silent: $isAppInForeground)")
     }
 
@@ -137,6 +141,29 @@ class BackgroundService : Service() {
         Timber.d("Processing push notification: $title - $body")
         delay(2000)
         Timber.d("Push notification processed successfully")
+    }
+
+    private fun startPeriodicTask() {
+        stopPeriodicTask()
+
+        periodicTaskJob = serviceScope.launch {
+            while (true) {
+                try {
+                    Timber.d("⏰ Periodic task executed1 - Service ${this@BackgroundService.hashCode()}")
+                    delay(60000)
+                } catch (e: Exception) {
+                    Timber.e(e, "Error in periodic task")
+                }
+            }
+        }
+
+        Timber.d("Periodic task started (interval: 5 seconds)")
+    }
+
+    private fun stopPeriodicTask() {
+        periodicTaskJob?.cancel()
+        periodicTaskJob = null
+        Timber.d("Periodic task stopped")
     }
 
     private fun buildNotification(title: String, content: String, silent: Boolean = false): Notification {
