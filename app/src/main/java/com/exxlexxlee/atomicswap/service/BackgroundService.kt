@@ -27,7 +27,6 @@ class BackgroundService : Service() {
         const val ACTION_STOP_SERVICE = "com.exxlexxlee.atomicswap.STOP_SERVICE"
         const val ACTION_PUSH_RECEIVED = "com.exxlexxlee.atomicswap.PUSH_RECEIVED"
         
-        @RequiresApi(Build.VERSION_CODES.O)
         fun startService(context: Context) {
             val intent = Intent(context, BackgroundService::class.java).apply {
                 action = ACTION_START_SERVICE
@@ -139,18 +138,16 @@ class BackgroundService : Service() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "Канал для фонового сервиса"
-                setShowBadge(false)
-            }
-            
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = "Канал для фонового сервиса"
+            setShowBadge(false)
         }
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 }
