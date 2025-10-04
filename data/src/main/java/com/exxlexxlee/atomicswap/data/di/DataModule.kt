@@ -1,6 +1,7 @@
 package com.exxlexxlee.atomicswap.data.di
 
 import com.exxlexxlee.atomicswap.core.database.AppDatabase
+import com.exxlexxlee.atomicswap.data.repository.NetworkRepository
 import com.exxlexxlee.atomicswap.data.repository.NotificationsRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.NotificationsRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.SettingsRepositoryImpl
@@ -17,6 +18,7 @@ val dataModule = module {
     single<SettingsRepository> { SettingsRepositoryImpl(get()) }
     single<NotificationRepository> { NotificationsRepositoryImpl(get()) }
     single<NotificationRepository.Reader> { NotificationsRepositoryImpl(get()) }
+    single { NetworkRepository(get()) }
 }
 
 val fakeDataModule = module {
