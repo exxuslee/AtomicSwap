@@ -3,6 +3,7 @@ package com.exxlexxlee.atomicswap.data.repository
 import android.content.SharedPreferences
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import androidx.core.content.edit
+import com.exxlexxlee.atomicswap.core.network.ConnectionManager
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,10 @@ import kotlinx.coroutines.flow.flowOf
 
 class SettingsRepositoryImpl(
     private val prefs: SharedPreferences,
+    connectionManager: ConnectionManager,
 ) : SettingsRepository {
+
+    override val connectionState = connectionManager.connectionState
 
     override fun isDark(): Boolean {
         return prefs.getBoolean("isDark", false)

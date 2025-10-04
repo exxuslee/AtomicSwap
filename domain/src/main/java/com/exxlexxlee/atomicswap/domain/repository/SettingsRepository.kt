@@ -1,11 +1,14 @@
 package com.exxlexxlee.atomicswap.domain.repository
 
+import com.exxlexxlee.atomicswap.core.network.ConnectionManager
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface SettingsRepository {
+
+    val connectionState: Flow<ConnectionManager.ConnectionState>
     fun isDark(): Boolean
     fun isDark(value: Boolean)
     fun selectedRoute(): String

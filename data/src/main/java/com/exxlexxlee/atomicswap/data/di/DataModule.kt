@@ -15,10 +15,9 @@ import org.koin.dsl.module
 val dataModule = module {
     single { AppDatabase(get()) }
     single<SwapRepository> { SwapRepositoryImpl(get()) }
-    single<SettingsRepository> { SettingsRepositoryImpl(get()) }
+    single<SettingsRepository> { SettingsRepositoryImpl(get(), get()) }
     single<NotificationRepository> { NotificationsRepositoryImpl(get()) }
     single<NotificationRepository.Reader> { NotificationsRepositoryImpl(get()) }
-    single { NetworkRepository(get()) }
 }
 
 val fakeDataModule = module {

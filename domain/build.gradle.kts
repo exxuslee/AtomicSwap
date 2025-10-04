@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+	implementation(project(":core:network"))
 	implementation(libs.koin.android)
 	implementation(libs.kotlinx.coroutines.core)
 }
