@@ -59,8 +59,13 @@ android {
 dependencies {
 	implementation(platform(libs.compose.bom))
     implementation(platform(libs.firebase.bom))
+
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.lifecycle.process)
+	implementation(libs.androidx.lifecycle.runtime.ktx)
+	implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
 	implementation(libs.compose.ui)
 	implementation(libs.compose.ui.tooling.preview)
 	implementation(libs.compose.material3)

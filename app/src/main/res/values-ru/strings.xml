@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="service_running_title">Сервис запущен</string>
+    <string name="service_running_content">Фоновый сервис активен</string>
+    <string name="service_channel_name">Фоновый сервис</string>
+    <string name="service_channel_description">Канал уведомлений для фонового сервиса</string>
+    <string name="push_notification_default_title">Новое уведомление</string>
+    <string name="push_notification_default_body">У вас новое уведомление</string>
+    <string name="notification_channel_name">Push-уведомления</string>
+    <string name="notification_channel_description">Получение push-уведомлений от приложения</string>
+
+</resources>

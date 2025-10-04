@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">AtomicSwap</string>
+    <string name="service_running_title">Service Running</string>
+    <string name="service_running_content">Background service is active</string>
+    <string name="service_channel_name">Background Service</string>
+    <string name="service_channel_description">Notification channel for background service</string>>
+    <string name="push_notification_default_title">New Notification</string>
+    <string name="push_notification_default_body">You have a new notification</string>
+    <string name="notification_channel_name">Push Notifications</string>
+    <string name="notification_channel_description">Receive push notifications from the app</string>
+
 </resources>

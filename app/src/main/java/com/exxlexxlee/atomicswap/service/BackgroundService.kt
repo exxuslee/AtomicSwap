@@ -5,149 +5,236 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.content.ServiceConnection
+import android.os.Binder
 import android.os.IBinder
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.exxlexxlee.atomicswap.MainActivity
 import com.exxlexxlee.atomicswap.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
+/**
+ * Foreground service with Binder support for reliable state checking
+ */
 class BackgroundService : Service() {
 
-    companion object {
-        private const val NOTIFICATION_ID = 1001
-        private const val CHANNEL_ID = "background_service_channel"
-        private const val CHANNEL_NAME = "Background Service"
-        
-        const val ACTION_START_SERVICE = "com.exxlexxlee.atomicswap.START_SERVICE"
-        const val ACTION_STOP_SERVICE = "com.exxlexxlee.atomicswap.STOP_SERVICE"
-        const val ACTION_PUSH_RECEIVED = "com.exxlexxlee.atomicswap.PUSH_RECEIVED"
-        
-        fun startService(context: Context) {
-            val intent = Intent(context, BackgroundService::class.java).apply {
-                action = ACTION_START_SERVICE
-            }
-            context.startForegroundService(intent)
-        }
-        
-        fun stopService(context: Context) {
-            val intent = Intent(context, BackgroundService::class.java).apply {
-                action = ACTION_STOP_SERVICE
-            }
-            context.stopService(intent)
-        }
-        
-        fun onPushReceived(context: Context, title: String? = null, body: String? = null) {
-            val intent = Intent(context, BackgroundService::class.java).apply {
-                action = ACTION_PUSH_RECEIVED
-                putExtra("title", title)
-                putExtra("body", body)
-            }
-            context.startService(intent)
-        }
+    private val binder = LocalBinder()
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private lateinit var notificationManager: NotificationManager
+    private var isAppInForeground = false
+
+    inner class LocalBinder : Binder() {
+        fun getService(): BackgroundService = this@BackgroundService
     }
 
     override fun onCreate() {
         super.onCreate()
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel()
+        ServiceBinder.onServiceCreated()
         Timber.d("BackgroundService created")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_START_SERVICE -> {
-                startForegroundService()
-                Timber.d("BackgroundService started")
-            }
-            ACTION_STOP_SERVICE -> {
-                stopSelf()
-                Timber.d("BackgroundService stopped")
-            }
-            ACTION_PUSH_RECEIVED -> {
-                handlePushReceived(intent)
-                Timber.d("BackgroundService received push notification")
-            }
+        val action = intent?.action ?: return START_STICKY
+
+        when (action) {
+            ACTION_START -> handleStartService()
+            ACTION_STOP -> handleStopService()
+            ACTION_PUSH -> handlePushNotification(intent)
+            ACTION_APP_FOREGROUND -> handleAppForegroundChange(true)
+            ACTION_APP_BACKGROUND -> handleAppForegroundChange(false)
+            else -> Timber.w("Unknown action received: $action")
         }
-        
-        // Возвращаем START_STICKY чтобы сервис перезапускался при завершении
+
         return START_STICKY
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent?): IBinder = binder
 
     override fun onDestroy() {
-        super.onDestroy()
+        serviceScope.cancel()
+        ServiceBinder.onServiceDestroyed()
         Timber.d("BackgroundService destroyed")
+        super.onDestroy()
     }
 
-    private fun startForegroundService() {
-        val notification = createNotification("Сервис запущен", "Фоновый сервис работает")
+    private fun handleStartService() {
+        val notification = buildNotification(
+            title = getString(R.string.service_running_title),
+            content = getString(R.string.service_running_content),
+            silent = isAppInForeground
+        )
         startForeground(NOTIFICATION_ID, notification)
+        Timber.d("BackgroundService started in foreground (silent: $isAppInForeground)")
     }
 
-    private fun handlePushReceived(intent: Intent) {
-        val title = intent.getStringExtra("title") ?: "Push уведомление"
-        val body = intent.getStringExtra("body") ?: "Получено новое уведомление"
-        
-        // Обновляем уведомление с информацией о push
-        val notification = createNotification(title, body)
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private fun handleStopService() {
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
+        Timber.d("BackgroundService stopped")
+    }
+
+    private fun handlePushNotification(intent: Intent) {
+        val title = intent.getStringExtra(EXTRA_TITLE)
+            ?: getString(R.string.push_notification_default_title)
+        val body = intent.getStringExtra(EXTRA_BODY)
+            ?: getString(R.string.push_notification_default_body)
+
+        updateNotification(title, body)
+        processPushAsync(title, body)
+
+        Timber.d("Push notification handled: $title")
+    }
+
+    private fun handleAppForegroundChange(isInForeground: Boolean) {
+        isAppInForeground = isInForeground
+
+        if (isInForeground) {
+            val notification = buildNotification(
+                title = getString(R.string.service_running_title),
+                content = getString(R.string.service_running_content),
+                silent = true
+            )
+            notificationManager.notify(NOTIFICATION_ID, notification)
+            Timber.d("App in foreground - notification hidden")
+        } else {
+            val notification = buildNotification(
+                title = getString(R.string.service_running_title),
+                content = getString(R.string.service_running_content),
+                silent = false
+            )
+            notificationManager.notify(NOTIFICATION_ID, notification)
+            Timber.d("App in background - notification visible")
+        }
+    }
+
+    private fun updateNotification(title: String, body: String) {
+        val notification = buildNotification(title, body)
         notificationManager.notify(NOTIFICATION_ID, notification)
-        
-        // Здесь можно добавить дополнительную логику обработки push-уведомления
-        processPushNotification(title, body)
     }
 
-    private fun processPushNotification(title: String, body: String) {
-        // Здесь можно добавить логику обработки push-уведомления
-        // Например, обновление данных, синхронизация, отправка аналитики и т.д.
+    private fun processPushAsync(title: String, body: String) {
+        serviceScope.launch {
+            try {
+                processPushNotification(title, body)
+            } catch (e: Exception) {
+                Timber.e(e, "Error processing push notification")
+            }
+        }
+    }
+
+    private suspend fun processPushNotification(title: String, body: String) {
         Timber.d("Processing push notification: $title - $body")
-        
-        // Пример: можно запустить дополнительную работу в фоне
-        Thread {
-            // Имитация обработки
-            Thread.sleep(2000)
-            Timber.d("Push notification processed successfully")
-        }.start()
+        delay(2000)
+        Timber.d("Push notification processed successfully")
     }
 
-    private fun createNotification(title: String, content: String): Notification {
+    private fun buildNotification(title: String, content: String, silent: Boolean = false): Notification {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        
+
         val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent,
+            this,
+            0,
+            intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        return NotificationCompat.Builder(this, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(content)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+
+        if (silent) {
+            builder
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                .setShowWhen(false)
+        } else {
+            builder
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        }
+
+        return builder.build()
     }
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             CHANNEL_ID,
-            CHANNEL_NAME,
+            getString(R.string.service_channel_name),
             NotificationManager.IMPORTANCE_LOW
         ).apply {
-            description = "Канал для фонового сервиса"
+            description = getString(R.string.service_channel_description)
             setShowBadge(false)
         }
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    companion object {
+        private const val NOTIFICATION_ID = 1001
+        private const val CHANNEL_ID = "background_service_channel"
+
+        private const val ACTION_START = "com.exxlexxlee.atomicswap.ACTION_START"
+        private const val ACTION_STOP = "com.exxlexxlee.atomicswap.ACTION_STOP"
+        private const val ACTION_PUSH = "com.exxlexxlee.atomicswap.ACTION_PUSH"
+        private const val ACTION_APP_FOREGROUND = "com.exxlexxlee.atomicswap.ACTION_APP_FOREGROUND"
+        private const val ACTION_APP_BACKGROUND = "com.exxlexxlee.atomicswap.ACTION_APP_BACKGROUND"
+
+        private const val EXTRA_TITLE = "extra_title"
+        private const val EXTRA_BODY = "extra_body"
+
+        fun createStartIntent(context: Context): Intent {
+            return Intent(context, BackgroundService::class.java).apply {
+                action = ACTION_START
+            }
+        }
+
+        fun createStopIntent(context: Context): Intent {
+            return Intent(context, BackgroundService::class.java).apply {
+                action = ACTION_STOP
+            }
+        }
+
+        fun createPushIntent(
+            context: Context,
+            title: String?,
+            body: String?
+        ): Intent {
+            return Intent(context, BackgroundService::class.java).apply {
+                action = ACTION_PUSH
+                putExtra(EXTRA_TITLE, title)
+                putExtra(EXTRA_BODY, body)
+            }
+        }
+
+        fun notifyAppForeground(context: Context) {
+            Intent(context, BackgroundService::class.java).apply {
+                action = ACTION_APP_FOREGROUND
+                context.startService(this)
+            }
+        }
+
+        fun notifyAppBackground(context: Context) {
+            Intent(context, BackgroundService::class.java).apply {
+                action = ACTION_APP_BACKGROUND
+                context.startService(this)
+            }
+        }
     }
 }
