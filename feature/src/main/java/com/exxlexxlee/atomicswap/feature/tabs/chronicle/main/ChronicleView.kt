@@ -20,6 +20,7 @@ import com.exxlexxlee.atomicswap.core.common.navigation.TabAnimation
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
+import com.exxlexxlee.atomicswap.core.common.ui.ConnectionStateView
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.ViewState
@@ -70,20 +71,26 @@ fun ChronicleView(
             }
         }
 
-        AnimatedContent(
-            targetState = viewState.selectedTab,
-            transitionSpec = {
-                TabAnimation.enterTransition(initialState.pos, targetState.pos) togetherWith
-                        TabAnimation.exitTransition(initialState.pos, targetState.pos)
-            },
-        ) { tab ->
-            when (tab) {
-                FilterStateChronicle.MyMake -> MyMakeChronicleScreen()
-                FilterStateChronicle.Active -> ActiveChronicleScreen()
-                FilterStateChronicle.Complete -> ConfirmedChronicleScreen()
-                FilterStateChronicle.Refund -> RefundedChronicleScreen()
+        ConnectionStateView(
+            networkConnect = viewState.connectionState,
+            onRetry = {},
+        ) {
+            AnimatedContent(
+                targetState = viewState.selectedTab,
+                transitionSpec = {
+                    TabAnimation.enterTransition(initialState.pos, targetState.pos) togetherWith
+                            TabAnimation.exitTransition(initialState.pos, targetState.pos)
+                },
+            ) { tab ->
+                when (tab) {
+                    FilterStateChronicle.MyMake -> MyMakeChronicleScreen()
+                    FilterStateChronicle.Active -> ActiveChronicleScreen()
+                    FilterStateChronicle.Complete -> ConfirmedChronicleScreen()
+                    FilterStateChronicle.Refund -> RefundedChronicleScreen()
+                }
             }
         }
+
     }
 }
 

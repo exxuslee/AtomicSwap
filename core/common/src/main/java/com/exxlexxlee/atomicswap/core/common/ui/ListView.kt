@@ -28,30 +28,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.R
 
-@Composable
-fun ListErrorView(
-    errorText: String,
-    onClick: () -> Unit
-) {
-    ListErrorView(
-        errorText = errorText,
-        icon = R.drawable.outline_error_24,
-        onClick = onClick,
-    )
-}
-
-@Composable
-fun ListErrorView(
-    errorText: String,
-    @DrawableRes icon: Int = R.drawable.outline_error_24,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick
-    ) {
-        Text(stringResource(R.string.Button_Retry))
-    }
-}
 
 @Composable
 fun ListEmptyView(

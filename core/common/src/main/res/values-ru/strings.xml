@@ -11,4 +11,5 @@
     <string name="Duration_Seconds">%d сек.</string>
     <string name="double_back_press_message">Нажмите еще раз для выхода</string>
     <string name="back">Назад</string>
+    <string name="error_description">Проверьте подключение и попробуйте снова</string>
 </resources>
