@@ -40,8 +40,8 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        // Optionally stop service when app is closed
-        // ServiceManager.stopService(this)
+        BackgroundManager.unbind(this)
+        Timber.d("MainActivity destroyed, service unbound")
         super.onDestroy()
     }
 
