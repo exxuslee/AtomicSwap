@@ -5,13 +5,12 @@ import timber.log.Timber
 
 object BackgroundManager {
 
-    fun startService(context: Context): Result<Unit> {
+    fun startForegroundService(context: Context): Result<Unit> {
         return runCatching {
             if (isServiceRunning()) {
                 Timber.d("BackgroundService is already running")
                 return@runCatching
             }
-
             val intent = BackgroundService.createStartIntent(context)
             context.startForegroundService(intent)
             ServiceBinder.bind(context)
@@ -48,18 +47,6 @@ object BackgroundManager {
             Timber.d("Push notification forwarded to BackgroundService")
         }.onFailure { error ->
             Timber.e(error, "Failed to handle push notification")
-        }
-    }
-
-    fun restartService(context: Context): Result<Unit> {
-        return runCatching {
-            stopService(context).getOrThrow()
-            // Small delay to ensure service is fully stopped
-            Thread.sleep(500)
-            startService(context).getOrThrow()
-            Timber.d("BackgroundService restarted")
-        }.onFailure { error ->
-            Timber.e(error, "Failed to restart BackgroundService")
         }
     }
 

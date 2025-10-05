@@ -33,7 +33,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         requestNotificationPermissionIfNeeded()
-        startBackgroundServiceSafely()
 
         enableEdgeToEdge()
         setupContent()
@@ -87,16 +86,6 @@ class MainActivity : ComponentActivity() {
             Timber.w("Notification permission denied")
             // Optionally show a message to the user
         }
-    }
-
-    private fun startBackgroundServiceSafely() {
-        BackgroundManager.startService(this)
-            .onSuccess {
-                Timber.d("BackgroundService started successfully")
-            }
-            .onFailure { error ->
-                Timber.e(error, "Failed to start BackgroundService")
-            }
     }
 
     private fun setupContent() {

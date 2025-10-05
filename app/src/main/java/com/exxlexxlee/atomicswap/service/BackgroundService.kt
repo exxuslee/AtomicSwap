@@ -1,19 +1,19 @@
 package com.exxlexxlee.atomicswap.service
 
 import android.app.Notification
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Binder
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.exxlexxlee.atomicswap.MainActivity
 import com.exxlexxlee.atomicswap.R
+import com.exxlexxlee.atomicswap.push.NotificationChannels
+import com.exxlexxlee.atomicswap.push.NotificationChannels.CHANNEL_ID
+import com.exxlexxlee.atomicswap.push.NotificationChannels.NOTIFICATION_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -40,15 +40,16 @@ class BackgroundService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel()
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        // Ensure channels are present
+        NotificationChannels.registerAll(this)
         ServiceBinder.onServiceCreated()
         Timber.d("BackgroundService created")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action ?: return START_STICKY
-
+        Timber.d("onStartCommand: $action ")
         when (action) {
             ACTION_START -> handleStartService()
             ACTION_STOP -> handleStopService()
@@ -104,13 +105,7 @@ class BackgroundService : Service() {
         isAppInForeground = isInForeground
 
         if (isInForeground) {
-            val notification = buildNotification(
-                title = getString(R.string.service_running_title),
-                content = getString(R.string.service_running_content),
-                silent = true
-            )
-            notificationManager.notify(NOTIFICATION_ID, notification)
-            Timber.d("App in foreground - notification hidden")
+            if (periodicTaskJob == null) startPeriodicTask()
         } else {
             val notification = buildNotification(
                 title = getString(R.string.service_running_title),
@@ -200,23 +195,9 @@ class BackgroundService : Service() {
         return builder.build()
     }
 
-    private fun createNotificationChannel() {
-        val channel = NotificationChannel(
-            CHANNEL_ID,
-            getString(R.string.service_channel_name),
-            NotificationManager.IMPORTANCE_LOW
-        ).apply {
-            description = getString(R.string.service_channel_description)
-            setShowBadge(false)
-        }
-
-        notificationManager.createNotificationChannel(channel)
-    }
+    // Channel creation centralized in NotificationChannels
 
     companion object {
-        private const val NOTIFICATION_ID = 1001
-        private const val CHANNEL_ID = "background_service_channel"
-
         private const val ACTION_START = "com.exxlexxlee.atomicswap.ACTION_START"
         private const val ACTION_STOP = "com.exxlexxlee.atomicswap.ACTION_STOP"
         private const val ACTION_PUSH = "com.exxlexxlee.atomicswap.ACTION_PUSH"

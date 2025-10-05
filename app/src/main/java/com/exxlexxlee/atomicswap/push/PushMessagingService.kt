@@ -10,6 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.exxlexxlee.atomicswap.R
 import com.exxlexxlee.atomicswap.service.BackgroundManager
+import com.exxlexxlee.atomicswap.push.NotificationChannels.CHANNEL_ID
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
@@ -21,7 +22,7 @@ class PushMessagingService : FirebaseMessagingService() {
 
     override fun onCreate() {
         super.onCreate()
-        createNotificationChannelIfNeeded()
+        NotificationChannels.registerAll(this)
     }
 
     override fun onNewToken(token: String) {
@@ -92,20 +93,7 @@ class PushMessagingService : FirebaseMessagingService() {
             true // No runtime permission needed below Android 13
         }
     }
-
-    private fun createNotificationChannelIfNeeded() {
-        val channel = android.app.NotificationChannel(
-            CHANNEL_ID,
-            getString(R.string.notification_channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = getString(R.string.notification_channel_description)
-        }
-
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.createNotificationChannel(channel)
-    }
-
+    
     private fun handleTokenRefresh(token: String) {
         // Implement your token registration logic here
         // Example: send to your backend server
@@ -122,7 +110,5 @@ class PushMessagingService : FirebaseMessagingService() {
         val customData: Map<String, String> = emptyMap()
     )
 
-    companion object {
-        const val CHANNEL_ID = "atomic_swap_default"
-    }
+
 }
