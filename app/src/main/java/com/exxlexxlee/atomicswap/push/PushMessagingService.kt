@@ -39,11 +39,7 @@ class PushMessagingService : FirebaseMessagingService() {
         val notificationData = extractNotificationData(message)
 
         // Forward to BackgroundService for processing
-        BackgroundManager.handlePushNotification(
-            context = this,
-            title = notificationData.title,
-            body = notificationData.body
-        )
+        BackgroundManager.startForegroundService(context = this)
 
         // Show notification to user
         if (hasNotificationPermission()) {
@@ -93,7 +89,7 @@ class PushMessagingService : FirebaseMessagingService() {
             true // No runtime permission needed below Android 13
         }
     }
-    
+
     private fun handleTokenRefresh(token: String) {
         // Implement your token registration logic here
         // Example: send to your backend server

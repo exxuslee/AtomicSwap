@@ -20,13 +20,27 @@ object BackgroundManager {
         }
     }
 
+    fun startService(context: Context): Result<Unit> {
+        return runCatching {
+            if (isServiceRunning()) {
+                Timber.d("BackgroundService is already running")
+                return@runCatching
+            }
+            val intent = BackgroundService.createStartIntent(context)
+            context.startService(intent)
+            ServiceBinder.bind(context)
+            Timber.d("BackgroundService started")
+        }.onFailure { error ->
+            Timber.e(error, "Failed to start BackgroundService")
+        }
+    }
+
     fun stopService(context: Context): Result<Unit> {
         return runCatching {
             if (!isServiceRunning()) {
                 Timber.d("BackgroundService is not running")
                 return@runCatching
             }
-
             ServiceBinder.unbind(context)
             val intent = BackgroundService.createStopIntent(context)
             context.stopService(intent)
@@ -36,19 +50,6 @@ object BackgroundManager {
         }
     }
 
-    fun handlePushNotification(
-        context: Context,
-        title: String?,
-        body: String?
-    ): Result<Unit> {
-        return runCatching {
-            val intent = BackgroundService.createPushIntent(context, title, body)
-            context.startService(intent)
-            Timber.d("Push notification forwarded to BackgroundService")
-        }.onFailure { error ->
-            Timber.e(error, "Failed to handle push notification")
-        }
-    }
 
     fun isServiceRunning() = ServiceBinder.isServiceRunning()
 

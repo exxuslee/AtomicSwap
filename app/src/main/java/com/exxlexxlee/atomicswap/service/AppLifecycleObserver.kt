@@ -10,13 +10,13 @@ class AppLifecycleObserver(
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-        BackgroundService.notifyAppForeground(context)
+        BackgroundManager.startService(context)
         Timber.d("App moved to foreground")
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        BackgroundService.notifyAppBackground(context)
+        BackgroundManager.stopService(context)
         Timber.d("App moved to background")
     }
 }
