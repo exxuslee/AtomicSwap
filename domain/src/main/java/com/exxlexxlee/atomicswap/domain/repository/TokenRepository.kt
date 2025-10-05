@@ -1,6 +1,6 @@
 package com.exxlexxlee.atomicswap.domain.repository
 
-import com.exxlexxlee.atomicswap.domain.model.Token
+import com.exxlexxlee.atomicswap.core.swap.model.Token
 
 interface TokenRepository {
     fun token(id: String): Token

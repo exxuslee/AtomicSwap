@@ -44,6 +44,7 @@ dependencies {
 	implementation(project(":domain"))
 	implementation(project(":core:network"))
 	implementation(project(":core:database"))
+	implementation(project(":core:swap"))
 	implementation(libs.koin.android)
 	implementation(libs.sqldelight.coroutines)
 	implementation(libs.kotlinx.coroutines.core)

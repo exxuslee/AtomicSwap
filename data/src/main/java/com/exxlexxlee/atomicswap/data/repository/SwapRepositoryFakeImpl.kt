@@ -1,5 +1,12 @@
 package com.exxlexxlee.atomicswap.data.repository
 
+import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
+import com.exxlexxlee.atomicswap.core.swap.model.Coin
+import com.exxlexxlee.atomicswap.core.swap.model.Make
+import com.exxlexxlee.atomicswap.core.swap.model.Swap
+import com.exxlexxlee.atomicswap.core.swap.model.SwapState
+import com.exxlexxlee.atomicswap.core.swap.model.Take
+import com.exxlexxlee.atomicswap.core.swap.model.Token
 import com.exxlexxlee.atomicswap.domain.model.*
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
 import kotlinx.coroutines.flow.MutableStateFlow

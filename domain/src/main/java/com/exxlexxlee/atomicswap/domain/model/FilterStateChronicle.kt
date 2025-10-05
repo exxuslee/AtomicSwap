@@ -1,5 +1,6 @@
 package com.exxlexxlee.atomicswap.domain.model
 
+import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import com.exxlexxlee.atomicswap.domain.R
 
 sealed class FilterStateChronicle(

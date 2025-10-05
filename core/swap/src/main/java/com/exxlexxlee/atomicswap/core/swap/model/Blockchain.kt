@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.domain.model
+package com.exxlexxlee.atomicswap.core.swap.model
 
 sealed class Blockchain(open val isMain: Boolean) {
     data class Bitcoin(override val isMain: Boolean) : Blockchain(isMain)

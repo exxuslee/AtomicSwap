@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.domain.model
+package com.exxlexxlee.atomicswap.core.swap.model
 
 data class Token(
     val id: String,

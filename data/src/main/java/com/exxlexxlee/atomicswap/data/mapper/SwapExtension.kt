@@ -3,14 +3,14 @@ package com.exxlexxlee.atomicswap.data.mapper
 import com.example.atomicswap.core.database.MakeEntity
 import com.example.atomicswap.core.database.SwapEntity
 import com.example.atomicswap.core.database.TakeEntity
-import com.exxlexxlee.atomicswap.domain.model.Blockchain
-import com.exxlexxlee.atomicswap.domain.model.Coin
-import com.exxlexxlee.atomicswap.domain.model.Make
-import com.exxlexxlee.atomicswap.domain.model.Swap
-import com.exxlexxlee.atomicswap.domain.model.SwapState
-import com.exxlexxlee.atomicswap.domain.model.Take
-import com.exxlexxlee.atomicswap.domain.model.Token
-import com.exxlexxlee.atomicswap.domain.model.toStorageName
+import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
+import com.exxlexxlee.atomicswap.core.swap.model.Coin
+import com.exxlexxlee.atomicswap.core.swap.model.Make
+import com.exxlexxlee.atomicswap.core.swap.model.Swap
+import com.exxlexxlee.atomicswap.core.swap.model.SwapState
+import com.exxlexxlee.atomicswap.core.swap.model.Take
+import com.exxlexxlee.atomicswap.core.swap.model.Token
+import com.exxlexxlee.atomicswap.core.swap.model.toStorageName
 import java.math.BigDecimal
 
 internal fun MakeEntity.toDomain(): Make {
@@ -49,8 +49,8 @@ internal fun MakeEntity.toDomain(): Make {
         makerId = makerId,
         makerToken = makerToken,
         takerToken = takerToken,
-        makerRefundAddress = makerRefundAddress,
-        makerRedeemAddress = makerRedeemAddress,
+        refundAddress = makerRefundAddress,
+        redeemAddress = makerRedeemAddress,
         makerExactAmount = BigDecimal(makerExactAmount),
         takerExactAmount = BigDecimal(takerExactAmount),
         makerStartAmount = BigDecimal(makerStartAmount),
@@ -84,10 +84,6 @@ internal fun SwapEntity.toDomain(
         swapId = swapId,
         timestamp = timestamp,
         swapState = SwapState.fromValue(swapState.toInt()),
-        takerRefundAddressId = takerRefundAddressId,
-        makerRefundAddressId = makerRefundAddressId,
-        takerRedeemAddressId = takerRedeemAddressId,
-        makerRedeemAddressId = makerRedeemAddressId,
         isRead = isRead,
         secret = secret,
         secretHash = secretHash,
@@ -112,12 +108,8 @@ internal fun Swap.toEntity(): SwapEntity {
         timestamp = timestamp,
         swapState = swapState.step.toLong(),
         isRead = isRead,
-        makeId = make.makeId,
-        takeId = takeId,
-        takerRefundAddressId = takerRefundAddressId,
-        makerRefundAddressId = makerRefundAddressId,
-        takerRedeemAddressId = takerRedeemAddressId,
-        makerRedeemAddressId = makerRedeemAddressId,
+        makeId = take.make.makeId,
+        takeId = take.takeId,
         secret = secret,
         secretHash = secretHash,
         takerRefundTime = takerRefundTime.toLong(),
@@ -166,8 +158,8 @@ internal fun Take.toTakeEntity(): TakeEntity {
     return TakeEntity(
         takeId = takeId,
         takerId = takerId,
-        takerRefundAddress = takerRefundAddress,
-        takerRedeemAddress = takerRedeemAddress,
+        takerRefundAddress = refundAddress,
+        takerRedeemAddress = redeemAddress,
         makerFinalAmount = makerFinalAmount.toPlainString(),
         takerFinalAmount = takerFinalAmount.toPlainString(),
         makeId = make.makeId

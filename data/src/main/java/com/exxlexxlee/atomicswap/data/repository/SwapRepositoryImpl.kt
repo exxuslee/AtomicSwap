@@ -3,11 +3,11 @@ package com.exxlexxlee.atomicswap.data.repository
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.exxlexxlee.atomicswap.core.database.AppDatabase
+import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.data.mapper.toDomain
 import com.exxlexxlee.atomicswap.data.mapper.toEntity
 import com.exxlexxlee.atomicswap.data.mapper.toMakeEntity
 import com.exxlexxlee.atomicswap.data.mapper.toTakeEntity
-import com.exxlexxlee.atomicswap.domain.model.Swap
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +59,7 @@ class SwapRepositoryImpl(
 
 	suspend fun insertSwap(swap: Swap) = withContext(Dispatchers.IO) {
 		// Insert Make entity
-		val makeEntity = swap.make.toMakeEntity()
+		val makeEntity = swap.take.make.toMakeEntity()
 		queries.insertMake(
 			makeId = makeEntity.makeId,
 			makerId = makeEntity.makerId,

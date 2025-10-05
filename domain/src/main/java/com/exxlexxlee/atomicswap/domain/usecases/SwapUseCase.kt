@@ -1,7 +1,7 @@
 package com.exxlexxlee.atomicswap.domain.usecases
 
+import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.domain.model.Swap
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
