@@ -129,4 +129,5 @@ deleteById:
 DELETE FROM SwapEntity WHERE swapId = ?;
 
 deleteHistory:
-DELETE FROM SwapEntity;
+DELETE FROM SwapEntity WHERE swapState IN (7, 0);
+

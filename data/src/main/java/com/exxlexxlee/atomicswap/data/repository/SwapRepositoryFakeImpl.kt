@@ -1,13 +1,14 @@
 package com.exxlexxlee.atomicswap.data.repository
 
+import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Make
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import com.exxlexxlee.atomicswap.core.swap.model.Take
 import com.exxlexxlee.atomicswap.core.swap.model.Token
-import com.exxlexxlee.atomicswap.domain.model.*
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -152,40 +153,40 @@ class SwapRepositoryFakeImpl : SwapRepository {
             makerId = "maker-${makeId}",
             makerToken = makerToken,
             takerToken = takerToken,
-            makerRefundAddress = "maker-refund-address-${makeId}",
-            makerRedeemAddress = "maker-redeem-address-${makeId}",
-            makerExactAmount = BigDecimal("10.0"),
-            takerExactAmount = BigDecimal("1.5"),
-            makerStartAmount = BigDecimal("10.5"),
-            takerStartAmount = BigDecimal("1.6")
+            refundAddress = "maker-refund-address-${makeId}",
+            redeemAddress = "maker-redeem-address-${makeId}",
+            amount = AmountType.ExactIn(
+                makerExactAmount = BigDecimal("10.0"),
+                takerStartAmount = BigDecimal("1.6")
+            ),
+            priceType = PriceType.Fixed,
+            isOn = true,
+            reservedAmount = BigDecimal.ZERO,
+            refundTime = 0L,
+            timestamp = timestamp - 1000,
         )
 
         val take = Take(
-            make = make,
             takeId = takeId,
+            make = make,
             takerId = "taker-${takeId}",
-            takerRefundAddress = "taker-refund-address-${takeId}",
-            takerRedeemAddress = "taker-redeem-address-${takeId}",
+            redeemAddress = "taker-redeem-address-${takeId}",
+            refundAddress = "taker-refund-address-${takeId}",
+            isConfirmed = state.step >= SwapState.Confirmed.step,
             makerFinalAmount = BigDecimal("10.0"),
-            takerFinalAmount = BigDecimal("1.5")
+            takerFinalAmount = BigDecimal("1.5"),
+            takerSafeAmount = BigDecimal("1.5"),
+            makerSafeAmount = BigDecimal("10.0")
         )
 
         return Swap(
             swapId = swapId,
-            take = listOf(take),
-            takeId = takeId,
-            make = make,
+            take = take,
             timestamp = timestamp,
             swapState = state,
-            takerRefundAddressId = "taker-refund-id",
-            makerRefundAddressId = "maker-refund-id",
-            takerRedeemAddressId = "taker-redeem-id",
-            makerRedeemAddressId = "maker-redeem-id",
             isRead = Random.nextBoolean(),
             secret = if (state == SwapState.ResponderRedeemed) "secret-value" else null,
             secretHash = "secret-hash-${swapId}",
-            takerRefundTime = 3600,
-            makerRefundTime = 7200,
             takerSafeTxTime = if (state != SwapState.Requested) timestamp else null,
             makerSafeTxTime = if (state.step >= SwapState.Responded.step) timestamp else null,
             takerSafeTx = if (state != SwapState.Requested) "taker-safe-tx-${swapId}" else null,
@@ -194,8 +195,6 @@ class SwapRepositoryFakeImpl : SwapRepository {
             makerRedeemTx = if (state == SwapState.ResponderRedeemed) "maker-redeem-tx" else null,
             takerRefundTx = if (state == SwapState.Refunded) "taker-refund-tx" else null,
             makerRefundTx = if (state == SwapState.Refunded) "maker-refund-tx" else null,
-            takerSafeAmount = BigDecimal("1.5"),
-            makerSafeAmount = BigDecimal("10.0")
         )
     }
 

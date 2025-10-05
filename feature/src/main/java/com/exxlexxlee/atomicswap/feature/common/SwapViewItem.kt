@@ -3,7 +3,6 @@ package com.exxlexxlee.atomicswap.feature.common
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +26,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.exxlexxlee.atomicswap.domain.model.Swap
-import com.exxlexxlee.atomicswap.domain.model.SwapState
+import com.exxlexxlee.atomicswap.core.swap.model.Swap
+import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -50,8 +49,8 @@ fun SwapViewItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TokenPairIcon(
-                makerIconUrl = swap.make.makerToken.coin.iconUrl,
-                takerIconUrl = swap.make.takerToken.coin.iconUrl,
+                makerIconUrl = swap.take.make.makerToken.coin.iconUrl,
+                takerIconUrl = swap.take.make.takerToken.coin.iconUrl,
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -74,8 +73,8 @@ fun SwapViewItem(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "${swap.make.makerExactAmount} ${swap.make.makerToken.coin.symbol} → "
-                            + "${swap.make.takerExactAmount} ${swap.make.takerToken.coin.symbol}",
+                    text = "${swap.take.make.amount} ${swap.take.make.makerToken.coin.symbol} → "
+                            + "${swap.take.make.amount} ${swap.take.make.takerToken.coin.symbol}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -127,7 +126,7 @@ private fun StatusChip(state: SwapState) {
     val labelColor: Color = MaterialTheme.colorScheme.onSecondary
 
     when (state) {
-        SwapState.Requested, SwapState.Responded, SwapState.InitiatorBailed, SwapState.ResponderBailed -> {
+        SwapState.Requested, SwapState.Responded, SwapState.InitiatorBailed, SwapState.ResponderBailed, SwapState.Confirmed -> {
             text = "Waiting"
             containerColor = MaterialTheme.colorScheme.secondary
         }
@@ -141,6 +140,8 @@ private fun StatusChip(state: SwapState) {
             text = "Expired"
             containerColor = MaterialTheme.colorScheme.tertiary
         }
+
+        SwapState.Confirmed -> TODO()
     }
 
     AssistChip(

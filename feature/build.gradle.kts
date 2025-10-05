@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:swap"))
     implementation(project(":core:localize"))
     implementation(project(":core:network"))
     implementation(project(":core:walletconnect"))

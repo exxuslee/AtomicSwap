@@ -1,6 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.models
 
-import com.exxlexxlee.atomicswap.domain.model.Swap
+import com.exxlexxlee.atomicswap.core.swap.model.Swap
 
 
 data class ViewState(

@@ -29,8 +29,13 @@ class SwapRepositoryImpl(
 		.map { entities ->
 			entities.map { swapEntity ->
 				val makeEntity = queries.selectMakeById(swapEntity.makeId).executeAsOne()
-				val takeEntities = queries.selectTakesByMakeId(swapEntity.makeId).executeAsList()
-				swapEntity.toDomain(makeEntity, takeEntities)
+				val takeEntity = if (swapEntity.takeId != null) {
+					queries.selectTakeById(swapEntity.takeId!!).executeAsOne()
+				} else {
+					// Fallback to first take by make
+					queries.selectTakesByMakeId(swapEntity.makeId).executeAsList().first()
+				}
+				swapEntity.toDomain(makeEntity, takeEntity)
 			}
 		}
 		.stateIn(
@@ -46,15 +51,23 @@ class SwapRepositoryImpl(
 	override fun swapsAll(): List<Swap> =
 		queries.selectAll().executeAsList().map { swapEntity ->
 			val makeEntity = queries.selectMakeById(swapEntity.makeId).executeAsOne()
-			val takeEntities = queries.selectTakesByMakeId(swapEntity.makeId).executeAsList()
-			swapEntity.toDomain(makeEntity, takeEntities)
+			val takeEntity = if (swapEntity.takeId != null) {
+				queries.selectTakeById(swapEntity.takeId!!).executeAsOne()
+			} else {
+				queries.selectTakesByMakeId(swapEntity.makeId).executeAsList().first()
+			}
+			swapEntity.toDomain(makeEntity, takeEntity)
 		}
 
 	override fun swap(id: String): Swap {
 		val swapEntity = queries.selectByIdFull(id).executeAsOne()
 		val makeEntity = queries.selectMakeById(swapEntity.makeId).executeAsOne()
-		val takeEntities = queries.selectTakesByMakeId(swapEntity.makeId).executeAsList()
-		return swapEntity.toDomain(makeEntity, takeEntities)
+		val takeEntity = if (swapEntity.takeId != null) {
+			queries.selectTakeById(swapEntity.takeId!!).executeAsOne()
+		} else {
+			queries.selectTakesByMakeId(swapEntity.makeId).executeAsList().first()
+		}
+		return swapEntity.toDomain(makeEntity, takeEntity)
 	}
 
 	suspend fun insertSwap(swap: Swap) = withContext(Dispatchers.IO) {
@@ -86,18 +99,16 @@ class SwapRepositoryImpl(
 		)
 
 		// Insert Take entities
-		swap.take.forEach { take ->
-			val takeEntity = take.toTakeEntity()
-			queries.insertTake(
-				takeId = takeEntity.takeId,
-				takerId = takeEntity.takerId,
-				takerRefundAddress = takeEntity.takerRefundAddress,
-				takerRedeemAddress = takeEntity.takerRedeemAddress,
-				makerFinalAmount = takeEntity.makerFinalAmount,
-				takerFinalAmount = takeEntity.takerFinalAmount,
-				makeId = takeEntity.makeId
-			)
-		}
+		val takeEntity = swap.take.toTakeEntity()
+		queries.insertTake(
+			takeId = takeEntity.takeId,
+			takerId = takeEntity.takerId,
+			takerRefundAddress = takeEntity.takerRefundAddress,
+			takerRedeemAddress = takeEntity.takerRedeemAddress,
+			makerFinalAmount = takeEntity.makerFinalAmount,
+			takerFinalAmount = takeEntity.takerFinalAmount,
+			makeId = takeEntity.makeId
+		)
 
 		// Insert Swap entity
 		val swapEntity = swap.toEntity()

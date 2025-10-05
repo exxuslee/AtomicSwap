@@ -1,11 +1,13 @@
 package com.exxlexxlee.atomicswap.data.mapper
 
-import com.example.atomicswap.core.database.MakeEntity
-import com.example.atomicswap.core.database.SwapEntity
-import com.example.atomicswap.core.database.TakeEntity
+import com.exxlexxlee.atomicswap.core.database.MakeEntity
+import com.exxlexxlee.atomicswap.core.database.SwapEntity
+import com.exxlexxlee.atomicswap.core.database.TakeEntity
+import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Make
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import com.exxlexxlee.atomicswap.core.swap.model.Take
@@ -29,7 +31,7 @@ internal fun MakeEntity.toDomain(): Make {
     )
 
     val makerToken = Token(
-        id = "btc",
+        id = makerTokenCoinSymbol.lowercase(),
         coin = makeTokenCoin,
         contractAddress = makerTokenContractAddress,
         blockchain = Blockchain.valueOf(makerTokenBlockchain),
@@ -37,7 +39,7 @@ internal fun MakeEntity.toDomain(): Make {
     )
 
     val takerToken = Token(
-        id = "eth",
+        id = takerTokenCoinSymbol.lowercase(),
         coin = takerTokenCoin,
         contractAddress = takerTokenContractAddress,
         blockchain = Blockchain.valueOf(takerTokenBlockchain),
@@ -51,44 +53,48 @@ internal fun MakeEntity.toDomain(): Make {
         takerToken = takerToken,
         refundAddress = makerRefundAddress,
         redeemAddress = makerRedeemAddress,
-        makerExactAmount = BigDecimal(makerExactAmount),
-        takerExactAmount = BigDecimal(takerExactAmount),
-        makerStartAmount = BigDecimal(makerStartAmount),
-        takerStartAmount = BigDecimal(takerStartAmount)
+        amount = AmountType.ExactIn(
+            makerExactAmount = BigDecimal(makerExactAmount),
+            takerStartAmount = BigDecimal(takerStartAmount)
+        ),
+        priceType = PriceType.Fixed,
+        isOn = true,
+        reservedAmount = BigDecimal.ZERO,
+        refundTime = 0L,
+        timestamp = 0L,
     )
 }
 
 internal fun TakeEntity.toDomain(make: Make): Take {
     return Take(
-        make = make,
         takeId = takeId,
+        make = make,
         takerId = takerId,
-        takerRefundAddress = takerRefundAddress,
-        takerRedeemAddress = takerRedeemAddress,
+        redeemAddress = takerRedeemAddress,
+        refundAddress = takerRefundAddress,
+        isConfirmed = false,
         makerFinalAmount = BigDecimal(makerFinalAmount),
-        takerFinalAmount = BigDecimal(takerFinalAmount)
+        takerFinalAmount = BigDecimal(takerFinalAmount),
+        takerSafeAmount = BigDecimal.ZERO,
+        makerSafeAmount = BigDecimal.ZERO,
     )
 }
 
 internal fun SwapEntity.toDomain(
     makeEntity: MakeEntity,
-    takeEntities: List<TakeEntity>
+    takeEntity: TakeEntity
 ): Swap {
     val make = makeEntity.toDomain()
-    val takeList = takeEntities.map { it.toDomain(make) }
+    val take = takeEntity.toDomain(make)
 
     return Swap(
-        take = takeList,
-        takeId = takeId,
-        make = make,
         swapId = swapId,
+        take = take,
         timestamp = timestamp,
         swapState = SwapState.fromValue(swapState.toInt()),
         isRead = isRead,
         secret = secret,
         secretHash = secretHash,
-        takerRefundTime = takerRefundTime.toInt(),
-        makerRefundTime = makerRefundTime.toInt(),
         takerSafeTxTime = takerSafeTxTime,
         makerSafeTxTime = makerSafeTxTime,
         takerSafeTx = takerSafeTx,
@@ -97,8 +103,6 @@ internal fun SwapEntity.toDomain(
         makerRedeemTx = makerRedeemTx,
         takerRefundTx = takerRefundTx,
         makerRefundTx = makerRefundTx,
-        takerSafeAmount = BigDecimal(takerSafeAmount),
-        makerSafeAmount = BigDecimal(makerSafeAmount)
     )
 }
 
@@ -110,10 +114,14 @@ internal fun Swap.toEntity(): SwapEntity {
         isRead = isRead,
         makeId = take.make.makeId,
         takeId = take.takeId,
+        takerRefundAddressId = null,
+        makerRefundAddressId = null,
+        takerRedeemAddressId = null,
+        makerRedeemAddressId = null,
         secret = secret,
         secretHash = secretHash,
-        takerRefundTime = takerRefundTime.toLong(),
-        makerRefundTime = makerRefundTime.toLong(),
+        takerRefundTime = 0,
+        makerRefundTime = 0,
         takerSafeTxTime = takerSafeTxTime,
         makerSafeTxTime = makerSafeTxTime,
         takerSafeTx = takerSafeTx,
@@ -122,17 +130,36 @@ internal fun Swap.toEntity(): SwapEntity {
         makerRedeemTx = makerRedeemTx,
         takerRefundTx = takerRefundTx,
         makerRefundTx = makerRefundTx,
-        takerSafeAmount = takerSafeAmount.toPlainString(),
-        makerSafeAmount = makerSafeAmount.toPlainString()
+        takerSafeAmount = "0",
+        makerSafeAmount = "0",
     )
 }
 
 internal fun Make.toMakeEntity(): MakeEntity {
+    val makerExactAmount: BigDecimal
+    val takerExactAmount: BigDecimal
+    val makerStartAmount: BigDecimal
+    val takerStartAmount: BigDecimal
+    when (val amt = amount) {
+        is AmountType.ExactIn -> {
+            makerExactAmount = amt.makerExactAmount
+            takerStartAmount = amt.takerStartAmount
+            makerStartAmount = amt.makerExactAmount
+            takerExactAmount = amt.takerStartAmount
+        }
+        is AmountType.ExactOut -> {
+            makerStartAmount = amt.makerStartAmount
+            takerExactAmount = amt.takerExactAmount
+            makerExactAmount = amt.makerStartAmount
+            takerStartAmount = amt.takerExactAmount
+        }
+    }
+
     return MakeEntity(
         makeId = makeId,
         makerId = makerId,
-        makerRefundAddress = makerRefundAddress,
-        makerRedeemAddress = makerRedeemAddress,
+        makerRefundAddress = refundAddress,
+        makerRedeemAddress = redeemAddress,
         makerExactAmount = makerExactAmount.toPlainString(),
         takerExactAmount = takerExactAmount.toPlainString(),
         makerStartAmount = makerStartAmount.toPlainString(),
