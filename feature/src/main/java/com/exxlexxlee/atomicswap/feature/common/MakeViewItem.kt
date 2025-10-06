@@ -86,7 +86,7 @@ fun MakeViewItem(
             ) {
                 TagViewItem(
                     icon = painterResource(R.drawable.outline_wallet_24),
-                    text = "1 BNB = 1000.00 USDT"
+                    text = "1 BNB\n1000.00 USDT"
                 )
                 TagViewItem(
                     icon = painterResource(R.drawable.outline_wallet_24),

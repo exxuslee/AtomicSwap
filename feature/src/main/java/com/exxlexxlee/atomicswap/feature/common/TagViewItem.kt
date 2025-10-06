@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
@@ -55,7 +56,8 @@ fun TagViewItem(
                 text = text,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = textColor
+                color = textColor,
+                textAlign = TextAlign.Center,
             )
             iconEnd?.let {
                 Icon(
