@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.feature.root
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
+import com.exxlexxlee.atomicswap.domain.usecases.NotificationReaderUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val settingsUseCase: SettingsUseCase,
     private val swapUseCase: SwapUseCase,
+    private val notificationReaderUseCase: NotificationReaderUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(
     initialState = ViewState(
         initialRoute = settingsUseCase.selectedRoute(),
@@ -24,6 +26,16 @@ class MainViewModel(
 ) {
 
     init {
+        viewModelScope.launch {
+            swapUseCase.swapFilterBadgeType.collect {
+                viewState = viewState.copy(swapFilterBadgeType = it)
+            }
+        }
+        viewModelScope.launch {
+            notificationReaderUseCase.unreadCount.collect {
+                viewState = viewState.copy(pushUnreadCount = it,)
+            }
+        }
         viewModelScope.launch {
             settingsUseCase.isTermsOfUseRead.collect {
                 viewState = viewState.copy(

@@ -10,4 +10,5 @@ data class ViewState(
     val settingsRoute: Routes.SettingsRoute.MainRoute,
     val selectedChronicleTab: FilterStateChronicle,
     val pushUnreadCount: Int = 0,
+    val swapFilterBadgeType: Map<FilterStateChronicle, Int?> = mapOf(),
 )

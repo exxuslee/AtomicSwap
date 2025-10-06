@@ -130,14 +130,14 @@ fun MainContent(
                                     selected = viewState.selectedChronicleTab == filterState,
                                     onClick = {
                                         viewModel.obtainEvent(
-                                            SelectChronicleTab(
-                                                filterState
-                                            )
+                                            SelectChronicleTab(filterState)
                                         )
                                     },
                                     icon = {
                                         BadgedIcon(
-                                            badge = BadgeType.fromInt(1)
+                                            badge = BadgeType.fromInt(
+                                                viewState.swapFilterBadgeType[filterState] ?: 0
+                                            )
                                         ) {
                                             Icon(
                                                 modifier = Modifier.padding(horizontal = 4.dp),

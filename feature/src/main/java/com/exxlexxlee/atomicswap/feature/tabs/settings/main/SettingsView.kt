@@ -68,22 +68,6 @@ fun SettingsView(
                     .background(MaterialTheme.colorScheme.background, CircleShape)
                     .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
             )
-            HsIconButton(
-                onClick = {
-                    navController.navigate(Routes.SettingsRoute.NotificationRoute.route)
-                },
-            ) {
-                BadgedIcon(
-                    if (viewState.unreadCount > 0) BadgeType.BadgeNumber(viewState.unreadCount)
-                    else null
-                ) {
-                    Icon(
-                        modifier = Modifier.padding(horizontal = 2.dp).size(24.dp),
-                        painter = painterResource(id = R.drawable.outline_notifications_24),
-                        contentDescription = "notification center",
-                    )
-                }
-            }
         }
 
         CellUniversalSection {

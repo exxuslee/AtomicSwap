@@ -18,8 +18,8 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val featureModule = module {
-    viewModel { MainViewModel(get(), get()) }
-    viewModel { ChronicleViewModel(get(), get() ) }
+    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { ChronicleViewModel(get() ) }
     viewModel { (swapId: String) -> SwapViewModel(swapId, get()) }
     viewModel { DonateViewModel() }
     viewModel { LanguageViewModel() }

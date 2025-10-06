@@ -13,7 +13,7 @@ interface SwapUseCase {
 
     fun swaps(filter: FilterStateChronicle): Flow<List<Swap>>
 
-    val filterBadgeType: Flow<Map<FilterStateChronicle, Int?>>
+    val swapFilterBadgeType: Flow<Map<FilterStateChronicle, Int?>>
     fun filterBadgeType(): Map<FilterStateChronicle, Int?>
     val mainBadgeType: Flow<Int?>
     fun mainBadgeType(): Int?
@@ -32,7 +32,7 @@ interface SwapUseCase {
                 list.filter { it.swapState in filter.relatedStates }
             }
 
-        override val filterBadgeType: Flow<Map<FilterStateChronicle, Int?>> =
+        override val swapFilterBadgeType: Flow<Map<FilterStateChronicle, Int?>> =
             swapRepository.swaps.map { filterBadgeType() }
 
         override fun filterBadgeType(): Map<FilterStateChronicle, Int?> {

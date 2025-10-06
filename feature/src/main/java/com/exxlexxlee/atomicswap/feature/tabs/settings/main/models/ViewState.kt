@@ -9,7 +9,6 @@ data class ViewState(
     val isWalletConnect: Boolean = false,
     val isEmptyLocalStorage: Boolean = true,
     val isTermsOfUseRead: Boolean,
-    val unreadCount: Int = 0,
     val avatar: Bitmap = createBitmap(360, 360),
     val showClearStorageConfirm: Boolean = false,
     val priceAggregator: SupportedAggregators = SupportedAggregators.COIN_MARKET_CAP,

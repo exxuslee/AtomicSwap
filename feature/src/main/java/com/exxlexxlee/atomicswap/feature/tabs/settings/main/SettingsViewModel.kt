@@ -31,17 +31,15 @@ class SettingsViewModel(
     init {
         viewModelScope.launch {
             combine(
-                notificationReaderUseCase.unreadCount,
                 walletConnectManager.delegate.connectionState,
                 aggregatorUseCase.selected,
                 themeController.isDark,
                 settingsUseCase.isTermsOfUseRead,
-            ) { unreadCount, connectionState, selectedAggregator, isDark, isTermsOfUseRead ->
+            ) { connectionState, selectedAggregator, isDark, isTermsOfUseRead ->
                 ViewState(
                     isTermsOfUseRead = isTermsOfUseRead,
                     avatar = avatarGenerator.generateIdenticonBitmap("0", 360),
                     isDark = isDark,
-                    unreadCount = unreadCount,
                     isWalletConnect = connectionState.isAvailable,
                     priceAggregator = selectedAggregator,
                     isEmptyLocalStorage = isClearLocalStorage(),
