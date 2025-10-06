@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.asComposeColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -73,7 +74,7 @@ fun HsRow(
             icon,
             modifier = Modifier.size(30.dp),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.outlineVariant
+            tint = MaterialTheme.colorScheme.secondary
         )
         titleContent()
         Spacer(Modifier.weight(1f))

@@ -22,8 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
@@ -73,18 +75,20 @@ fun SettingsView(
         CellUniversalSection {
             Text(
                 text = stringResource(R.string.account),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary,
             )
         }
         CellUniversalSection(
             listOf(
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_wallet_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.wallet_connect),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         arrowRight = false,
@@ -98,11 +102,12 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_currency_exchange_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_currency_exchange_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.price_aggregator),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         onClick = {
@@ -120,11 +125,12 @@ fun SettingsView(
                 {
                     val click = { eventHandler.invoke(Event.OpenClearStorageDialog) }
                     HsRow(
-                        iconRes = R.drawable.outline_database_off_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_database_off_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.clear_local_storage),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         onClick = if (!viewState.isEmptyLocalStorage) click else null,
@@ -138,18 +144,20 @@ fun SettingsView(
         CellUniversalSection {
             Text(
                 text = stringResource(R.string.app),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary,
             )
         }
         CellUniversalSection(
             listOf(
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_routine_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_routine_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.label_dark_mode),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         arrowRight = false,
@@ -163,11 +171,12 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_language_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_language_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.language),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         onClick = {
@@ -178,11 +187,12 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_contract_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_contract_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.terms_of_service),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         onClick = {
@@ -200,11 +210,12 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_volunteer_activism_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_volunteer_activism_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.donate),
-                                modifier = Modifier.padding(horizontal = 12.dp)
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
                             )
                         },
                         onClick = {
@@ -215,7 +226,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        iconRes = R.drawable.outline_mobile_info_24,
+                        icon = ImageVector.vectorResource(R.drawable.outline_mobile_info_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.about, stringResource(R.string.app_name)),

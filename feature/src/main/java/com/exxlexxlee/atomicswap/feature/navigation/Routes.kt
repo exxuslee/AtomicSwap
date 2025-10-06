@@ -60,6 +60,9 @@ sealed class Routes(
 
         data object PriceAggregatorRoute :
             SettingsRoute("aggregator", label = { stringResource(R.string.price_aggregator) })
+
+        data object ScannerRoute :
+            SettingsRoute("scanner", label = { stringResource(R.string.qr_scanner) })
     }
 
 }

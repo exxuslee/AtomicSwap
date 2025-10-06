@@ -14,12 +14,11 @@ fun HeaderStick(
     text: String,
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 8.dp)
         )
     }

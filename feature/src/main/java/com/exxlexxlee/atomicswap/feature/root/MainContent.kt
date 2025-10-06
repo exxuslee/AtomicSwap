@@ -66,6 +66,7 @@ import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.language.LanguageScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.main.SettingsScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.NotificationScreen
+import com.exxlexxlee.atomicswap.feature.tabs.settings.scanner.ScannerScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.terms.TermsScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -180,6 +181,19 @@ fun MainContent(
                                     )
                                 }
                             }
+                            HsIconButton(
+                                onClick = {
+                                    navController.navigate(SettingsRoute.ScannerRoute.route)
+                                },
+                            ) {
+                                Icon(
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(24.dp),
+                                    painter = painterResource(id = R.drawable.outline_qr_code_scanner_24),
+                                    contentDescription = "qr-scanner",
+                                )
+                            }
                         }
                     }
 
@@ -291,6 +305,10 @@ fun MainContent(
                     SettingsRoute.PriceAggregatorRoute.route,
                     animationType = AnimationType.FADE
                 ) { AggregatorScreen() }
+                animatedComposable(
+                    SettingsRoute.ScannerRoute.route,
+                    animationType = AnimationType.FADE
+                ) { ScannerScreen() }
 
             }
 

@@ -54,5 +54,6 @@
     <string name="donate_copy_cd">копировать</string>
     <string name="donate_footer_thanks">Спасибо за вашу поддержку!</string>
     <string name="blockchain">%s блокчейн</string>
-    <string name="terms_accept_button">Terms accept</string>
+    <string name="terms_accept_button">Подвердить</string>
+    <string name="qr_scanner">QR-сканнер</string>
 </resources>

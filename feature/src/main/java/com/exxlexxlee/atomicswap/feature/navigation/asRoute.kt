@@ -27,6 +27,7 @@ fun NavDestination?.asRoute(): Routes? {
         route == Routes.SettingsRoute.DonateRoute.route -> Routes.SettingsRoute.DonateRoute
         route == Routes.SettingsRoute.AboutRoute.route -> Routes.SettingsRoute.AboutRoute
         route == Routes.SettingsRoute.PriceAggregatorRoute.route -> Routes.SettingsRoute.PriceAggregatorRoute
+        route == Routes.SettingsRoute.ScannerRoute.route -> Routes.SettingsRoute.ScannerRoute
 
         else -> null
     }
