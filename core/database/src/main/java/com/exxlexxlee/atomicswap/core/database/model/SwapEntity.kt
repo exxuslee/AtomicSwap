@@ -1,51 +1,45 @@
 package com.exxlexxlee.atomicswap.core.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.exxlexxlee.atomicswap.core.swap.model.SwapState
+// import removed: Take not used here
 
 @Entity(
     tableName = "SwapEntity",
     foreignKeys = [
         ForeignKey(
-            entity = MakeEntity::class,
-            parentColumns = ["makeId"],
-            childColumns = ["makeId"],
+            entity = TakeEntity::class,
+            parentColumns = ["takeId"],
+            childColumns = ["takeId"],
             onDelete = ForeignKey.CASCADE,
         )
     ],
-    indices = [Index(value = ["makeId"])],
+    indices = [Index(value = ["takeId"])],
 )
 data class SwapEntity(
-    @PrimaryKey val swapId: String,
-    val timestamp: Long,
-    val swapState: Int,
-    val isRead: Boolean,
+    @PrimaryKey
+    @ColumnInfo(name = "swapId") val swapId: String,
+    @ColumnInfo(name = "takeId") val takeId: String,
+    @ColumnInfo(name = "timestamp") val timestamp: Long,
+    @ColumnInfo(name = "swapState") val swapState: SwapState,
+    @ColumnInfo(name = "isRead") val isRead: Boolean,
 
-    val makeId: String,
-    val takeId: String?,
+    @ColumnInfo(name = "secret") val secret: String? = null,
+    @ColumnInfo(name = "secretHash") val secretHash: String,
 
-    val takerRefundAddressId: String?,
-    val makerRefundAddressId: String?,
-    val takerRedeemAddressId: String?,
-    val makerRedeemAddressId: String?,
+    @ColumnInfo(name = "takerSafeTxTime") val takerSafeTxTime: Long? = null,
+    @ColumnInfo(name = "makerSafeTxTime") val makerSafeTxTime: Long? = null,
 
-    val secret: String?,
-    val secretHash: String,
-
-    val takerRefundTime: Long,
-    val makerRefundTime: Long,
-    val takerSafeTxTime: Long?,
-    val makerSafeTxTime: Long?,
-
-    val takerSafeTx: String?,
-    val makerSafeTx: String?,
-    val takerRedeemTx: String?,
-    val makerRedeemTx: String?,
-    val takerRefundTx: String?,
-    val makerRefundTx: String?,
-
-    val takerSafeAmount: String,
-    val makerSafeAmount: String,
+    @ColumnInfo(name = "takerSafeTx") val takerSafeTx: String? = null,
+    @ColumnInfo(name = "makerSafeTx") val makerSafeTx: String? = null,
+    @ColumnInfo(name = "takerRedeemTx") val takerRedeemTx: String? = null,
+    @ColumnInfo(name = "makerRedeemTx") val makerRedeemTx: String? = null,
+    @ColumnInfo(name = "takerRefundTx") val takerRefundTx: String? = null,
+    @ColumnInfo(name = "makerRefundTx") val makerRefundTx: String? = null,
 )
+
+

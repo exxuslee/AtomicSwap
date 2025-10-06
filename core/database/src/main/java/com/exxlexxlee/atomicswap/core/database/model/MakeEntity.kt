@@ -1,34 +1,28 @@
 package com.exxlexxlee.atomicswap.core.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.exxlexxlee.atomicswap.core.swap.model.AmountType
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType
+import com.exxlexxlee.atomicswap.core.swap.model.Token
+import java.math.BigDecimal
 
 @Entity(tableName = "MakeEntity")
 data class MakeEntity(
-    @PrimaryKey val makeId: String,
-    val makerId: String,
-    val makerRefundAddress: String,
-    val makerRedeemAddress: String,
-    val makerExactAmount: String,
-    val takerExactAmount: String,
-    val makerStartAmount: String,
-    val takerStartAmount: String,
-
-    // Maker Token
-    val makerTokenCoinId: String,
-    val makerTokenCoinSymbol: String,
-    val makerTokenCoinName: String,
-    val makerTokenCoinIconUrl: String,
-    val makerTokenContractAddress: String?,
-    val makerTokenBlockchain: String,
-    val makerTokenDecimal: Int,
-
-    // Taker Token
-    val takerTokenCoinId: String,
-    val takerTokenCoinSymbol: String,
-    val takerTokenCoinName: String,
-    val takerTokenCoinIconUrl: String,
-    val takerTokenContractAddress: String?,
-    val takerTokenBlockchain: String,
-    val takerTokenDecimal: Int,
+    @PrimaryKey
+    @ColumnInfo(name = "makeId") val makeId: String,
+    @ColumnInfo(name = "makerId") val makerId: String,
+    @ColumnInfo(name = "makerToken") val makerToken: Token,
+    @ColumnInfo(name = "takerToken") val takerToken: Token,
+    @ColumnInfo(name = "refundAddress") val refundAddress: String,
+    @ColumnInfo(name = "redeemAddress") val redeemAddress: String,
+    @ColumnInfo(name = "amount") val amount: AmountType,
+    @ColumnInfo(name = "priceType") val priceType: PriceType,
+    @ColumnInfo(name = "isOn") val isOn: Boolean,
+    @ColumnInfo(name = "reservedAmount") val reservedAmount: BigDecimal,
+    @ColumnInfo(name = "refundTime") val refundTime: Long,
+    @ColumnInfo(name = "timestamp") val timestamp: Long,
 )
+
+
