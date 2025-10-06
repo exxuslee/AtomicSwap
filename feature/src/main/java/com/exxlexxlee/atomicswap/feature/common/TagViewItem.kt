@@ -27,13 +27,14 @@ import com.exxlexxlee.atomicswap.feature.R
 
 @Composable
 fun TagViewItem(
+    modifier: Modifier = Modifier,
     icon: Painter,
     text: String,
     textColor: Color = MaterialTheme.colorScheme.primary,
     iconEnd: Painter? = null,
 ) {
     Card(
-        modifier = Modifier,
+        modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),

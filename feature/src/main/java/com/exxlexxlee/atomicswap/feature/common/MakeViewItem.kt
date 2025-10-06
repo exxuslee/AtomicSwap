@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,17 +13,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,9 +34,8 @@ import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Make
 import com.exxlexxlee.atomicswap.core.swap.model.PriceType
-import com.exxlexxlee.atomicswap.core.swap.model.Swap
-import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import com.exxlexxlee.atomicswap.core.swap.model.Token
+import com.exxlexxlee.atomicswap.feature.R
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -51,44 +51,58 @@ fun MakeViewItem(
             .fillMaxWidth()
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(12.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            TokenPairIcon(
-                makerIconUrl = make.makerToken.coin.iconUrl,
-                takerIconUrl = make.takerToken.coin.iconUrl,
-            )
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "ID: ${make.makeId}",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Text(
-                    text = "${make.amount} ${make.makerToken.coin.symbol} → "
-                            + "${make.amount} ${make.takerToken.coin.symbol}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                TokenPairIcon(
+                    makerIconUrl = make.makerToken.coin.iconUrl,
+                    takerIconUrl = make.takerToken.coin.iconUrl,
                 )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    TagViewItem(
+                        icon = painterResource(R.drawable.outline_wallet_24),
+                        text = "1.00 BNB"
+                    )
+                    TagViewItem(
+                        icon = painterResource(R.drawable.outline_wallet_24),
+                        text = "1000.00 USDT"
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                TagViewItem(
+                    icon = painterResource(R.drawable.outline_wallet_24),
+                    text = "1 BNB = 1000.00 USDT"
+                )
+                TagViewItem(
+                    icon = painterResource(R.drawable.outline_wallet_24),
+                    text = "1.00 BNB"
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "ID: ${make.makeId}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 Text(
                     text = formatDateTime(make.timestamp),
                     style = MaterialTheme.typography.bodySmall,
@@ -129,7 +143,7 @@ private fun TokenIcon(url: String, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun MakeViewItemPreview(){
+private fun MakeViewItemPreview() {
     AppTheme {
         fun createFakeToken(
             symbol: String,
@@ -162,6 +176,7 @@ private fun MakeViewItemPreview(){
                 decimal = 18
             )
         }
+
         val makerToken = createFakeToken("BTC", Blockchain.Ethereum(isMain = true))
         val takerToken = createFakeToken("ETH", Blockchain.Bitcoin(isMain = true))
         MakeViewItem(
