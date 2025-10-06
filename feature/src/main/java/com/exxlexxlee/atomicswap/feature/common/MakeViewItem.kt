@@ -4,19 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -53,71 +47,40 @@ fun MakeViewItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .padding( 12.dp, 12.dp, 12.dp, 0.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                TokenPairIcon(
-                    makerIconUrl = make.makerToken.coin.iconUrl,
-                    takerIconUrl = make.takerToken.coin.iconUrl,
-                )
-                Column(
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    TagViewItem(
-                        icon = painterResource(R.drawable.outline_wallet_24),
-                        text = "1.00 BNB"
-                    )
-                    TagViewItem(
-                        icon = painterResource(R.drawable.outline_wallet_24),
-                        text = "1000.00 USDT"
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                TagViewItem(
-                    icon = painterResource(R.drawable.outline_wallet_24),
-                    text = "1 BNB\n1000.00 USDT"
-                )
-                TagViewItem(
-                    icon = painterResource(R.drawable.outline_wallet_24),
-                    text = "1.00 BNB"
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "ID: ${make.makeId}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = formatDateTime(make.timestamp),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            TokenPairIcon(
+                makerIconUrl = make.makerToken.coin.iconUrl,
+                takerIconUrl = make.takerToken.coin.iconUrl,
+            )
+            TagViewItem(
+                icon = painterResource(R.drawable.outline_wallet_24),
+                text = "1 BNB =\n1000.00 USDT"
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding( 12.dp, 0.dp, 12.dp, 12.dp),
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "From: ${make.makeId}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            TagViewItem(
+                icon = painterResource(R.drawable.outline_wallet_24),
+                text = "1000.00 USDT"
+            )
         }
     }
-}
-
-
-private fun formatDateTime(timestamp: Long): String {
-    val date = Date(timestamp)
-    val formatter = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
-    return formatter.format(date)
 }
 
 @Composable
