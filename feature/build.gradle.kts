@@ -65,6 +65,13 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.coil.compose)
 
+    // CameraX and ML Kit for QR scanning
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.mlkit.barcode.scanning)
+
     implementation(platform(libs.reown.bom))
     implementation(libs.reown.core)
     implementation(libs.reown.appkit)

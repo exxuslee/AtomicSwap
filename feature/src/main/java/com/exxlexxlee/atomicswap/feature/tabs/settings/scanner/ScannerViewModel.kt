@@ -13,8 +13,10 @@ class ScannerViewModel(
 
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
+            is Event.PermissionState -> viewState =
+                viewState.copy(hasCameraPermission = viewEvent.isGranted)
 
-            else -> {}
+            Event.RequestPermission -> viewAction = Action.RequestPermission
         }
 
     }

@@ -13,6 +13,7 @@ import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.language.LanguageViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.main.SettingsViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.NotificationViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.settings.scanner.ScannerViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.terms.TermsViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -31,4 +32,5 @@ val featureModule = module {
     viewModel { CompleteViewModel(get()) }
     viewModel { MyMakeViewModel(get()) }
     viewModel { RefundedViewModel(get()) }
+    viewModel { ScannerViewModel() }
 }
