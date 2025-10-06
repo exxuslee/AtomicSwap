@@ -1,11 +1,10 @@
 package com.exxlexxlee.atomicswap.data.repository
 
 import com.exxlexxlee.atomicswap.core.database.NotificationsDao
-import com.exxlexxlee.atomicswap.core.database.NotificationEntity
+import com.exxlexxlee.atomicswap.core.database.model.NotificationEntity
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 
 class NotificationsRepositoryImpl(

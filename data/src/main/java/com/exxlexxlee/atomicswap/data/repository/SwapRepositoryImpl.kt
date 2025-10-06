@@ -17,17 +17,17 @@ import kotlinx.coroutines.withContext
 import kotlin.collections.emptyList
 
 class SwapRepositoryImpl(
-    private val dao: SwapDao,
+	private val swapDao: SwapDao,
 ): SwapRepository {
 
-    override val swaps = dao.selectAll()
+    override val swaps = swapDao.selectAll()
 		.map { entities ->
 			entities.map { swapEntity ->
-				val makeEntity = dao.selectMakeById(swapEntity.makeId)
+				val makeEntity = swapDao.selectMakeById(swapEntity.makeId)
 				val takeEntity = if (swapEntity.takeId != null) {
-					dao.selectTakeById(swapEntity.takeId!!)
+					swapDao.selectTakeById(swapEntity.takeId!!)
 				} else {
-					dao.selectTakesByMakeId(swapEntity.makeId).first()
+					swapDao.selectTakesByMakeId(swapEntity.makeId).first()
 				}
 				swapEntity.toDomain(makeEntity, takeEntity)
 			}
@@ -39,29 +39,29 @@ class SwapRepositoryImpl(
 		)
 
 	override suspend fun deleteAllHistory() {
-		dao.deleteHistory()
+		swapDao.deleteHistory()
 	}
 
 	override fun swapsAll(): List<Swap> = run {
-		val entities = runBlockingIO { dao.selectAll().first() }
+		val entities = runBlockingIO { swapDao.selectAll().first() }
 		entities.map { swapEntity ->
-			val makeEntity = runBlockingIO { dao.selectMakeById(swapEntity.makeId) }
+			val makeEntity = runBlockingIO { swapDao.selectMakeById(swapEntity.makeId) }
 			val takeEntity = if (swapEntity.takeId != null) {
-				runBlockingIO { dao.selectTakeById(swapEntity.takeId!!) }
+				runBlockingIO { swapDao.selectTakeById(swapEntity.takeId!!) }
 			} else {
-				runBlockingIO { dao.selectTakesByMakeId(swapEntity.makeId) }.first()
+				runBlockingIO { swapDao.selectTakesByMakeId(swapEntity.makeId) }.first()
 			}
 			swapEntity.toDomain(makeEntity, takeEntity)
 		}
 	}
 
 	override fun swap(id: String): Swap {
-		val swapEntity = runBlockingIO { dao.selectById(id) }
-		val makeEntity = runBlockingIO { dao.selectMakeById(swapEntity.makeId) }
+		val swapEntity = runBlockingIO { swapDao.selectById(id) }
+		val makeEntity = runBlockingIO { swapDao.selectMakeById(swapEntity.makeId) }
 		val takeEntity = if (swapEntity.takeId != null) {
-			runBlockingIO { dao.selectTakeById(swapEntity.takeId!!) }
+			runBlockingIO { swapDao.selectTakeById(swapEntity.takeId!!) }
 		} else {
-			runBlockingIO { dao.selectTakesByMakeId(swapEntity.makeId) }.first()
+			runBlockingIO { swapDao.selectTakesByMakeId(swapEntity.makeId) }.first()
 		}
 		return swapEntity.toDomain(makeEntity, takeEntity)
 	}
@@ -70,10 +70,10 @@ class SwapRepositoryImpl(
 		val makeEntity = swap.take.make.toMakeEntity()
 		val takeEntity = swap.take.toTakeEntity()
 		val swapEntity = swap.toEntity()
-		dao.insertAll(makeEntity, takeEntity, swapEntity)
+		swapDao.insertAll(makeEntity, takeEntity, swapEntity)
 	}
 
-	suspend fun deleteSwap(id: String) = withContext(Dispatchers.IO) { dao.deleteById(id) }
+	suspend fun deleteSwap(id: String) = withContext(Dispatchers.IO) { swapDao.deleteById(id) }
 }
 
 private inline fun <T> runBlockingIO(crossinline block: suspend () -> T): T =

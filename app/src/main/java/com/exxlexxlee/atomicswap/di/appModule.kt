@@ -1,7 +1,7 @@
 package com.exxlexxlee.atomicswap.di
 
 import com.exxlexxlee.atomicswap.BuildConfig
-import com.exxlexxlee.atomicswap.core.database.databaseModule
+import com.exxlexxlee.atomicswap.core.database.di.databaseModule
 import com.exxlexxlee.atomicswap.core.network.di.networkModule
 import com.exxlexxlee.atomicswap.core.walletconnect.di.wcModule
 import com.exxlexxlee.atomicswap.data.di.dataModule

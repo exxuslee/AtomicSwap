@@ -1,6 +1,6 @@
 package com.exxlexxlee.atomicswap.data.mapper
 
-import com.exxlexxlee.atomicswap.core.database.TakeEntity
+import com.exxlexxlee.atomicswap.core.database.model.TakeEntity
 import com.exxlexxlee.atomicswap.core.swap.model.Make
 import com.exxlexxlee.atomicswap.core.swap.model.Take
 import java.math.BigDecimal

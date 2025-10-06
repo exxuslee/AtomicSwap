@@ -2,6 +2,10 @@ package com.exxlexxlee.atomicswap.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.exxlexxlee.atomicswap.core.database.model.MakeEntity
+import com.exxlexxlee.atomicswap.core.database.model.NotificationEntity
+import com.exxlexxlee.atomicswap.core.database.model.SwapEntity
+import com.exxlexxlee.atomicswap.core.database.model.TakeEntity
 
 @Database(
     entities = [

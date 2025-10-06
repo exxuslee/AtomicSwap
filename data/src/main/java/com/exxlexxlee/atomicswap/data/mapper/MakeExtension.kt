@@ -1,6 +1,6 @@
 package com.exxlexxlee.atomicswap.data.mapper
 
-import com.exxlexxlee.atomicswap.core.database.MakeEntity
+import com.exxlexxlee.atomicswap.core.database.model.MakeEntity
 import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin

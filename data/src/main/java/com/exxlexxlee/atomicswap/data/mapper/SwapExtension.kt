@@ -1,8 +1,8 @@
 package com.exxlexxlee.atomicswap.data.mapper
 
-import com.exxlexxlee.atomicswap.core.database.MakeEntity
-import com.exxlexxlee.atomicswap.core.database.SwapEntity
-import com.exxlexxlee.atomicswap.core.database.TakeEntity
+import com.exxlexxlee.atomicswap.core.database.model.MakeEntity
+import com.exxlexxlee.atomicswap.core.database.model.SwapEntity
+import com.exxlexxlee.atomicswap.core.database.model.TakeEntity
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 
