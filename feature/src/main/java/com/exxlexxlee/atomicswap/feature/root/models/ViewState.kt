@@ -9,4 +9,5 @@ data class ViewState(
     val chronicleRoute: Routes.ChronicleRoute.MainRoute,
     val settingsRoute: Routes.SettingsRoute.MainRoute,
     val selectedChronicleTab: FilterStateChronicle,
+    val pushUnreadCount: Int = 0,
 )

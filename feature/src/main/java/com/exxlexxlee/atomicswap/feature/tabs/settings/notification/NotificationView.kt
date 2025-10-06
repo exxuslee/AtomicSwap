@@ -20,7 +20,6 @@ import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.LazyStickyHeaderColumn
 import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
-import com.exxlexxlee.atomicswap.core.common.ui.TopAppBar
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.models.Event
@@ -29,33 +28,26 @@ import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.models.ViewS
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationView(viewState: ViewState, eventHandler: (Event) -> Unit) {
-    val navController = LocalNavController.current
 
-    Column {
-        TopAppBar(stringResource(R.string.notifications)) {
-            navController.popBackStack()
-        }
-
-        if (viewState.items.isEmpty()) {
-            ListEmptyView(
-                text = stringResource(R.string.notification_empty_list),
-                icon = R.drawable.outline_empty_dashboard_24
+    if (viewState.items.isEmpty()) {
+        ListEmptyView(
+            text = stringResource(R.string.notification_empty_list),
+            icon = R.drawable.outline_empty_dashboard_24
+        )
+    } else {
+        LazyStickyHeaderColumn(
+            items = viewState.items.mapValues { (_, list) -> list.map { it.id } },
+            revealCardId = viewState.revealCardId,
+            onClick = { id -> eventHandler.invoke(Event.Click(id)) },
+            onReveal = { id -> eventHandler.invoke(Event.Reveal(id)) },
+            onDelete = { id -> eventHandler.invoke(Event.Delete(id)) },
+            onBottomReached = { eventHandler.invoke(Event.BottomReached) }
+        ) { contentCell ->
+            NotificationsCell(
+                modifier = contentCell.clipModifier,
+                borderModifier = contentCell.borderModifier,
+                viewState.items[contentCell.header]?.get(contentCell.index)!!
             )
-        } else {
-            LazyStickyHeaderColumn(
-                items = viewState.items.mapValues { (_, list) -> list.map { it.id } },
-                revealCardId = viewState.revealCardId,
-                onClick = { id -> eventHandler.invoke(Event.Click(id)) },
-                onReveal = { id -> eventHandler.invoke(Event.Reveal(id)) },
-                onDelete = { id -> eventHandler.invoke(Event.Delete(id)) },
-                onBottomReached = { eventHandler.invoke(Event.BottomReached) }
-            ) { contentCell ->
-                NotificationsCell(
-                    modifier = contentCell.clipModifier,
-                    borderModifier = contentCell.borderModifier,
-                    viewState.items[contentCell.header]?.get(contentCell.index)!!
-                )
-            }
         }
     }
 }

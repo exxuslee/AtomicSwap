@@ -1,25 +1,27 @@
 package com.exxlexxlee.atomicswap.feature.navigation
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.exxlexxlee.atomicswap.feature.R
 
 sealed class Routes(
     val route: String,
     open val badge: Int? = null,
-    val label: Int,
+    val label: @Composable () -> String,
     val icon: Int,
 ) {
     data class MakerRoute(
         override val badge: Int? = null,
     ) : Routes(
         "maker",
-        label = R.string.title_maker,
+        label = { stringResource(R.string.title_maker) },
         icon = R.drawable.outline_book_2_24
     )
 
     sealed class ChronicleRoute(subRoute: String) :
         Routes(
             "chronicle/$subRoute",
-            label = R.string.title_chronicle,
+            label = { stringResource(R.string.title_chronicle) },
             icon = R.drawable.outline_chronic_24
         ) {
         data class MainRoute(override val badge: Int? = null) : ChronicleRoute("main")
@@ -32,19 +34,32 @@ sealed class Routes(
         }
     }
 
-    sealed class SettingsRoute(private val subRoute: String) :
+    sealed class SettingsRoute(subRoute: String, label: @Composable () -> String) :
         Routes(
             "settings/$subRoute",
-            label = R.string.title_settings,
+            label = label,
             icon = R.drawable.outline_settings_24
         ) {
-        data class MainRoute(override val badge: Int? = null) : SettingsRoute("main")
-        data object ThermsRoute : SettingsRoute("terms")
-        data object LanguageRoute : SettingsRoute("language")
-        data object NotificationRoute : SettingsRoute("notification")
-        data object DonateRoute : SettingsRoute("donate")
-        data object AboutRoute : SettingsRoute("about")
-        data object PriceAggregatorRoute : SettingsRoute("aggregator")
+        data class MainRoute(override val badge: Int? = null) :
+            SettingsRoute("main", label = { stringResource(R.string.title_settings) })
+
+        data object ThermsRoute :
+            SettingsRoute("terms", label = { stringResource(R.string.terms_title) })
+
+        data object LanguageRoute :
+            SettingsRoute("language", label = { stringResource(R.string.language) })
+
+        data object NotificationRoute :
+            SettingsRoute("notification", label = { stringResource(R.string.notifications) })
+
+        data object DonateRoute :
+            SettingsRoute("donate", label = { stringResource(R.string.donate) })
+
+        data object AboutRoute :
+            SettingsRoute("about", label = { stringResource(R.string.about, R.string.app_name) })
+
+        data object PriceAggregatorRoute :
+            SettingsRoute("aggregator", label = { stringResource(R.string.price_aggregator) })
     }
 
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,12 +41,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.CellUniversalSection
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.HsRow
-import com.exxlexxlee.atomicswap.core.common.ui.TopAppBar
+import com.exxlexxlee.atomicswap.core.common.ui.VFillSpacer
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.DonateChainItem
@@ -56,21 +54,16 @@ import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.models.ViewState
 import com.reown.android.internal.common.scope
 import kotlinx.coroutines.launch
-import kotlin.collections.List
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
-    val navController = LocalNavController.current
-
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(stringResource(id = R.string.donate)) { navController.popBackStack() }
-
         val clipboard = LocalClipboard.current
         val scrollState = rememberScrollState()
         Column(
@@ -191,14 +184,14 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
             )
         }
 
-        Spacer(modifier = Modifier.weight(0.5f))
+        VFillSpacer(12.dp)
         if (viewState.isAddressCopied) Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.donate_footer_thanks),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
-        Spacer(modifier = Modifier.weight(0.5f))
+        VFillSpacer(12.dp)
     }
 
 }
