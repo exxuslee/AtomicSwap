@@ -80,7 +80,7 @@ class SwapResponderDoer(
     override suspend fun onBailTransactionSeen(bailTx: String) {
         Log.d("SwapKit Responder", "Initiator bail transaction seen $bailTx")
         val nextSwap = swap.copy(takerSafeTx = bailTx, swapState = SwapState.InitiatorBailed)
-        swapRepository.updateSafe(nextSwap)
+        swapRepository.updateSwap(nextSwap)
         delegate.processNext(nextSwap.swapState)
     }
 
@@ -94,7 +94,7 @@ class SwapResponderDoer(
         )
         Log.d("SwapKit Responder", "Sent responder bail tx $bailTx")
         val nextSwap = swap.copy(takerSafeTx = bailTx, swapState = SwapState.ResponderBailed)
-        swapRepository.updateSafe(nextSwap)
+        swapRepository.updateSwap(nextSwap)
         delegate.processNext(nextSwap.swapState)
     }
 
@@ -113,7 +113,7 @@ class SwapResponderDoer(
             secret = secret,
             swapState = SwapState.InitiatorRedeemed
         )
-        swapRepository.updateSafe(nextSwap)
+        swapRepository.updateSwap(nextSwap)
         delegate.processNext(nextSwap.swapState)
     }
 
@@ -129,7 +129,7 @@ class SwapResponderDoer(
 
         Log.d("SwapKit", "Sent responder redeem tx $redeemTx")
         val nextSwap = swap.copy(takerRedeemTx = redeemTx, swapState = SwapState.ResponderRedeemed)
-        swapRepository.updateSafe(nextSwap)
+        swapRepository.updateSwap(nextSwap)
         delegate.processNext(nextSwap.swapState)
     }
 
@@ -142,7 +142,7 @@ class SwapResponderDoer(
             bailTx = swap.makerSafeTx!!
         )
         val nextSwap = swap.copy(takerRefundTx = refundTx, swapState = SwapState.Refunded)
-        swapRepository.updateSafe(nextSwap)
+        swapRepository.updateSwap(nextSwap)
         delegate.processNext(nextSwap.swapState)
     }
 

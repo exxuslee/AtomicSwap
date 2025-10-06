@@ -30,5 +30,3 @@ interface NotificationsDao {
     @Query("SELECT * FROM Notifications ORDER BY createdAt DESC LIMIT :limit OFFSET :offset")
     suspend fun getPaged(limit: Int, offset: Int): List<NotificationEntity>
 }
-
-

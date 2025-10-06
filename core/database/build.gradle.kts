@@ -4,6 +4,7 @@ plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
 	id("com.google.devtools.ksp")
+	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -41,9 +42,11 @@ android {
 }
 
 dependencies {
+	implementation(project(":core:swap"))
 	implementation(libs.androidx.room.runtime)
 	ksp(libs.androidx.room.compiler)
 	implementation(libs.androidx.room.ktx)
 	implementation(libs.koin.android)
+	implementation(libs.gson)
 }
 
