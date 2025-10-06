@@ -110,7 +110,7 @@ internal fun Swap.toEntity(): SwapEntity {
     return SwapEntity(
         swapId = swapId,
         timestamp = timestamp,
-        swapState = swapState.step.toLong(),
+        swapState = swapState.step,
         isRead = isRead,
         makeId = take.make.makeId,
         takeId = take.takeId,
@@ -170,14 +170,14 @@ internal fun Make.toMakeEntity(): MakeEntity {
         makerTokenCoinIconUrl = makerToken.coin.iconUrl,
         makerTokenContractAddress = makerToken.contractAddress,
         makerTokenBlockchain = makerToken.blockchain.toStorageName(),
-        makerTokenDecimal = makerToken.decimal.toLong(),
+        makerTokenDecimal = makerToken.decimal,
         takerTokenCoinId = takerToken.coin.id,
         takerTokenCoinSymbol = takerToken.coin.symbol,
         takerTokenCoinName = takerToken.coin.name,
         takerTokenCoinIconUrl = takerToken.coin.iconUrl,
         takerTokenContractAddress = takerToken.contractAddress,
         takerTokenBlockchain = takerToken.blockchain.toStorageName(),
-        takerTokenDecimal = takerToken.decimal.toLong()
+        takerTokenDecimal = takerToken.decimal
     )
 }
 

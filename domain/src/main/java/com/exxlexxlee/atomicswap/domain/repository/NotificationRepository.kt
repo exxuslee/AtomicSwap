@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NotificationRepository {
 
-    fun save(notification: Notification)
+    suspend fun save(notification: Notification)
 
     interface Reader : NotificationRepository {
 

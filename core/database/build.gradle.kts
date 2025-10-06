@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
-	id("app.cash.sqldelight")
+	id("com.google.devtools.ksp")
 }
 
 android {
@@ -41,14 +41,9 @@ android {
 }
 
 dependencies {
-	implementation(libs.sqldelight.android.driver)
+	implementation(libs.androidx.room.runtime)
+	ksp(libs.androidx.room.compiler)
+	implementation(libs.androidx.room.ktx)
 	implementation(libs.koin.android)
 }
 
-		sqldelight {
-			databases {
-				create("AppDatabase") {
-					packageName.set("com.exxlexxlee.atomicswap.core.database")
-				}
-			}
-		}

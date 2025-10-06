@@ -28,7 +28,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
         addFakeSwaps()
     }
 
-    override fun deleteAllHistory() {
+    override suspend fun deleteAllHistory() {
         swapStorage.entries.removeIf {
             it.value.swapState == SwapState.ResponderRedeemed ||
                     it.value.swapState == SwapState.Refunded

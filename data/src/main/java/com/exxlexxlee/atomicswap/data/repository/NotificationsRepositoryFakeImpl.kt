@@ -100,7 +100,7 @@ class NotificationsRepositoryFakeImpl : NotificationRepository.Reader {
         _unreadCount.value = mockNotifications.count { !it.isRead }
     }
 
-    override fun save(notification: Notification) {
+    override suspend fun save(notification: Notification) {
         mockNotifications.add(notification)
         updateUnreadCount()
     }

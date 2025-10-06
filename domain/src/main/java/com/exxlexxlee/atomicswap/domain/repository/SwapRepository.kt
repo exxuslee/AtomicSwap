@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface SwapRepository {
 
     val swaps: Flow<List<Swap>>
-    fun deleteAllHistory()
+    suspend fun deleteAllHistory()
     fun swapsAll(): List<Swap>
     fun swap(id: String): Swap
 

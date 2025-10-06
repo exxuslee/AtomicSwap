@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NotificationReaderUseCase {
     val unreadCount: Flow<Int>
-    fun save(item: Notification)
+    suspend fun save(item: Notification)
     suspend fun markAsRead(id: Long)
     suspend fun all(): List<Notification>
     suspend fun delete(id: Long)
@@ -18,7 +18,7 @@ interface NotificationReaderUseCase {
 
         override val unreadCount = notificationRepository.unreadCount
 
-        override fun save(item: Notification) = notificationRepository.save(item)
+        override suspend fun save(item: Notification) = notificationRepository.save(item)
 
         override suspend fun markAsRead(id: Long) = notificationRepository.markAsRead(id)
 

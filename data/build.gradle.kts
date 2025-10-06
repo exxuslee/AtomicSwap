@@ -46,6 +46,6 @@ dependencies {
 	implementation(project(":core:database"))
 	implementation(project(":core:swap"))
 	implementation(libs.koin.android)
-	implementation(libs.sqldelight.coroutines)
+	implementation(libs.androidx.room.ktx)
 	implementation(libs.kotlinx.coroutines.core)
 }

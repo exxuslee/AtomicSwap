@@ -5,13 +5,13 @@ import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
 
 interface NotificationUseCase {
 
-    fun save(item: Notification)
+    suspend fun save(item: Notification)
 
     class Base(
         private val notificationRepository: NotificationRepository,
     ) : NotificationUseCase {
 
-        override fun save(item: Notification) = notificationRepository.save(item)
+        override suspend fun save(item: Notification) = notificationRepository.save(item)
 
     }
 }

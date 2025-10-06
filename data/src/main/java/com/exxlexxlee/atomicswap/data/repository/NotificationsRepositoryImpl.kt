@@ -1,54 +1,56 @@
 package com.exxlexxlee.atomicswap.data.repository
 
-import com.exxlexxlee.atomicswap.core.database.AppDatabase
+import com.exxlexxlee.atomicswap.core.database.NotificationsDao
+import com.exxlexxlee.atomicswap.core.database.NotificationEntity
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import app.cash.sqldelight.coroutines.asFlow
 
 
 class NotificationsRepositoryImpl(
-    private val db: AppDatabase,
+    private val dao: NotificationsDao,
 ) : NotificationRepository.Reader {
 
     override val unreadCount: Flow<Int> =
-        db.notificationsQueries.getUnreadCount().asFlow().map { it.executeAsOne().toInt() }
+        dao.getUnreadCount()
 
-    override fun save(notification: Notification) {
-        db.notificationsQueries.insertNotification(
-            showInForeground = if (notification.showInForeground) 1 else 0,
-            isRead = if (notification.isRead) 1 else 0,
-            title = notification.title,
-            body = notification.body,
-            groupCode = notification.groupCode.toLong(),
-            createdAt = System.currentTimeMillis()
+    override suspend fun save(notification: Notification) {
+        dao.insert(
+            NotificationEntity(
+                showInForeground = notification.showInForeground,
+                isRead = notification.isRead,
+                title = notification.title,
+                body = notification.body,
+                groupCode = notification.groupCode,
+                createdAt = System.currentTimeMillis(),
+            )
         )
     }
 
     override suspend fun markAsRead(id: Long) {
-        db.notificationsQueries.markAsRead(id)
+        dao.markAsRead(id)
     }
 
     override suspend fun all(): List<Notification> {
-        return db.notificationsQueries.getAllNotifications().executeAsList().map { notificationEntity ->
+        return dao.getAll().map { notificationEntity ->
             Notification(
                 id = notificationEntity.id,
-                showInForeground = notificationEntity.showInForeground == 1L,
-                isRead = notificationEntity.isRead == 1L,
+                showInForeground = notificationEntity.showInForeground,
+                isRead = notificationEntity.isRead,
                 title = notificationEntity.title,
                 body = notificationEntity.body,
-                groupCode = notificationEntity.groupCode.toInt()
+                groupCode = notificationEntity.groupCode
             )
         }
     }
 
     override suspend fun delete(id: Long) {
-        db.notificationsQueries.deleteNotification(id)
+        dao.delete(id)
     }
 
     override suspend fun deleteAll() {
-        db.notificationsQueries.deleteNotificationAll()
+        dao.deleteAll()
     }
 
     override suspend fun notificationsPaged(
@@ -56,17 +58,16 @@ class NotificationsRepositoryImpl(
         pageSize: Int
     ): List<Notification> {
         val offset = page * pageSize
-        return db.notificationsQueries
-            .getNotificationsPaged(pageSize.toLong(), offset.toLong())
-            .executeAsList()
+        return dao
+            .getPaged(pageSize, offset)
             .map { notificationEntity ->
                 Notification(
                     id = notificationEntity.id,
-                    showInForeground = notificationEntity.showInForeground == 1L,
-                    isRead = notificationEntity.isRead == 1L,
+                    showInForeground = notificationEntity.showInForeground,
+                    isRead = notificationEntity.isRead,
                     title = notificationEntity.title,
                     body = notificationEntity.body,
-                    groupCode = notificationEntity.groupCode.toInt()
+                    groupCode = notificationEntity.groupCode
                 )
             }
     }
