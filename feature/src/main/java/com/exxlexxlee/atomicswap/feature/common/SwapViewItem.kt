@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import java.text.SimpleDateFormat
@@ -49,8 +50,8 @@ fun SwapViewItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TokenPairIcon(
-                makerIconUrl = swap.take.make.makerToken.coin.iconUrl,
-                takerIconUrl = swap.take.make.takerToken.coin.iconUrl,
+                maker = swap.take.make.makerToken,
+                taker = swap.take.make.takerToken,
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -96,27 +97,6 @@ private fun formatDateTime(timestamp: Long): String {
     val date = Date(timestamp)
     val formatter = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
     return formatter.format(date)
-}
-
-@Composable
-private fun TokenPairIcon(
-    makerIconUrl: String,
-    takerIconUrl: String,
-) {
-    Box(modifier = Modifier.size(44.dp)) {
-        TokenIcon(url = makerIconUrl, modifier = Modifier.align(Alignment.CenterStart))
-        TokenIcon(url = takerIconUrl, modifier = Modifier.align(Alignment.BottomEnd))
-    }
-}
-
-@Composable
-private fun TokenIcon(url: String, modifier: Modifier = Modifier) {
-    AsyncImage(
-        model = url,
-        contentDescription = null,
-        modifier = modifier.size(32.dp),
-        contentScale = ContentScale.Crop
-    )
 }
 
 @Composable

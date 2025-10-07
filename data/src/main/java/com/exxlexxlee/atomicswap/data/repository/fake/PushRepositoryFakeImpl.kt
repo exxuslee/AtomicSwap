@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.data.repository
+package com.exxlexxlee.atomicswap.data.repository.fake
 
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import com.exxlexxlee.atomicswap.domain.repository.PushRepository

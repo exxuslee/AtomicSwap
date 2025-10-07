@@ -4,12 +4,12 @@ import com.exxlexxlee.atomicswap.core.database.MakeDao
 import com.exxlexxlee.atomicswap.core.database.PushDao
 import com.exxlexxlee.atomicswap.core.database.SwapDao
 import com.exxlexxlee.atomicswap.core.database.TakeDao
-import com.exxlexxlee.atomicswap.data.repository.MakeRepositoryFakeImpl
+import com.exxlexxlee.atomicswap.data.repository.fake.MakeRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.MakeRepositoryImpl
-import com.exxlexxlee.atomicswap.data.repository.PushRepositoryFakeImpl
+import com.exxlexxlee.atomicswap.data.repository.fake.PushRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.PushRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.SettingsRepositoryImpl
-import com.exxlexxlee.atomicswap.data.repository.SwapRepositoryFakeImpl
+import com.exxlexxlee.atomicswap.data.repository.fake.SwapRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.SwapRepositoryImpl
 import com.exxlexxlee.atomicswap.domain.repository.MakeRepository
 import com.exxlexxlee.atomicswap.domain.repository.PushRepository

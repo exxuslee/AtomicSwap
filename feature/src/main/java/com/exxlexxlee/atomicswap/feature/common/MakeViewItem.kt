@@ -2,13 +2,10 @@ package com.exxlexxlee.atomicswap.feature.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -17,11 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
@@ -31,9 +26,6 @@ import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 import com.exxlexxlee.atomicswap.feature.R
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun MakeViewItem(
@@ -48,61 +40,44 @@ fun MakeViewItem(
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding( 12.dp, 12.dp, 12.dp, 0.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            TokenPairIcon(
-                makerIconUrl = make.makerToken.coin.iconUrl,
-                takerIconUrl = make.takerToken.coin.iconUrl,
-            )
-            TagViewItem(
-                icon = painterResource(R.drawable.outline_wallet_24),
-                text = "1 BNB =\n1000.00 USDT"
-            )
-        }
-
-        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding( 12.dp, 0.dp, 12.dp, 12.dp),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top,
         ) {
-            Text(
-                text = "From: ${make.makeId}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                TokenPairIcon(
+                    maker = make.makerToken,
+                    taker = make.takerToken,
+                )
+                Text(
+                    text = "From: ${make.makeId}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                TagViewItem(
+                    icon = painterResource(R.drawable.outline_wallet_24),
+                    text = "1 BNB =\n1000.00 USDT"
+                )
 
-            TagViewItem(
-                icon = painterResource(R.drawable.outline_wallet_24),
-                text = "1000.00 USDT"
-            )
+                TagViewItem(
+                    icon = painterResource(R.drawable.outline_wallet_24),
+                    text = "1000.00 USDT"
+                )
+            }
         }
     }
 }
 
-@Composable
-private fun TokenPairIcon(
-    makerIconUrl: String,
-    takerIconUrl: String,
-) {
-    Box(modifier = Modifier.size(44.dp)) {
-        TokenIcon(url = makerIconUrl, modifier = Modifier.align(Alignment.CenterStart))
-        TokenIcon(url = takerIconUrl, modifier = Modifier.align(Alignment.BottomEnd))
-    }
-}
-
-@Composable
-private fun TokenIcon(url: String, modifier: Modifier = Modifier) {
-    AsyncImage(
-        model = url,
-        contentDescription = null,
-        modifier = modifier.size(32.dp),
-        contentScale = ContentScale.Crop
-    )
-}
 
 @Preview
 @Composable

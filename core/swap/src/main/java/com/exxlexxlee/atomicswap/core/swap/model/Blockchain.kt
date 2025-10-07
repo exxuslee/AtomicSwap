@@ -1,13 +1,36 @@
 package com.exxlexxlee.atomicswap.core.swap.model
 
-sealed class Blockchain(open val isMain: Boolean) {
-    data class Bitcoin(override val isMain: Boolean) : Blockchain(isMain)
-    data class Litecoin(override val isMain: Boolean) : Blockchain(isMain)
-    data class Ethereum(override val isMain: Boolean) : Blockchain(isMain)
-    data class BinanceSmartChain(override val isMain: Boolean) : Blockchain(isMain)
-    data class Tron(override val isMain: Boolean) : Blockchain(isMain)
-    data class Solana(override val isMain: Boolean) : Blockchain(isMain)
-    data class Unsupported(override val isMain: Boolean) : Blockchain(isMain)
+sealed class Blockchain(
+    open val isMain: Boolean,
+    val iconUrl: String
+) {
+    data class Bitcoin(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/127/small/ordinals.png?1706606816")
+
+    data class Litecoin(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/51/small/bch.png?1706606492")
+
+    data class Ethereum(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803")
+
+    data class BinanceSmartChain(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/1/small/bnb_smart_chain.png?1706606721")
+
+    data class Tron(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/1094/small/TRON_LOGO.png?1706606652")
+
+    data class Solana(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "icon")
+
+    data class Unsupported(
+        override val isMain: Boolean,
+    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708")
 
 
     companion object {

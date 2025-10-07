@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.data.repository
+package com.exxlexxlee.atomicswap.data.repository.fake
 
 import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
@@ -50,19 +50,19 @@ class MakeRepositoryFakeImpl(
             id = "btc",
             symbol = "BTC",
             name = "Bitcoin",
-            iconUrl = ""
+            iconUrl = "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
         )
         private val eth = Coin(
             id = "eth",
             symbol = "ETH",
             name = "Ethereum",
-            iconUrl = ""
+            iconUrl = "https://assets.coingecko.com/coins/images/279/small/ethereum.png"
         )
         private val usdt = Coin(
             id = "usdt",
             symbol = "USDT",
             name = "Tether",
-            iconUrl = ""
+            iconUrl = "https://assets.coingecko.com/coins/images/2/small/litecoin.png"
         )
 
         private val btcToken = Token(
