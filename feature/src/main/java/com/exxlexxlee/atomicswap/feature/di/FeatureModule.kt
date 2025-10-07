@@ -3,6 +3,7 @@ package com.exxlexxlee.atomicswap.feature.di
 import com.exxlexxlee.atomicswap.core.walletconnect.WalletConnectManager
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapViewModel
 import com.exxlexxlee.atomicswap.feature.root.MainViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.book.BookViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.CompleteViewModel
@@ -33,4 +34,5 @@ val featureModule = module {
     viewModel { MyMakeViewModel(get()) }
     viewModel { RefundedViewModel(get()) }
     viewModel { ScannerViewModel() }
+    viewModel { BookViewModel(get()) }
 }

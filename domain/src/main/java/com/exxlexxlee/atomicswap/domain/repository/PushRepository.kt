@@ -3,11 +3,11 @@ package com.exxlexxlee.atomicswap.domain.repository
 import com.exxlexxlee.atomicswap.domain.model.Notification
 import kotlinx.coroutines.flow.Flow
 
-interface NotificationRepository {
+interface PushRepository {
 
     suspend fun save(notification: Notification)
 
-    interface Reader : NotificationRepository {
+    interface Reader : PushRepository {
 
         val unreadCount: Flow<Int>
 

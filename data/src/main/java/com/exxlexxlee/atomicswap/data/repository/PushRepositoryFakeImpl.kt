@@ -1,11 +1,11 @@
 package com.exxlexxlee.atomicswap.data.repository
 
 import com.exxlexxlee.atomicswap.domain.model.Notification
-import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
+import com.exxlexxlee.atomicswap.domain.repository.PushRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class NotificationsRepositoryFakeImpl : NotificationRepository.Reader {
+class PushRepositoryFakeImpl : PushRepository.Reader {
 
     private val mockNotifications = mutableListOf(
         Notification(

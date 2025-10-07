@@ -1,6 +1,8 @@
 package com.exxlexxlee.atomicswap.data.repository
 
+import com.exxlexxlee.atomicswap.core.database.MakeDao
 import com.exxlexxlee.atomicswap.core.database.SwapDao
+import com.exxlexxlee.atomicswap.core.database.TakeDao
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.data.mapper.toDomain
 import com.exxlexxlee.atomicswap.data.mapper.toEntity
@@ -19,13 +21,15 @@ import kotlin.collections.emptyList
 
 class SwapRepositoryImpl(
 	private val swapDao: SwapDao,
+	private val makeDao: MakeDao,
+	private val takeDao: TakeDao,
 ): SwapRepository {
 
     override val swaps = swapDao.selectAll()
 		.map { entities ->
 			entities.map { swapEntity ->
-				val takeEntity = swapDao.selectTakeById(swapEntity.takeId)
-				val makeEntity = swapDao.selectMakeById(takeEntity.makeId)
+				val takeEntity = takeDao.take(swapEntity.takeId)
+				val makeEntity = makeDao.make(takeEntity.makeId)
 				swapEntity.toDomain(makeEntity, takeEntity)
 			}
 		}
@@ -42,16 +46,16 @@ class SwapRepositoryImpl(
 	override fun swapsAll(): List<Swap> = run {
 		val entities = runBlockingIO { swapDao.selectAll().first() }
 		entities.map { swapEntity ->
-			val takeEntity = runBlockingIO { swapDao.selectTakeById(swapEntity.takeId) }
-			val makeEntity = runBlockingIO { swapDao.selectMakeById(takeEntity.makeId) }
+			val takeEntity = runBlockingIO { takeDao.take(swapEntity.takeId) }
+			val makeEntity = runBlockingIO { makeDao.make(takeEntity.makeId) }
 			swapEntity.toDomain(makeEntity, takeEntity)
 		}
 	}
 
 	override fun swap(id: String): Swap {
 		val swapEntity = runBlockingIO { swapDao.selectById(id) }
-		val takeEntity = runBlockingIO { swapDao.selectTakeById(swapEntity.takeId) }
-		val makeEntity = runBlockingIO { swapDao.selectMakeById(takeEntity.makeId) }
+		val takeEntity = runBlockingIO { takeDao.take(swapEntity.takeId) }
+		val makeEntity = runBlockingIO { makeDao.make(takeEntity.makeId) }
 		return swapEntity.toDomain(makeEntity, takeEntity)
 	}
 

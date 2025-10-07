@@ -18,15 +18,6 @@ interface SwapDao {
     @Query("SELECT * FROM SwapEntity WHERE swapId = :id")
     suspend fun selectById(id: String): SwapEntity
 
-    @Query("SELECT * FROM MakeEntity WHERE makeId = :id")
-    suspend fun selectMakeById(id: String): MakeEntity
-
-    @Query("SELECT * FROM TakeEntity WHERE takeId = :id")
-    suspend fun selectTakeById(id: String): TakeEntity
-
-    @Query("SELECT * FROM TakeEntity WHERE makeId = :makeId")
-    suspend fun selectTakesByMakeId(makeId: String): List<TakeEntity>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMake(entity: MakeEntity)
 

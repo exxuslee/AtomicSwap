@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.core.walletconnect.WalletConnectManager
 import com.exxlexxlee.atomicswap.domain.usecases.AggregatorUseCase
-import com.exxlexxlee.atomicswap.domain.usecases.NotificationReaderUseCase
+import com.exxlexxlee.atomicswap.domain.usecases.PushReaderUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.ThemeController
 import com.exxlexxlee.atomicswap.feature.tabs.settings.main.models.Action
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val themeController: ThemeController,
-    private val notificationReaderUseCase: NotificationReaderUseCase,
+    private val pushReaderUseCase: PushReaderUseCase,
     private val aggregatorUseCase: AggregatorUseCase,
     private val settingsUseCase: SettingsUseCase,
     private val walletConnectManager: WalletConnectManager,
@@ -58,7 +58,7 @@ class SettingsViewModel(
             }
             Event.ConfirmClearStorage -> {
                 viewModelScope.launch {
-                    notificationReaderUseCase.deleteAll()
+                    pushReaderUseCase.deleteAll()
                     clearAction()
                 }
             }
@@ -69,7 +69,7 @@ class SettingsViewModel(
     }
 
     private suspend fun isClearLocalStorage(): Boolean {
-        val notify = notificationReaderUseCase.unreadCount.firstOrNull() == 0
+        val notify = pushReaderUseCase.unreadCount.firstOrNull() == 0
         val wc =
             walletConnectManager.delegate.connectionState.firstOrNull() == Modal.Model.ConnectionState(
                 false

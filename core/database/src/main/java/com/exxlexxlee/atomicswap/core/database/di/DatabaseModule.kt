@@ -15,8 +15,10 @@ val databaseModule = module {
 	            .build()
 	    }
 
-	    single { get<AppDatabase>().notificationsDao() }
+	    single { get<AppDatabase>().pushDao() }
 	    single { get<AppDatabase>().swapDao() }
+	    single { get<AppDatabase>().makeDao() }
+	    single { get<AppDatabase>().takeDao() }
 
 	    single<SharedPreferences> {
 	        androidContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

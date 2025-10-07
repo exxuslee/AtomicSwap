@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.core.common.base.DateHelper
 import com.exxlexxlee.atomicswap.domain.model.Notification
-import com.exxlexxlee.atomicswap.domain.usecases.NotificationReaderUseCase
+import com.exxlexxlee.atomicswap.domain.usecases.PushReaderUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.settings.notification.models.ViewState
@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NotificationViewModel(
-    private val notificationReaderUseCase: NotificationReaderUseCase
+    private val pushReaderUseCase: PushReaderUseCase
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
     companion object {
         private const val PAGE_SIZE = 16
@@ -36,7 +36,7 @@ class NotificationViewModel(
     fun sync() = viewModelScope.launch(Dispatchers.IO) {
         pushes = listOf()
         for (i in 0..pages) {
-            val items = notificationReaderUseCase.notificationsPaged(i, PAGE_SIZE)
+            val items = pushReaderUseCase.notificationsPaged(i, PAGE_SIZE)
             pushes += items
         }
         viewState = viewState.copy(
@@ -46,18 +46,18 @@ class NotificationViewModel(
     }
 
     private fun markAsRead(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-        notificationReaderUseCase.markAsRead(id)
+        pushReaderUseCase.markAsRead(id)
         sync()
     }
 
     private fun delete(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-        notificationReaderUseCase.delete(id)
+        pushReaderUseCase.delete(id)
         sync()
     }
 
     @Synchronized
     private fun onBottomReached() = viewModelScope.launch(Dispatchers.IO) {
-        val newItems = notificationReaderUseCase.notificationsPaged(pages + 1, PAGE_SIZE)
+        val newItems = pushReaderUseCase.notificationsPaged(pages + 1, PAGE_SIZE)
         Log.d("Notifications", "onBottomReached() ${newItems.size}")
         if (newItems.isEmpty()) return@launch
         pages++

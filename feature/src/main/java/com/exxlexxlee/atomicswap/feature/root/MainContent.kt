@@ -59,7 +59,7 @@ import com.exxlexxlee.atomicswap.feature.navigation.isPrimaryRoute
 import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.root.models.Event.SelectChronicleTab
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
-import com.exxlexxlee.atomicswap.feature.tabs.maker.MakerScreen
+import com.exxlexxlee.atomicswap.feature.tabs.book.BookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateScreen
@@ -267,7 +267,7 @@ fun MainContent(
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
             ) {
-                animatedComposable(MakerRoute().route) { MakerScreen() }
+                animatedComposable(MakerRoute().route) { BookScreen() }
 
                 animatedComposable(ChronicleRoute.MainRoute().route) { ChronicleScreen() }
                 animatedComposable(

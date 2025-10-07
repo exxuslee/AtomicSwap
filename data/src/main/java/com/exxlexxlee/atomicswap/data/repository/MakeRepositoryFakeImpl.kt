@@ -1,0 +1,146 @@
+package com.exxlexxlee.atomicswap.data.repository
+
+import com.exxlexxlee.atomicswap.core.swap.model.AmountType
+import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
+import com.exxlexxlee.atomicswap.core.swap.model.Coin
+import com.exxlexxlee.atomicswap.core.swap.model.Make
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType
+import com.exxlexxlee.atomicswap.core.swap.model.Token
+import com.exxlexxlee.atomicswap.domain.repository.MakeRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import java.math.BigDecimal
+
+class MakeRepositoryFakeImpl(
+    initialMakes: List<Make> = DEFAULT_MAKES,
+) : MakeRepository {
+
+    private val makesState = MutableStateFlow(initialMakes)
+
+    override val makes: Flow<List<Make>> = makesState.asStateFlow()
+
+    override fun make(makeId: String): Make =
+        makesState.value.firstOrNull { it.makeId == makeId }
+            ?: error("Make with id=$makeId not found")
+
+    override fun myMake(makerId: String): List<Make> =
+        makesState.value.filter { it.makerId == makerId }
+
+    fun setMakes(newMakes: List<Make>) {
+        makesState.value = newMakes
+    }
+
+    fun addMake(make: Make) {
+        makesState.value = makesState.value + make
+    }
+
+    fun updateMake(updated: Make) {
+        makesState.value = makesState.value.map { current ->
+            if (current.makeId == updated.makeId) updated else current
+        }
+    }
+
+    fun removeMake(makeId: String) {
+        makesState.value = makesState.value.filterNot { it.makeId == makeId }
+    }
+
+    companion object {
+        private val btc = Coin(
+            id = "btc",
+            symbol = "BTC",
+            name = "Bitcoin",
+            iconUrl = ""
+        )
+        private val eth = Coin(
+            id = "eth",
+            symbol = "ETH",
+            name = "Ethereum",
+            iconUrl = ""
+        )
+        private val usdt = Coin(
+            id = "usdt",
+            symbol = "USDT",
+            name = "Tether",
+            iconUrl = ""
+        )
+
+        private val btcToken = Token(
+            id = "btc",
+            coin = btc,
+            contractAddress = null,
+            blockchain = Blockchain.Bitcoin(isMain = true),
+            decimal = 8,
+        )
+        private val ethToken = Token(
+            id = "eth",
+            coin = eth,
+            contractAddress = null,
+            blockchain = Blockchain.Ethereum(isMain = true),
+            decimal = 18,
+        )
+        private val usdtTronToken = Token(
+            id = "usdt-tron",
+            coin = usdt,
+            contractAddress = "TXYZ...USDT",
+            blockchain = Blockchain.Tron(isMain = false),
+            decimal = 6,
+        )
+
+        val DEFAULT_MAKES: List<Make> = listOf(
+            Make(
+                makeId = "mk_001",
+                makerId = "user_1",
+                makerToken = btcToken,
+                takerToken = ethToken,
+                refundAddress = "bc1qrefundaddrxxxxxxxxxx",
+                redeemAddress = "0xRedeemAddr111111111111111111111111111111",
+                amount = AmountType.ExactIn(
+                    makerExactAmount = BigDecimal("0.10000000"),
+                    takerStartAmount = BigDecimal("1.800000000000000000"),
+                ),
+                priceType = PriceType.Market,
+                isOn = true,
+                reservedAmount = BigDecimal("0.00000000"),
+                refundTime = 3_600_000L,
+                timestamp = 1_695_000_000_000L,
+            ),
+            Make(
+                makeId = "mk_002",
+                makerId = "user_2",
+                makerToken = ethToken,
+                takerToken = usdtTronToken,
+                refundAddress = "0xRefundAddr222222222222222222222222222222",
+                redeemAddress = "TReDeemAddr2222222222222",
+                amount = AmountType.ExactOut(
+                    makerStartAmount = BigDecimal("1.500000000000000000"),
+                    takerExactAmount = BigDecimal("2500.000000"),
+                ),
+                priceType = PriceType.Fixed,
+                isOn = true,
+                reservedAmount = BigDecimal("0.500000000000000000"),
+                refundTime = 7_200_000L,
+                timestamp = 1_695_000_100_000L,
+            ),
+            Make(
+                makeId = "mk_003",
+                makerId = "user_1",
+                makerToken = usdtTronToken,
+                takerToken = btcToken,
+                refundAddress = "TRefundAddr3333333333333",
+                redeemAddress = "bc1qredeemaddrxxxxxxxxxx",
+                amount = AmountType.ExactIn(
+                    makerExactAmount = BigDecimal("1000.000000"),
+                    takerStartAmount = BigDecimal("0.03000000"),
+                ),
+                priceType = PriceType.Fixed,
+                isOn = false,
+                reservedAmount = BigDecimal("100.000000"),
+                refundTime = 10_800_000L,
+                timestamp = 1_695_000_200_000L,
+            ),
+        )
+    }
+}
+
+

@@ -1,22 +1,22 @@
 package com.exxlexxlee.atomicswap.data.repository
 
-import com.exxlexxlee.atomicswap.core.database.NotificationsDao
-import com.exxlexxlee.atomicswap.core.database.model.NotificationEntity
+import com.exxlexxlee.atomicswap.core.database.PushDao
+import com.exxlexxlee.atomicswap.core.database.model.PushEntity
 import com.exxlexxlee.atomicswap.domain.model.Notification
-import com.exxlexxlee.atomicswap.domain.repository.NotificationRepository
+import com.exxlexxlee.atomicswap.domain.repository.PushRepository
 import kotlinx.coroutines.flow.Flow
 
 
-class NotificationsRepositoryImpl(
-    private val dao: NotificationsDao,
-) : NotificationRepository.Reader {
+class PushRepositoryImpl(
+    private val dao: PushDao,
+) : PushRepository.Reader {
 
     override val unreadCount: Flow<Int> =
         dao.getUnreadCount()
 
     override suspend fun save(notification: Notification) {
         dao.insert(
-            NotificationEntity(
+            PushEntity(
                 showInForeground = notification.showInForeground,
                 isRead = notification.isRead,
                 title = notification.title,
