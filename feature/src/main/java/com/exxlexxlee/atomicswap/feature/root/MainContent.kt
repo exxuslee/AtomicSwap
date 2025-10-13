@@ -1,7 +1,9 @@
 package com.exxlexxlee.atomicswap.feature.root
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -23,13 +25,11 @@ import androidx.compose.material3.TabRowDefaults.primaryContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,7 +52,9 @@ import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
+import com.exxlexxlee.atomicswap.feature.common.Badge
 import com.exxlexxlee.atomicswap.feature.common.TokenIcon
+import com.exxlexxlee.atomicswap.feature.common.TokenSelector
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.MakerRoute
@@ -62,8 +64,8 @@ import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.navigation.isPrimaryRoute
 import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.root.models.Event.SelectChronicleTab
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.book.BookScreen
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateScreen
@@ -158,45 +160,33 @@ fun MainContent(
 
                     is MakerRoute -> {
                         RowUniversal(
-                            modifier = Modifier.padding(top = topPadding, start = 12.dp, end = 12.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Top,
+                            modifier = Modifier.padding(0.dp, topPadding, 0.dp, 0.dp),
+                            verticalPadding = 0.dp,
                         ) {
-                            Row {
-                                Icon(
-                                    modifier = Modifier
-                                        .padding(horizontal = 2.dp)
-                                        .size(20.dp),
-                                    painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24),
-                                    contentDescription = "token selector",
-                                )
-                                TokenIcon(null)
-                            }
+                            TokenSelector(
+                                modifier = Modifier.weight(1f).padding(start = 12.dp),
+                                null,
+                                onDismiss = {},
+                                onClick = {}
+                            )
 
                             IconButton(
-                                onClick = {
-
-                                }) {
+                                onClick = {}
+                            ) {
                                 Icon(
                                     modifier = Modifier
-                                        .padding(horizontal = 2.dp)
                                         .size(24.dp),
                                     painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_right_alt_24),
                                     contentDescription = "token selector",
                                 )
                             }
 
-
-                            Row {
-                                TokenIcon(null)
-                                Icon(
-                                    modifier = Modifier
-                                        .padding(horizontal = 2.dp)
-                                        .size(20.dp),
-                                    painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24),
-                                    contentDescription = "token selector",
-                                )
-                            }
+                            TokenSelector(
+                                modifier = Modifier.weight(1f).padding(end = 12.dp),
+                                null,
+                                onDismiss = {},
+                                onClick = {}
+                            )
 
                         }
                     }
@@ -277,7 +267,8 @@ fun MainContent(
                         },
                         icon = {
                             BadgedIcon(BadgeType.fromInt(dest.badge)) {
-                                val icon = if (dest.isParentSelected(currentRoute)) dest.iconSelect() else dest.icon()
+                                val icon =
+                                    if (dest.isParentSelected(currentRoute)) dest.iconSelect() else dest.icon()
                                 Icon(
                                     painter = icon,
                                     contentDescription = title,
