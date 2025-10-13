@@ -1,6 +1,8 @@
 package com.exxlexxlee.atomicswap.feature.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.exxlexxlee.atomicswap.feature.R
 
@@ -8,21 +10,24 @@ sealed class Routes(
     val route: String,
     open val badge: Int? = null,
     val label: @Composable () -> String,
-    val icon: Int,
+    val icon: @Composable () -> Painter,
+    val iconSelect: @Composable () -> Painter,
 ) {
     data class MakerRoute(
         override val badge: Int? = null,
     ) : Routes(
         "maker",
         label = { stringResource(R.string.title_maker) },
-        icon = R.drawable.outline_book_2_24
+        icon = { painterResource( R.drawable.outline_book_2_24)},
+        iconSelect = { painterResource( R.drawable.book_2_24px)},
     )
 
     sealed class ChronicleRoute(subRoute: String) :
         Routes(
             "chronicle/$subRoute",
             label = { stringResource(R.string.title_chronicle) },
-            icon = R.drawable.outline_chronic_24
+            icon = { painterResource( R.drawable.outline_chronic_24)},
+            iconSelect = { painterResource( R.drawable.chronic_24px)},
         ) {
         data class MainRoute(override val badge: Int? = null) : ChronicleRoute("main")
         data object MyMakeRoute : ChronicleRoute("myMake")
@@ -38,7 +43,8 @@ sealed class Routes(
         Routes(
             "settings/$subRoute",
             label = label,
-            icon = R.drawable.outline_settings_24
+            icon = { painterResource( R.drawable.outline_settings_24)},
+            iconSelect = { painterResource( R.drawable.baseline_settings_24)},
         ) {
         data class MainRoute(override val badge: Int? = null) :
             SettingsRoute("main", label = { stringResource(R.string.title_settings) })

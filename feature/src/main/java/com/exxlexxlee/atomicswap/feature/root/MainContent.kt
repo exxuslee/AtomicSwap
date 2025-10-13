@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.feature.root
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,11 +23,13 @@ import androidx.compose.material3.TabRowDefaults.primaryContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,6 +52,7 @@ import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
+import com.exxlexxlee.atomicswap.feature.common.TokenIcon
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.MakerRoute
@@ -153,7 +157,48 @@ fun MainContent(
                     }
 
                     is MakerRoute -> {
+                        RowUniversal(
+                            modifier = Modifier.padding(top = topPadding, start = 12.dp, end = 12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Top,
+                        ) {
+                            Row {
+                                Icon(
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(20.dp),
+                                    painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24),
+                                    contentDescription = "token selector",
+                                )
+                                TokenIcon(null)
+                            }
 
+                            IconButton(
+                                onClick = {
+
+                                }) {
+                                Icon(
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(24.dp),
+                                    painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_right_alt_24),
+                                    contentDescription = "token selector",
+                                )
+                            }
+
+
+                            Row {
+                                TokenIcon(null)
+                                Icon(
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(20.dp),
+                                    painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24),
+                                    contentDescription = "token selector",
+                                )
+                            }
+
+                        }
                     }
 
                     is SettingsRoute.MainRoute -> {
@@ -232,8 +277,9 @@ fun MainContent(
                         },
                         icon = {
                             BadgedIcon(BadgeType.fromInt(dest.badge)) {
+                                val icon = if (dest.isParentSelected(currentRoute)) dest.iconSelect() else dest.icon()
                                 Icon(
-                                    painterResource(dest.icon),
+                                    painter = icon,
                                     contentDescription = title,
                                     modifier = Modifier.size(30.dp)
                                 )

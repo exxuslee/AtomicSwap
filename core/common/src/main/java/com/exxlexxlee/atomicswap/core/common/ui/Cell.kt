@@ -227,7 +227,7 @@ fun CellMultilineClear(
             .then(clickableModifier)
     ) {
         if (borderTop) {
-            Divider(
+            HorizontalDivider(
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant,
                 modifier = Modifier.align(Alignment.TopCenter)
@@ -235,7 +235,7 @@ fun CellMultilineClear(
         }
 
         if (borderBottom) {
-            Divider(
+            HorizontalDivider(
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant,
                 modifier = Modifier.align(Alignment.BottomCenter)
