@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 
 @Composable
@@ -39,17 +40,27 @@ fun TokenSelector(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TokenIcon(null)
-            Column(modifier = Modifier.padding(start = 8.dp)) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "ETH",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                )
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = "ETH",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                    )
+                    HSpacer(0.dp)
+                }
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Badge(text = "ERC-20")
                     if (token?.blockchain?.isMain == false) TestNetBadge()

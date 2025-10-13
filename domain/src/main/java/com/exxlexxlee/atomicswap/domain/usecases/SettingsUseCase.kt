@@ -14,6 +14,10 @@ interface SettingsUseCase {
     fun isTermsOfUseRead(): Boolean
     fun isTermsOfUseRead(ok: Boolean)
 
+    val isMainNetworkType: Flow<Boolean>
+    fun isMainNetworkType(): Boolean
+    fun isMainNetworkType(ok: Boolean)
+
     fun badgeType(): Int?
 
     val selectedFilterStateChronicle: Flow<FilterStateChronicle>
@@ -25,11 +29,11 @@ interface SettingsUseCase {
     ) : SettingsUseCase {
         override val selectedFilterStateChronicle = settingsRepository.selectedFilterStateChronicle
 
-        override val isTermsOfUseRead = settingsRepository.isTermsOfUseRead
-
         override fun selectedRoute() = settingsRepository.selectedRoute()
 
         override fun selectedRoute(route: String) = settingsRepository.selectedRoute(route)
+
+        override val isTermsOfUseRead = settingsRepository.isTermsOfUseRead
 
         override fun isTermsOfUseRead(): Boolean {
             val isTermsOfUseRead = settingsRepository.isTermsOfUseRead()
@@ -48,6 +52,14 @@ interface SettingsUseCase {
 
         override fun selectedFilterStateChronicle() =
             settingsRepository.selectedFilterStateChronicle()
+
+        override val isMainNetworkType = settingsRepository.isMainNetworkType
+
+        override fun isMainNetworkType() = settingsRepository.isMainNetworkType()
+
+        override fun isMainNetworkType(ok: Boolean) {
+            settingsRepository.isMainNetworkType(ok)
+        }
 
 
     }

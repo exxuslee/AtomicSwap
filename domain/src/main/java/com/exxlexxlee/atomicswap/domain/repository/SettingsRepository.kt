@@ -18,6 +18,10 @@ interface SettingsRepository {
     fun isTermsOfUseRead(): Boolean
     fun isTermsOfUseRead(ok: Boolean)
 
+    val isMainNetworkType: Flow<Boolean>
+    fun isMainNetworkType(): Boolean
+    fun isMainNetworkType(ok: Boolean)
+
     val selectedAggregator: StateFlow<SupportedAggregators>
     fun selectedAggregator(): SupportedAggregators
     fun selectedAggregator(label: String)

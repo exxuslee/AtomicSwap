@@ -35,7 +35,8 @@ class SettingsViewModel(
                 aggregatorUseCase.selected,
                 themeController.isDark,
                 settingsUseCase.isTermsOfUseRead,
-            ) { connectionState, selectedAggregator, isDark, isTermsOfUseRead ->
+                settingsUseCase.isMainNetworkType,
+            ) { connectionState, selectedAggregator, isDark, isTermsOfUseRead, isMainNetworkType ->
                 ViewState(
                     isTermsOfUseRead = isTermsOfUseRead,
                     avatar = avatarGenerator.generateIdenticonBitmap("0", 360),
@@ -43,6 +44,7 @@ class SettingsViewModel(
                     isWalletConnect = connectionState.isAvailable,
                     priceAggregator = selectedAggregator,
                     isEmptyLocalStorage = isClearLocalStorage(),
+                    isMainNetworkType = isMainNetworkType,
                 )
             }.collect { newState ->
                 viewState = newState
@@ -64,6 +66,8 @@ class SettingsViewModel(
             }
             Event.OpenWalletConnectDialog -> viewAction = Action.ConnectWcDialog
             Event.OpenClearStorageDialog -> viewAction = Action.LocaleStorageDialog
+            is Event.IsMainNetworkType -> settingsUseCase.isMainNetworkType(viewEvent.isMain)
+
         }
 
     }

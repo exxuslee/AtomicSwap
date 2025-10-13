@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun Badge(modifier: Modifier = Modifier, text: String) {
@@ -20,6 +21,7 @@ fun Badge(modifier: Modifier = Modifier, text: String) {
         text = text,
         color = MaterialTheme.colorScheme.onTertiary,
         style = MaterialTheme.typography.labelSmall,
+        fontSize = 10.sp,
     )
 }
 

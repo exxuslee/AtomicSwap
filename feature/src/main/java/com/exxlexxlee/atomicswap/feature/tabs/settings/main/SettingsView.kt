@@ -123,6 +123,25 @@ fun SettingsView(
                     }
                 },
                 {
+                    HsRow(
+                        icon = ImageVector.vectorResource(R.drawable.outline_token_24),
+                        titleContent = {
+                            Text(
+                                stringResource(R.string.network_type),
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                color = MaterialTheme.colorScheme.secondary,
+                            )
+                        },
+                        arrowRight = false,
+                    ) {
+                        Switch(
+                            checked = viewState.isMainNetworkType,
+                            onCheckedChange = { enabled -> eventHandler.invoke(Event.IsMainNetworkType(enabled)) },
+                            colors = SwitchDefaults.colors()
+                        )
+                    }
+                },
+                {
                     val click = { eventHandler.invoke(Event.OpenClearStorageDialog) }
                     HsRow(
                         icon = ImageVector.vectorResource(R.drawable.outline_database_off_24),

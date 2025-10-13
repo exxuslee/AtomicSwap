@@ -7,6 +7,7 @@ import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 data class ViewState(
     val isDark: Boolean = false,
     val isWalletConnect: Boolean = false,
+    val isMainNetworkType: Boolean = true,
     val isEmptyLocalStorage: Boolean = true,
     val isTermsOfUseRead: Boolean,
     val avatar: Bitmap = createBitmap(360, 360),

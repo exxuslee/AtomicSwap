@@ -44,6 +44,16 @@ class SettingsRepositoryImpl(
         _isTermsOfUseRead.value = ok
     }
 
+    private val _isMainNetworkType = MutableStateFlow(isMainNetworkType())
+    override val isMainNetworkType: StateFlow<Boolean> = _isMainNetworkType
+    override fun isMainNetworkType(): Boolean {
+        return prefs.getBoolean("isMainNetworkType", true)
+    }
+    override fun isMainNetworkType(ok: Boolean) {
+        prefs.edit { putBoolean("isMainNetworkType", ok) }
+        _isMainNetworkType.value = ok
+    }
+
     private val _selectedAggregator = MutableStateFlow(selectedAggregator())
     override val selectedAggregator: StateFlow<SupportedAggregators> = _selectedAggregator
     override fun selectedAggregator(): SupportedAggregators {
