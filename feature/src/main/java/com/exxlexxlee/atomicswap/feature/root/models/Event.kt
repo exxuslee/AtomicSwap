@@ -8,8 +8,8 @@ sealed class Event {
     data class ChronicleTab(val filterState: FilterStateChronicle) : Event()
     data object TakerTokenSheet : Event()
     data object MakerTokenSheet : Event()
-    data class TakerToken(val token: Token) : Event()
-    data class MakerToken(val token: Token) : Event()
+    data class TakerToken(val token: Token?) : Event()
+    data class MakerToken(val token: Token?) : Event()
     data object SwitchToken : Event()
 
     data object ClearAction : Event()

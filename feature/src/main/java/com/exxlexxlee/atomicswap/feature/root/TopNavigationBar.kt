@@ -19,6 +19,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -125,9 +129,12 @@ fun TopNavigationBar(
                             .weight(1f)
                             .padding(start = 12.dp),
                         token = viewState.filterToken.first,
+                        expanded = viewState.expandedTaker,
                         placeholder = stringResource(R.string.from),
                     ) {
-                        eventHandler.invoke(Event.TakerTokenSheet)
+                        if (viewState.filterToken.first != null) {
+                            eventHandler.invoke(Event.TakerToken(null))
+                        } else eventHandler.invoke(Event.TakerTokenSheet)
                     }
 
                     IconButton(
@@ -148,9 +155,12 @@ fun TopNavigationBar(
                             .weight(1f)
                             .padding(end = 12.dp),
                         token = viewState.filterToken.second,
+                        expanded = viewState.expandedMaker,
                         placeholder = stringResource(R.string.to),
                     ) {
-                        eventHandler.invoke(Event.MakerTokenSheet)
+                        if (viewState.filterToken.second != null) {
+                            eventHandler.invoke(Event.MakerToken(null))
+                        } else eventHandler.invoke(Event.MakerTokenSheet)
                     }
 
                 }

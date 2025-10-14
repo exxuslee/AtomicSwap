@@ -64,15 +64,27 @@ class MainViewModel(
                 settingsUseCase.selectedFilterStateChronicle(viewEvent.filterState)
             }
 
-            Event.MakerTokenSheet -> viewAction = Action.MakerToken
-            Event.TakerTokenSheet -> viewAction = Action.TakerToken
-            Event.ClearAction -> clearAction()
+            Event.MakerTokenSheet -> {
+                viewState = viewState.copy(expandedMaker = !viewState.expandedMaker)
+                viewAction = Action.MakerToken
+            }
+            Event.TakerTokenSheet -> {
+                viewState = viewState.copy(expandedTaker = !viewState.expandedTaker)
+                viewAction = Action.TakerToken
+            }
+            Event.ClearAction -> {
+                viewState = viewState.copy(expandedTaker = false, expandedMaker = false)
+                clearAction()
+            }
             is Event.MakerToken -> viewState = viewState.copy(
-                filterToken = viewState.filterToken.first to viewEvent.token
+                filterToken = viewState.filterToken.first to viewEvent.token,
+                expandedMaker = false,
             ).also { clearAction() }
 
             is Event.TakerToken -> viewState = viewState.copy(
-                filterToken = viewEvent.token to viewState.filterToken.second
+                filterToken = viewEvent.token to viewState.filterToken.second,
+                expandedTaker = false,
+
             ).also { clearAction() }
 
             Event.SwitchToken -> viewState = viewState.copy(

@@ -12,5 +12,7 @@ data class ViewState(
     val selectedChronicleTab: FilterStateChronicle,
     val pushUnreadCount: Int = 0,
     val swapFilterBadgeType: Map<FilterStateChronicle, Int?> = mapOf(),
-    val filterToken: Pair<Token?, Token?> = null to null
+    val filterToken: Pair<Token?, Token?> = null to null,
+    val expandedTaker: Boolean = false,
+    val expandedMaker: Boolean = false,
 )

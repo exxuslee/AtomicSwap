@@ -1,5 +1,7 @@
 package com.exxlexxlee.atomicswap.feature.common
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +13,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,13 +30,21 @@ fun TokenSelector(
     token: Token?,
     placeholder: String,
     isMainNet: Boolean = true,
+    expanded: Boolean = false,
     onClick: () -> Unit,
 ) {
+
+    val rotation by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        animationSpec = tween(durationMillis = 300),
+        label = "rotationAnimation"
+    )
+
     Row(
         modifier = Modifier
-            .clickable(
-                onClick = onClick
-            )
+            .clickable(onClick = {
+                onClick()
+            })
             .then(modifier)
             .padding(bottom = 8.dp, top = 2.dp),
     ) {
@@ -64,15 +76,21 @@ fun TokenSelector(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     token?.badge()?.let { Badge(text = it) }
-                   if (!isMainNet) TestNetBadge()
+                    if (!isMainNet) TestNetBadge()
                 }
 
             }
         }
+        val icon = token?.let {
+            com.exxlexxlee.atomicswap.feature.R.drawable.outline_cancel_24
+        } ?: com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24
         Icon(
             modifier = Modifier
-                .size(20.dp),
-            painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24),
+                .size(20.dp)
+                .graphicsLayer {
+                    rotationZ = rotation
+                },
+            painter = painterResource(id = icon),
             contentDescription = "token selector",
         )
 

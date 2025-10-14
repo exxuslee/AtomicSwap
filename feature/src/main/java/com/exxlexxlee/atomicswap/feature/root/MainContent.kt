@@ -150,7 +150,7 @@ fun MainContent(
             Action.MakerToken -> TokensModalBottomSheet(
                 title = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.to),
                 onDismissRequest = {
-                    viewModel.clearAction()
+                    viewModel.obtainEvent(Event.ClearAction)
                 }) {
                 viewModel.obtainEvent(Event.MakerToken(it))
             }
@@ -158,7 +158,7 @@ fun MainContent(
             Action.TakerToken -> TokensModalBottomSheet(
                 title = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.from),
                 onDismissRequest = {
-                    viewModel.clearAction()
+                    viewModel.obtainEvent(Event.ClearAction)
                 }) {
                 viewModel.obtainEvent(Event.TakerToken(it))
             }
