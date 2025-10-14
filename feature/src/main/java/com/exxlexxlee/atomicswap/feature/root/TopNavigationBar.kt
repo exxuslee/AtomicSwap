@@ -127,11 +127,13 @@ fun TopNavigationBar(
                         token = viewState.filterToken.first,
                         placeholder = stringResource(R.string.from),
                     ) {
-                        eventHandler.invoke(Event.TakerToken)
+                        eventHandler.invoke(Event.TakerTokenSheet)
                     }
 
                     IconButton(
-                        onClick = {}
+                        onClick = {
+                            eventHandler.invoke(Event.SwitchToken)
+                        }
                     ) {
                         Icon(
                             modifier = Modifier
@@ -148,7 +150,7 @@ fun TopNavigationBar(
                         token = viewState.filterToken.second,
                         placeholder = stringResource(R.string.to),
                     ) {
-                        eventHandler.invoke(Event.MakerToken)
+                        eventHandler.invoke(Event.MakerTokenSheet)
                     }
 
                 }

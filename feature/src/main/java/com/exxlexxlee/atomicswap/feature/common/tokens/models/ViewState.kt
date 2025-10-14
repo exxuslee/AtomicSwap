@@ -1,9 +1,9 @@
 package com.exxlexxlee.atomicswap.feature.common.tokens.models
 
-import com.exxlexxlee.atomicswap.core.swap.model.Token
+import com.exxlexxlee.atomicswap.core.swap.model.FullCoin
 
 
 data class ViewState(
     val isLoading: Boolean = false,
-    val tokens: List<Token> = listOf(),
+    val fullCoins: List<FullCoin> = listOf(),
 )

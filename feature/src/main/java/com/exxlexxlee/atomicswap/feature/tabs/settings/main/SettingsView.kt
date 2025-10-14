@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -30,10 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
-import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
-import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.core.common.ui.CellUniversalSection
-import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
@@ -83,7 +79,7 @@ fun SettingsView(
             listOf(
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.wallet_connect),
@@ -102,7 +98,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_currency_exchange_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_currency_exchange_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.price_aggregator),
@@ -124,7 +120,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_token_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_token_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.network_type),
@@ -144,7 +140,7 @@ fun SettingsView(
                 {
                     val click = { eventHandler.invoke(Event.OpenClearStorageDialog) }
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_database_off_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_database_off_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.clear_local_storage),
@@ -171,7 +167,7 @@ fun SettingsView(
             listOf(
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_routine_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_routine_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.label_dark_mode),
@@ -190,7 +186,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_language_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_language_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.language),
@@ -206,7 +202,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_contract_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_contract_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.terms_of_service),
@@ -229,7 +225,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_volunteer_activism_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_volunteer_activism_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.donate),
@@ -245,7 +241,7 @@ fun SettingsView(
                 },
                 {
                     HsRow(
-                        icon = ImageVector.vectorResource(R.drawable.outline_mobile_info_24),
+                        imageVector = ImageVector.vectorResource(R.drawable.outline_mobile_info_24),
                         titleContent = {
                             Text(
                                 stringResource(R.string.about, stringResource(R.string.app_name)),

@@ -1,34 +1,31 @@
 package com.exxlexxlee.atomicswap.core.swap.model
 
 sealed class Blockchain(
-    val iconUrl: String
+    val iconUrl: String,
 ) {
     data object Bitcoin : Blockchain(
         "https://coin-images.coingecko.com/asset_platforms/images/127/small/ordinals.png?1706606816"
     )
 
     data object Litecoin : Blockchain(
-
         "https://coin-images.coingecko.com/asset_platforms/images/51/small/bch.png?1706606492"
     )
 
     data object Ethereum : Blockchain(
-
         "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803"
     )
 
     data object BinanceSmartChain : Blockchain(
-
         "https://coin-images.coingecko.com/asset_platforms/images/1/small/bnb_smart_chain.png?1706606721"
     )
 
     data object Tron : Blockchain(
-
         "https://coin-images.coingecko.com/asset_platforms/images/1094/small/TRON_LOGO.png?1706606652"
     )
 
-    data object Solana :
-        Blockchain("https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708")
+    data object Solana : Blockchain(
+        "https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708"
+    )
 
     data object Unsupported : Blockchain(
         ""
@@ -59,4 +56,6 @@ sealed class Blockchain(
             is Tron -> "TRC-20"
         }
     }
+
+    fun isSupported() = this != Unsupported
 }

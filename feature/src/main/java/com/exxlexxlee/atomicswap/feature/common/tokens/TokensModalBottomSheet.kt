@@ -12,13 +12,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.exxlexxlee.atomicswap.core.common.ui.CellLazyMultilineSection
+import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
+import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.HsRow
 import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
@@ -33,6 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun TokensModalBottomSheet(
     modifier: Modifier = Modifier,
+    title: String,
     onDismissRequest: () -> Unit,
     onClick: (Token) -> Unit,
 ) {
@@ -44,27 +50,60 @@ fun TokensModalBottomSheet(
         onDismissRequest = onDismissRequest,
     ) {
         SearchBar(
-            title = stringResource(R.string.app),
+            title = title,
             searchHintText = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.search),
             onClose = onDismissRequest,
             onSearchTextChanged = { text -> }
         )
 
-        if (viewState.tokens.isEmpty()) {
+        if (viewState.fullCoins.isEmpty()) {
             ListEmptyView(
                 text = stringResource(R.string.tokens_empty_list),
                 icon = R.drawable.outline_empty_dashboard_24
             )
         } else {
             CellLazyMultilineSection(
-                items = viewState.tokens,
+                items = viewState.fullCoins,
                 itemContent = { item ->
-                    RowUniversal {
-                        TokenIcon(item)
-                        Row {
-                            Text(item.coin.symbol)
-                            item.badge()?.let { Badge(text = it) }
+                    RowUniversal(
+                        modifier = Modifier.padding(start = 12.dp),
+                        verticalAlignment = Alignment.Bottom,
+                        onClick = {
+                            onClick(item.tokens.first())
+                        },
+                    ) {
+                        TokenIcon(item.tokens.first())
+                        HSpacer(12.dp)
+                        Column(modifier = Modifier.weight(1f)) {
+                            Row {
+                                Text(item.coin.symbol,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.SemiBold,
+                                )
+                                item.tokens.first().badge()?.let { Badge(
+                                    modifier = Modifier.padding(horizontal = 8.dp),
+                                    text = it) }
+                            }
+                            Row {
+                                Text(
+                                    text = item.tokens.first().contractAddress?:"",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                         }
+                        item.tokens.forEach { token ->
+                            HsIconButton(onClick = {}) {
+                                AsyncImage(
+                                    model = token.blockchain.iconUrl,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp),
+                                )
+                            }
+                        }
+
                     }
                 }
             )

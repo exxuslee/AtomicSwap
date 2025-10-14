@@ -16,7 +16,7 @@ class TokensViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            viewState = viewState.copy(tokens = tokensUseCase.tokens())
+            viewState = viewState.copy(fullCoins = tokensUseCase.fullCoins(""))
         }
     }
 

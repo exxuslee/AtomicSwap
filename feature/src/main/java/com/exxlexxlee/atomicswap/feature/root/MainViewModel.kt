@@ -33,7 +33,7 @@ class MainViewModel(
         }
         viewModelScope.launch {
             pushReaderUseCase.unreadCount.collect {
-                viewState = viewState.copy(pushUnreadCount = it,)
+                viewState = viewState.copy(pushUnreadCount = it)
             }
         }
         viewModelScope.launch {
@@ -64,9 +64,20 @@ class MainViewModel(
                 settingsUseCase.selectedFilterStateChronicle(viewEvent.filterState)
             }
 
-            Event.MakerToken -> viewAction = Action.MakerToken
-            Event.TakerToken -> viewAction = Action.TakerToken
+            Event.MakerTokenSheet -> viewAction = Action.MakerToken
+            Event.TakerTokenSheet -> viewAction = Action.TakerToken
             Event.ClearAction -> clearAction()
+            is Event.MakerToken -> viewState = viewState.copy(
+                filterToken = viewState.filterToken.first to viewEvent.token
+            ).also { clearAction() }
+
+            is Event.TakerToken -> viewState = viewState.copy(
+                filterToken = viewEvent.token to viewState.filterToken.second
+            ).also { clearAction() }
+
+            Event.SwitchToken -> viewState = viewState.copy(
+                filterToken = viewState.filterToken.second to viewState.filterToken.first
+            )
         }
 
     }

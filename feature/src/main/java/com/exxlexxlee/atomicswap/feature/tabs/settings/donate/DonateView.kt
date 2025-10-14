@@ -87,7 +87,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 viewState.donates.map { donat ->
                     {
                         HsRow(
-                            icon = ImageVector.vectorResource(donat.icon),
+                            icon = painterResource(donat.icon),
                             titleContent = {
                                 Column(
                                     modifier = Modifier.padding(horizontal = 12.dp)

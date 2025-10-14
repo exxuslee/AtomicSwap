@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -31,6 +32,7 @@ import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.MakerRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
 import com.exxlexxlee.atomicswap.feature.root.models.Action
+import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.book.BookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
@@ -146,14 +148,20 @@ fun MainContent(
 
         when (viewAction) {
             Action.MakerToken -> TokensModalBottomSheet(
+                title = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.to),
                 onDismissRequest = {
                     viewModel.clearAction()
-                }) { }
+                }) {
+                viewModel.obtainEvent(Event.MakerToken(it))
+            }
 
             Action.TakerToken -> TokensModalBottomSheet(
+                title = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.from),
                 onDismissRequest = {
                     viewModel.clearAction()
-                }) { }
+                }) {
+                viewModel.obtainEvent(Event.TakerToken(it))
+            }
 
             null -> {}
         }
