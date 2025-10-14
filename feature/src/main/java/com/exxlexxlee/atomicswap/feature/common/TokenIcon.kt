@@ -22,23 +22,27 @@ fun TokenIcon(token: Token?, modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(token?.coin?.iconUrl)
+                .data(token?.coin?.iconUrl?:R.drawable.outline_token_24)
                 .crossfade(true)
-                .placeholder(R.drawable.outline_paid_24)
-                .error(com.exxlexxlee.atomicswap.core.common.R.drawable.outline_error_24)
+                .error(R.drawable.outline_token_24)
                 .build(),
             contentDescription = null,
             modifier = Modifier
                 .size(40.dp)
-                .background(MaterialTheme.colorScheme.secondaryContainer, shape = CircleShape)
+                .background(MaterialTheme.colorScheme.primaryContainer, shape = CircleShape)
+                .border(
+                    BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondary),
+                    shape = CircleShape
+                )
                 .align(Alignment.CenterStart)
             ,
         )
         AsyncImage(
-            model = token?.blockchain?.iconUrl,
+            model = token?.blockchain?.iconUrl?: com.exxlexxlee.atomicswap.core.common.R.drawable.outline_category_24,
             contentDescription = null,
             modifier = Modifier
                 .size(20.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer, shape = CircleShape)
                 .border(
                     BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondary),
                     shape = CircleShape

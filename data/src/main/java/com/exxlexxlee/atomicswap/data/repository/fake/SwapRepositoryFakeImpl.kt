@@ -145,8 +145,8 @@ class SwapRepositoryFakeImpl : SwapRepository {
         takerTokenSymbol: String,
         makerTokenSymbol: String
     ): Swap {
-        val makerToken = createFakeToken(makerTokenSymbol, Blockchain.Ethereum(isMain = true))
-        val takerToken = createFakeToken(takerTokenSymbol, Blockchain.Bitcoin(isMain = true))
+        val makerToken = createFakeToken(makerTokenSymbol, Blockchain.Ethereum)
+        val takerToken = createFakeToken(takerTokenSymbol, Blockchain.Bitcoin)
 
         val make = Make(
             makeId = makeId,
@@ -203,7 +203,6 @@ class SwapRepositoryFakeImpl : SwapRepository {
         blockchain: Blockchain
     ): Token {
         val coin = Coin(
-            id = "token-$symbol",
             symbol = symbol,
             name = when (symbol) {
                 "BTC" -> "Bitcoin"
@@ -222,7 +221,6 @@ class SwapRepositoryFakeImpl : SwapRepository {
         )
 
         return Token(
-            id = symbol,
             coin = coin,
             contractAddress = if (symbol != "BTC" && symbol != "LTC") "0x123...abc" else null,
             blockchain = blockchain,

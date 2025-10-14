@@ -14,4 +14,6 @@
     <string name="search">Search</string>
     <string name="blockchain">Blockchain</string>
     <string name="cancel">Cancel</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>

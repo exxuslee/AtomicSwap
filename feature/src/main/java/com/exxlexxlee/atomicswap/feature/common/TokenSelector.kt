@@ -24,7 +24,8 @@ import com.exxlexxlee.atomicswap.core.swap.model.Token
 fun TokenSelector(
     modifier: Modifier,
     token: Token?,
-    onDismiss: () -> Unit,
+    placeholder: String,
+    isMainNet: Boolean = true,
     onClick: () -> Unit,
 ) {
     Row(
@@ -39,7 +40,7 @@ fun TokenSelector(
             modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TokenIcon(null)
+            TokenIcon(token)
             Column(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
@@ -52,7 +53,7 @@ fun TokenSelector(
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
-                        text = "ETH",
+                        text = token?.coin?.symbol ?: placeholder,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
@@ -62,8 +63,8 @@ fun TokenSelector(
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Badge(text = "ERC-20")
-                    if (token?.blockchain?.isMain == false) TestNetBadge()
+                    token?.badge()?.let { Badge(text = it) }
+                   if (!isMainNet) TestNetBadge()
                 }
 
             }

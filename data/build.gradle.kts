@@ -46,6 +46,8 @@ dependencies {
 	implementation(project(":core:database"))
 	implementation(project(":core:swap"))
 
+	implementation(libs.gson)
+	implementation(libs.timber)
 	implementation(libs.koin.android)
 	implementation(libs.androidx.room.ktx)
 	implementation(libs.kotlinx.coroutines.core)

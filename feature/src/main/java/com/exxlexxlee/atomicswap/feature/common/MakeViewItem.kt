@@ -88,7 +88,6 @@ private fun MakeViewItemPreview() {
             blockchain: Blockchain
         ): Token {
             val coin = Coin(
-                id = "token-$symbol",
                 symbol = symbol,
                 name = when (symbol) {
                     "BTC" -> "Bitcoin"
@@ -107,7 +106,6 @@ private fun MakeViewItemPreview() {
             )
 
             return Token(
-                id = symbol,
                 coin = coin,
                 contractAddress = if (symbol != "BTC" && symbol != "LTC") "0x123...abc" else null,
                 blockchain = blockchain,
@@ -115,8 +113,8 @@ private fun MakeViewItemPreview() {
             )
         }
 
-        val makerToken = createFakeToken("BTC", Blockchain.Ethereum(isMain = true))
-        val takerToken = createFakeToken("ETH", Blockchain.Bitcoin(isMain = true))
+        val makerToken = createFakeToken("BTC", Blockchain.Ethereum)
+        val takerToken = createFakeToken("ETH", Blockchain.Bitcoin)
         MakeViewItem(
             make = Make(
                 makeId = "makeId",

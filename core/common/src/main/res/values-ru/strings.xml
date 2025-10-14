@@ -15,4 +15,6 @@
     <string name="search">Поиск</string>
     <string name="blockchain">Блокчейн</string>
     <string name="cancel">Отмена</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>

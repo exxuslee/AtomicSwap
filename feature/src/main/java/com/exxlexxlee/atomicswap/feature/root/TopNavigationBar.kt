@@ -48,7 +48,7 @@ fun TopNavigationBar(
     backStackEntry: NavBackStackEntry?,
     navController: NavHostController,
     eventHandler: (Event) -> Unit,
-){
+) {
     val currentRoute = backStackEntry?.destination?.asRoute()
     if (currentRoute?.isPrimaryRoute() == false) {
         TopAppBar(
@@ -95,7 +95,7 @@ fun TopNavigationBar(
                         Tab(
                             selected = viewState.selectedChronicleTab == filterState,
                             onClick = {
-                                eventHandler.invoke( Event.ChronicleTab(filterState))
+                                eventHandler.invoke(Event.ChronicleTab(filterState))
                             },
                             icon = {
                                 BadgedIcon(
@@ -124,14 +124,11 @@ fun TopNavigationBar(
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 12.dp),
-                        null,
-                        onDismiss = {
-                            eventHandler.invoke(Event.ClearAction)
-                        },
-                        onClick = {
-                            eventHandler.invoke(Event.TakerToken)
-                        }
-                    )
+                        token = viewState.filterToken.first,
+                        placeholder = stringResource(R.string.from),
+                    ) {
+                        eventHandler.invoke(Event.TakerToken)
+                    }
 
                     IconButton(
                         onClick = {}
@@ -148,14 +145,11 @@ fun TopNavigationBar(
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 12.dp),
-                        null,
-                        onDismiss = {
-                            eventHandler.invoke(Event.ClearAction)
-                        },
-                        onClick = {
-                            eventHandler.invoke(Event.MakerToken)
-                        }
-                    )
+                        token = viewState.filterToken.second,
+                        placeholder = stringResource(R.string.to),
+                    ) {
+                        eventHandler.invoke(Event.MakerToken)
+                    }
 
                 }
             }

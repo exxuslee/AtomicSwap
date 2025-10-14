@@ -36,5 +36,5 @@ val featureModule = module {
     viewModel { RefundedViewModel(get()) }
     viewModel { ScannerViewModel() }
     viewModel { BookViewModel(get()) }
-    viewModel { TokensViewModel() }
+    viewModel { TokensViewModel(get()) }
 }

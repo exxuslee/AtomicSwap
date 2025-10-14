@@ -47,43 +47,37 @@ class MakeRepositoryFakeImpl(
 
     companion object {
         private val btc = Coin(
-            id = "btc",
             symbol = "BTC",
             name = "Bitcoin",
             iconUrl = "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
         )
         private val eth = Coin(
-            id = "eth",
             symbol = "ETH",
             name = "Ethereum",
             iconUrl = "https://assets.coingecko.com/coins/images/279/small/ethereum.png"
         )
         private val usdt = Coin(
-            id = "usdt",
             symbol = "USDT",
             name = "Tether",
             iconUrl = "https://assets.coingecko.com/coins/images/2/small/litecoin.png"
         )
 
         private val btcToken = Token(
-            id = "btc",
             coin = btc,
             contractAddress = null,
-            blockchain = Blockchain.Bitcoin(isMain = true),
+            blockchain = Blockchain.Bitcoin,
             decimal = 8,
         )
         private val ethToken = Token(
-            id = "eth",
             coin = eth,
             contractAddress = null,
-            blockchain = Blockchain.Ethereum(isMain = true),
+            blockchain = Blockchain.Ethereum,
             decimal = 18,
         )
         private val usdtTronToken = Token(
-            id = "usdt-tron",
             coin = usdt,
             contractAddress = "TXYZ...USDT",
-            blockchain = Blockchain.Tron(isMain = false),
+            blockchain = Blockchain.Tron,
             decimal = 6,
         )
 

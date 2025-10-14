@@ -1,62 +1,62 @@
 package com.exxlexxlee.atomicswap.core.swap.model
 
 sealed class Blockchain(
-    open val isMain: Boolean,
     val iconUrl: String
 ) {
-    data class Bitcoin(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/127/small/ordinals.png?1706606816")
+    data object Bitcoin : Blockchain(
+        "https://coin-images.coingecko.com/asset_platforms/images/127/small/ordinals.png?1706606816"
+    )
 
-    data class Litecoin(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/51/small/bch.png?1706606492")
+    data object Litecoin : Blockchain(
 
-    data class Ethereum(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803")
+        "https://coin-images.coingecko.com/asset_platforms/images/51/small/bch.png?1706606492"
+    )
 
-    data class BinanceSmartChain(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/1/small/bnb_smart_chain.png?1706606721")
+    data object Ethereum : Blockchain(
 
-    data class Tron(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/1094/small/TRON_LOGO.png?1706606652")
+        "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803"
+    )
 
-    data class Solana(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "icon")
+    data object BinanceSmartChain : Blockchain(
 
-    data class Unsupported(
-        override val isMain: Boolean,
-    ) : Blockchain(isMain, "https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708")
+        "https://coin-images.coingecko.com/asset_platforms/images/1/small/bnb_smart_chain.png?1706606721"
+    )
+
+    data object Tron : Blockchain(
+
+        "https://coin-images.coingecko.com/asset_platforms/images/1094/small/TRON_LOGO.png?1706606652"
+    )
+
+    data object Solana :
+        Blockchain("https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708")
+
+    data object Unsupported : Blockchain(
+        ""
+    )
 
 
     companion object {
-        fun valueOf(storageName: String): Blockchain {
-            val (name, isMainStr) = storageName.split("|")
-            return when (name) {
-                "Bitcoin" -> Bitcoin(isMainStr.toBoolean())
-                "Litecoin" -> Litecoin(isMainStr.toBoolean())
-                "Ethereum" -> Ethereum(isMainStr.toBoolean())
-                "BinanceSmartChain" -> BinanceSmartChain(isMainStr.toBoolean())
-                "Tron" -> Tron(isMainStr.toBoolean())
-                "Solana" -> Solana(isMainStr.toBoolean())
-                else -> Unsupported(isMainStr.toBoolean())
+        fun fromUid(uid: String): Blockchain =
+            when (uid) {
+                "bitcoin" -> Bitcoin
+                "litecoin" -> Litecoin
+                "ethereum" -> Ethereum
+                "binance-smart-chain" -> BinanceSmartChain
+                "solana" -> Solana
+                "tron" -> Tron
+                else -> Unsupported
             }
-        }
     }
-}
 
-fun Blockchain.toStorageName(): String {
-    return when (this) {
-        is Blockchain.Bitcoin -> "Bitcoin|${this.isMain}"
-        is Blockchain.Litecoin -> "Litecoin|${this.isMain}"
-        is Blockchain.Ethereum -> "Ethereum|${this.isMain}"
-        is Blockchain.BinanceSmartChain -> "BinanceSmartChain|${this.isMain}"
-        is Blockchain.Unsupported -> "Unsupported|${this.isMain}"
-        is Blockchain.Solana -> "Solana|${this.isMain}"
-        is Blockchain.Tron -> "Tron|${this.isMain}"
+    fun badge(): String? {
+        return when (this) {
+            is Bitcoin -> null
+            is Litecoin -> null
+            is Ethereum -> "ERC-20"
+            is BinanceSmartChain -> "BEP-20"
+            is Unsupported -> null
+            is Solana -> "SOL"
+            is Tron -> "TRC-20"
+        }
     }
 }

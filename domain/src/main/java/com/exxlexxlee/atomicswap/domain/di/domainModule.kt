@@ -6,6 +6,7 @@ import com.exxlexxlee.atomicswap.domain.usecases.PushReaderUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.ThemeController
+import com.exxlexxlee.atomicswap.domain.usecases.TokensUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -15,4 +16,5 @@ val domainModule = module {
     single<AggregatorUseCase> { AggregatorUseCase.Base(get()) }
     single<SwapUseCase> { SwapUseCase.Base(get()) }
     single<MakeUseCase> { MakeUseCase.Base(get()) }
+    single< TokensUseCase> { TokensUseCase.Base(get()) }
 }

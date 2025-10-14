@@ -11,13 +11,25 @@ import com.exxlexxlee.atomicswap.data.repository.PushRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.SettingsRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.fake.SwapRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.SwapRepositoryImpl
+import com.exxlexxlee.atomicswap.data.repository.TokensRepositoryImpl
 import com.exxlexxlee.atomicswap.domain.repository.MakeRepository
 import com.exxlexxlee.atomicswap.domain.repository.PushRepository
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
+import com.exxlexxlee.atomicswap.domain.repository.TokensRepository
+import io.horizontalsystems.marketkit.MarketKit
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val dataModule = module {
+    single {
+        MarketKit.getInstance(
+            context = androidContext(),
+            hsApiBaseUrl = "https://api.blocksdecoded.com",
+            hsApiKey = "IQf1uAjkthZp1i2pYzkXFDom"
+        )
+    }
+
     single<SwapRepository> {
         SwapRepositoryImpl(get<SwapDao>(), get<MakeDao>(), get<TakeDao>())
     }
@@ -25,12 +37,22 @@ val dataModule = module {
     single<SettingsRepository> { SettingsRepositoryImpl(get(), get()) }
     single<PushRepository> { PushRepositoryImpl(get<PushDao>()) }
     single<PushRepository.Reader> { PushRepositoryImpl(get<PushDao>()) }
+    single<TokensRepository> { TokensRepositoryImpl(get()) }
 }
 
 val fakeDataModule = module {
+    single {
+        MarketKit.getInstance(
+            context = androidContext(),
+            hsApiBaseUrl = "https://api.blocksdecoded.com",
+            hsApiKey = "IQf1uAjkthZp1i2pYzkXFDom"
+        )
+    }
     single<SwapRepository> { SwapRepositoryFakeImpl() }
     single<MakeRepository> { MakeRepositoryFakeImpl() }
     single<SettingsRepository> { SettingsRepositoryImpl(get(), get()) }
     single<PushRepository> { PushRepositoryFakeImpl() }
     single<PushRepository.Reader> { PushRepositoryFakeImpl() }
+    single<TokensRepository> { TokensRepositoryImpl(get()) }
+
 }
