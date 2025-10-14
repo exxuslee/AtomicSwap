@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,65 +36,67 @@ fun TokenSelector(
     onClick: () -> Unit,
 ) {
 
-    val rotation by animateFloatAsState(
-        targetValue = if (expanded) 180f else 0f,
-        animationSpec = tween(durationMillis = 300),
-        label = "rotationAnimation"
-    )
-
-    Row(
-        modifier = Modifier
-            .clickable(onClick = {
-                onClick()
-            })
-            .then(modifier)
-            .padding(bottom = 8.dp, top = 2.dp),
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Row(
-            modifier = Modifier.weight(1f),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            TokenIcon(token)
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        text = token?.coin?.symbol ?: placeholder,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        maxLines = 1,
-                    )
-                    HSpacer(0.dp)
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    token?.badge()?.let { Badge(text = it) }
-                    if (!isMainNet) TestNetBadge()
-                }
-
-            }
-        }
-        val icon = token?.let {
-            com.exxlexxlee.atomicswap.feature.R.drawable.outline_cancel_24
-        } ?: com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24
-        Icon(
-            modifier = Modifier
-                .size(20.dp)
-                .graphicsLayer {
-                    rotationZ = rotation
-                },
-            painter = painterResource(id = icon),
-            contentDescription = "token selector",
+        val rotation by animateFloatAsState(
+            targetValue = if (expanded) 180f else 0f,
+            animationSpec = tween(durationMillis = 300),
+            label = "rotationAnimation"
         )
+        Row(
+            modifier = Modifier.clickable(onClick = onClick).padding(4.dp),
+        ) {
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TokenIcon(token)
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = token?.coin?.symbol ?: placeholder,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                        )
+                        HSpacer(0.dp)
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        token?.badge()?.let { Badge(text = it) }
+                        if (!isMainNet) TestNetBadge()
+                    }
 
+                }
+            }
+            val icon = token?.let {
+                com.exxlexxlee.atomicswap.feature.R.drawable.outline_cancel_24
+            } ?: com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_drop_down_circle_24
+            Icon(
+                modifier = Modifier
+                    .size(20.dp)
+                    .graphicsLayer {
+                        rotationZ = rotation
+                    },
+                painter = painterResource(id = icon),
+                contentDescription = "token selector",
+            )
+        }
     }
+
 }

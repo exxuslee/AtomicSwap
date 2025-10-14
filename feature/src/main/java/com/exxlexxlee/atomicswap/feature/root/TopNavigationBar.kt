@@ -121,7 +121,7 @@ fun TopNavigationBar(
 
             is MakerRoute -> {
                 RowUniversal(
-                    modifier = Modifier.padding(0.dp, topPadding, 0.dp, 0.dp),
+                    modifier = Modifier.padding(0.dp, topPadding, 0.dp, 4.dp),
                     verticalPadding = 0.dp,
                 ) {
                     TokenSelector(
