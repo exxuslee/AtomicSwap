@@ -59,10 +59,13 @@ class MainViewModel(
 
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
-            is Event.SelectMainRoute -> settingsUseCase.selectedRoute(viewEvent.route)
-            is Event.SelectChronicleTab -> {
+            is Event.MainRoute -> settingsUseCase.selectedRoute(viewEvent.route)
+            is Event.ChronicleTab -> {
                 settingsUseCase.selectedFilterStateChronicle(viewEvent.filterState)
             }
+
+            Event.MakerToken -> viewAction = Action.MakerToken
+            Event.TakerToken -> viewAction = Action.TakerToken
         }
 
     }

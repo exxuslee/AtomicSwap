@@ -1,10 +1,7 @@
 package com.exxlexxlee.atomicswap.feature.root
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,18 +49,17 @@ import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.feature.common.Badge
-import com.exxlexxlee.atomicswap.feature.common.TokenIcon
 import com.exxlexxlee.atomicswap.feature.common.TokenSelector
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
+import com.exxlexxlee.atomicswap.feature.common.tokenmodal.TokensModalBottomSheet
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.MakerRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
 import com.exxlexxlee.atomicswap.feature.navigation.asRoute
 import com.exxlexxlee.atomicswap.feature.navigation.isParentSelected
 import com.exxlexxlee.atomicswap.feature.navigation.isPrimaryRoute
+import com.exxlexxlee.atomicswap.feature.root.models.Action
 import com.exxlexxlee.atomicswap.feature.root.models.Event
-import com.exxlexxlee.atomicswap.feature.root.models.Event.SelectChronicleTab
 import com.exxlexxlee.atomicswap.feature.tabs.book.BookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
@@ -137,7 +133,7 @@ fun MainContent(
                                     selected = viewState.selectedChronicleTab == filterState,
                                     onClick = {
                                         viewModel.obtainEvent(
-                                            SelectChronicleTab(filterState)
+                                            Event.ChronicleTab(filterState)
                                         )
                                     },
                                     icon = {
@@ -164,10 +160,16 @@ fun MainContent(
                             verticalPadding = 0.dp,
                         ) {
                             TokenSelector(
-                                modifier = Modifier.weight(1f).padding(start = 12.dp),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(start = 12.dp),
                                 null,
-                                onDismiss = {},
-                                onClick = {}
+                                onDismiss = {
+                                    viewModel.clearAction()
+                                },
+                                onClick = {
+                                    viewModel.obtainEvent(Event.TakerToken)
+                                }
                             )
 
                             IconButton(
@@ -182,10 +184,16 @@ fun MainContent(
                             }
 
                             TokenSelector(
-                                modifier = Modifier.weight(1f).padding(end = 12.dp),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(end = 12.dp),
                                 null,
-                                onDismiss = {},
-                                onClick = {}
+                                onDismiss = {
+                                    viewModel.clearAction()
+                                },
+                                onClick = {
+                                    viewModel.obtainEvent(Event.MakerToken)
+                                }
                             )
 
                         }
@@ -255,7 +263,7 @@ fun MainContent(
                             if (dest.isParentSelected(currentRoute)) {
                                 navController.popBackStack(dest.route, inclusive = false)
                             } else {
-                                viewModel.obtainEvent(Event.SelectMainRoute(dest.route))
+                                viewModel.obtainEvent(Event.MainRoute(dest.route))
                                 navController.navigate(dest.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
@@ -349,6 +357,22 @@ fun MainContent(
 
             }
 
+        }
+
+        when (viewAction) {
+            Action.MakerToken -> {
+                TokensModalBottomSheet(
+                    onDismissRequest = {
+                        viewModel.clearAction()
+                    }) { }
+            }
+
+            Action.TakerToken -> TokensModalBottomSheet(
+                onDismissRequest = {
+                    viewModel.clearAction()
+                }) { }
+
+            null -> {}
         }
     }
 }

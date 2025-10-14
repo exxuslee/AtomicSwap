@@ -45,7 +45,10 @@ dependencies {
 	implementation(project(":core:network"))
 	implementation(project(":core:database"))
 	implementation(project(":core:swap"))
+
 	implementation(libs.koin.android)
 	implementation(libs.androidx.room.ktx)
 	implementation(libs.kotlinx.coroutines.core)
+
+	implementation("com.github.horizontalsystems:market-kit-android:8bd85cc")
 }

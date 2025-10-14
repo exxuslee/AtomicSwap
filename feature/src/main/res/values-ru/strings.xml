@@ -57,4 +57,5 @@
     <string name="terms_accept_button">Подвердить</string>
     <string name="qr_scanner">QR-сканнер</string>
     <string name="network_type">Основной тип сети</string>
+	<string name="tokens_empty_list">Пустой список токенов</string>
 </resources>

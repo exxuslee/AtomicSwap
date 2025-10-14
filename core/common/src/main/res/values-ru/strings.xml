@@ -12,4 +12,7 @@
     <string name="double_back_press_message">Нажмите еще раз для выхода</string>
     <string name="back">Назад</string>
     <string name="error_description">Проверьте подключение и попробуйте снова</string>
+    <string name="search">Поиск</string>
+    <string name="blockchain">Блокчейн</string>
+    <string name="cancel">Отмена</string>
 </resources>

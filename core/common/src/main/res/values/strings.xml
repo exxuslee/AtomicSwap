@@ -11,4 +11,7 @@
     <string name="double_back_press_message">Press again to exit</string>
     <string name="back">Back</string>
     <string name="error_description">Check your connection and try again</string>
+    <string name="search">Search</string>
+    <string name="blockchain">Blockchain</string>
+    <string name="cancel">Cancel</string>
 </resources>

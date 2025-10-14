@@ -80,7 +80,7 @@ fun HsRow(
         Spacer(Modifier.weight(1f))
         if (valueContent != null) valueContent()
 
-        if (arrowRight) Image(
+        if (arrowRight) Icon(
             modifier = Modifier.size(20.dp),
             painter = painterResource(R.drawable.ic_arrow_right),
             contentDescription = null,

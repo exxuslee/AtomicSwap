@@ -4,8 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,7 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CellMultilineLawrenceSection(
+fun CellLazyMultilineSection(
     composableItems: List<@Composable () -> Unit>
 ) {
     Column(
@@ -34,25 +35,18 @@ fun CellMultilineLawrenceSection(
 }
 
 @Composable
-fun CellMultilineLawrenceSection(
-    content: @Composable () -> Unit
-) {
-    CellMultilineLawrenceSection(listOf(content))
-}
-
-@Composable
-fun <T> CellMultilineLawrenceSection(
+fun <T> CellLazyMultilineSection(
     items: Iterable<T>,
     itemContent: @Composable (T) -> Unit
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .padding(horizontal = 12.dp)
             .clip(RoundedCornerShape(12.dp))
     ) {
-        items.forEachIndexed { index, marketDataLine ->
+        itemsIndexed(items.toList()) { index, data ->
             CellMultilineLawrence(borderTop = index != 0) {
-                itemContent(marketDataLine)
+                itemContent(data)
             }
         }
     }
