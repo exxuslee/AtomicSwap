@@ -7,4 +7,5 @@ sealed class Event {
     data class ChronicleTab(val filterState: FilterStateChronicle) : Event()
     data object TakerToken : Event()
     data object MakerToken : Event()
+    data object ClearAction : Event()
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -54,6 +56,7 @@ fun SearchBar(
     var searchText by remember { mutableStateOf("") }
 
     TopAppBar(
+        modifier = Modifier.fillMaxWidth(),
         title = {
             Text(
                 text = if (searchMode) "" else title,
@@ -61,6 +64,8 @@ fun SearchBar(
                 overflow = TextOverflow.Ellipsis
             )
         },
+        colors = TopAppBarDefaults.topAppBarColors()
+            .copy(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         navigationIcon = {
             HsIconButton(onClick = {
                 if (searchMode) {
@@ -133,9 +138,11 @@ fun SearchBar(
             if (!searchMode) {
                 HsIconButton(
                     onClick = { searchMode = true }
-
                 ) {
                     Icon(
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .size(24.dp),
                         painter = painterResource(R.drawable.outline_search_24),
                         contentDescription = stringResource(R.string.search),
                     )
@@ -143,9 +150,11 @@ fun SearchBar(
 
                 HsIconButton(
                     onClick = { searchMode = true }
-
                 ) {
                     Icon(
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .size(24.dp),
                         painter = painterResource(R.drawable.outline_category_24),
                         contentDescription = stringResource(R.string.blockchain),
                     )

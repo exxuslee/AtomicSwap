@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.common.tokenmodal
+package com.exxlexxlee.atomicswap.feature.common.tokens
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
@@ -42,11 +42,6 @@ fun TokensModalBottomSheet(
             searchHintText = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.search),
             onClose = onDismissRequest,
             onSearchTextChanged = { text -> }
-        )
-        val barState = rememberSearchBarState()
-        androidx.compose.material3.SearchBar(
-            state = barState,
-            inputField = { }
         )
 
         if (viewState.tokens.isEmpty()) {

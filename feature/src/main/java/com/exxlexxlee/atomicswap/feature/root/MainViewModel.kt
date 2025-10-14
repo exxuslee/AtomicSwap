@@ -66,6 +66,7 @@ class MainViewModel(
 
             Event.MakerToken -> viewAction = Action.MakerToken
             Event.TakerToken -> viewAction = Action.TakerToken
+            Event.ClearAction -> clearAction()
         }
 
     }

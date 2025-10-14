@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.common.tokenmodal.models
+package com.exxlexxlee.atomicswap.feature.common.tokens.models
 
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 

@@ -2,7 +2,7 @@ package com.exxlexxlee.atomicswap.feature.di
 
 import com.exxlexxlee.atomicswap.core.walletconnect.WalletConnectManager
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapViewModel
-import com.exxlexxlee.atomicswap.feature.common.tokenmodal.TokensViewModel
+import com.exxlexxlee.atomicswap.feature.common.tokens.TokensViewModel
 import com.exxlexxlee.atomicswap.feature.root.MainViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.BookViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveViewModel
