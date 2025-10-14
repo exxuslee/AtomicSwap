@@ -28,10 +28,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -85,7 +87,7 @@ fun DonateView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 viewState.donates.map { donat ->
                     {
                         HsRow(
-                            iconRes = donat.icon,
+                            icon = ImageVector.vectorResource(donat.icon),
                             titleContent = {
                                 Column(
                                     modifier = Modifier.padding(horizontal = 12.dp)

@@ -54,6 +54,8 @@ dependencies {
 	implementation(libs.compose.ui)
 	implementation(libs.compose.ui.tooling.preview)
 	
+	implementation(libs.coil.compose)
+
 	implementation(libs.timber)
 	implementation(libs.koin.android)
 
