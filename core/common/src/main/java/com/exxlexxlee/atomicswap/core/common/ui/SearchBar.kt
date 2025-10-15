@@ -41,14 +41,13 @@ import com.exxlexxlee.atomicswap.core.common.R
 fun SearchBar(
     title: String,
     searchHintText: String = "",
-    searchModeInitial: Boolean = false,
+    searchMode: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() },
     onClose: () -> Unit,
-    onChainFilter: () -> Unit,
+    onCloseSearch: () -> Unit,
     onSearchTextChanged: (String) -> Unit = {},
+    actions: @Composable () -> Unit,
 ) {
-    var searchMode by remember { mutableStateOf(searchModeInitial) }
-    var showClearButton by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -75,7 +74,6 @@ fun SearchBar(
                         onValueChange = {
                             searchText = it
                             onSearchTextChanged(it)
-                            showClearButton = it.isNotEmpty()
                         },
                         placeholder = {
                             Text(
@@ -90,24 +88,6 @@ fun SearchBar(
                         keyboardActions = KeyboardActions(onDone = {
                             keyboardController?.hide()
                         }),
-                        trailingIcon = {
-                            AnimatedVisibility(
-                                visible = showClearButton,
-                                enter = fadeIn(),
-                                exit = fadeOut()
-                            ) {
-                                HsIconButton(onClick = {
-                                    searchText = ""
-                                    onSearchTextChanged("")
-                                    showClearButton = false
-                                }) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.outline_cancel_24),
-                                        contentDescription = stringResource(R.string.cancel),
-                                    )
-                                }
-                            }
-                        }
                     )
                 }
 
@@ -127,7 +107,7 @@ fun SearchBar(
                 if (searchMode) {
                     searchText = ""
                     onSearchTextChanged("")
-                    searchMode = false
+                    onCloseSearch()
                     keyboardController?.hide()
                 } else {
                     onClose()
@@ -140,22 +120,7 @@ fun SearchBar(
             }
         },
         actions = {
-            if (!searchMode) {
-                HsIconButton(onClick = { searchMode = true }) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_search_24),
-                        contentDescription = stringResource(R.string.search),
-                    )
-                }
-                HsIconButton(
-                    onClick = onChainFilter,
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_category_24),
-                        contentDescription = stringResource(R.string.blockchain),
-                    )
-                }
-            }
+            if (!searchMode) actions()
         }
     )
 }

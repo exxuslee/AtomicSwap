@@ -2,15 +2,22 @@ package com.exxlexxlee.atomicswap.feature.common.tokens
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.SearchBar
 import com.exxlexxlee.atomicswap.core.swap.model.Token
+import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.common.tokens.models.Action
 import com.exxlexxlee.atomicswap.feature.common.tokens.models.Event
 import org.koin.androidx.compose.koinViewModel
@@ -35,15 +42,41 @@ fun TokensModalBottomSheet(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
     ) {
+        val searchTitle = if (viewState.isTokenView) viewState.title
+        else stringResource(R.string.select_chain)
+        var searchMode by remember { mutableStateOf(false) }
         SearchBar(
-            title = viewState.title,
+            title = searchTitle,
             searchHintText = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.search),
-            onClose = onDismissRequest,
+            searchMode = searchMode,
+            onClose = {
+                if (viewState.isTokenView) onDismissRequest.invoke()
+                else viewModel.obtainEvent(Event.OnTokenView)
+            },
+            onCloseSearch = {
+                searchMode = false
+            },
             onSearchTextChanged = { text ->
                 viewModel.obtainEvent(Event.Filter(text))
             },
-            onChainFilter = { viewModel.obtainEvent(Event.OnTokenView) },
-        )
+        ) {
+            if (viewState.isTokenView) {
+                HsIconButton(onClick = { searchMode = true }) {
+                    Icon(
+                        painter = painterResource(com.exxlexxlee.atomicswap.core.common.R.drawable.outline_search_24),
+                        contentDescription = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.search),
+                    )
+                }
+                HsIconButton(
+                    onClick = { viewModel.obtainEvent(Event.OnTokenView) },
+                ) {
+                    Icon(
+                        painter = painterResource(com.exxlexxlee.atomicswap.core.common.R.drawable.outline_category_24),
+                        contentDescription = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.blockchain),
+                    )
+                }
+            }
+        }
 
         if (viewState.isTokenView) TokensView(viewState) {
             viewModel.obtainEvent(it)

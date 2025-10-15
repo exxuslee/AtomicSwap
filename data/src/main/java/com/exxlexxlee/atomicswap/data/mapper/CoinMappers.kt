@@ -6,6 +6,6 @@ fun Coin.toDomain(): com.exxlexxlee.atomicswap.core.swap.model.Coin {
     return com.exxlexxlee.atomicswap.core.swap.model.Coin(
         symbol = this.code,
         name = this.name,
-        iconUrl = this.uid
+        iconUrl = this.image,
     )
 }

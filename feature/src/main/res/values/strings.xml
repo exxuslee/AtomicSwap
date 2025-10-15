@@ -58,4 +58,5 @@
     <string name="qr_scanner">QR-scanner</string>
     <string name="network_type">Main network type</string>
 	<string name="tokens_empty_list">Empty tokens list</string>
+    <string name="select_chain">Select chains</string>
 </resources>
