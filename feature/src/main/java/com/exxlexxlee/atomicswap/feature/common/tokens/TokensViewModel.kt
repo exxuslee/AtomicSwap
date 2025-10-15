@@ -59,6 +59,12 @@ class TokensViewModel(
             }
 
             Event.OnTokenView -> viewState = viewState.copy(isTokenView = !viewState.isTokenView)
+            is Event.ChainCheck -> {
+                val currentValue = viewState.isChainCheck[viewEvent.chain] ?: false
+                viewState = viewState.copy(
+                    isChainCheck = viewState.isChainCheck + (viewEvent.chain to !currentValue)
+                )
+            }
         }
     }
 

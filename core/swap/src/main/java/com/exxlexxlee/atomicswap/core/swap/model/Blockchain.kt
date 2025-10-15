@@ -2,33 +2,41 @@ package com.exxlexxlee.atomicswap.core.swap.model
 
 sealed class Blockchain(
     val iconUrl: String,
+    val label: String,
 ) {
     data object Bitcoin : Blockchain(
-        "https://coin-images.coingecko.com/asset_platforms/images/127/small/ordinals.png?1706606816"
+        "https://coin-images.coingecko.com/asset_platforms/images/127/small/ordinals.png?1706606816",
+        "Bitcoin",
     )
 
     data object Litecoin : Blockchain(
-        "https://coin-images.coingecko.com/asset_platforms/images/51/small/bch.png?1706606492"
+        "https://coin-images.coingecko.com/asset_platforms/images/51/small/bch.png?1706606492",
+        "Litecoin",
     )
 
     data object Ethereum : Blockchain(
-        "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803"
+        "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803",
+        "Ethereum",
     )
 
     data object BinanceSmartChain : Blockchain(
-        "https://coin-images.coingecko.com/asset_platforms/images/1/small/bnb_smart_chain.png?1706606721"
+        "https://coin-images.coingecko.com/asset_platforms/images/1/small/bnb_smart_chain.png?1706606721",
+        "Binance-Smart-Chain",
     )
 
     data object Tron : Blockchain(
-        "https://coin-images.coingecko.com/asset_platforms/images/1094/small/TRON_LOGO.png?1706606652"
+        "https://coin-images.coingecko.com/asset_platforms/images/1094/small/TRON_LOGO.png?1706606652",
+        "Tron",
     )
 
     data object Solana : Blockchain(
-        "https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708"
+        "https://coin-images.coingecko.com/asset_platforms/images/5/small/solana.png?1706606708",
+        "Solana",
     )
 
     data object Unsupported : Blockchain(
-        ""
+        "",
+        "Unsupported",
     )
 
 
@@ -43,6 +51,9 @@ sealed class Blockchain(
                 "tron" -> Tron
                 else -> Unsupported
             }
+
+        fun list() = listOf(Bitcoin, Ethereum, BinanceSmartChain, Solana, Tron, Litecoin)
+
     }
 
     fun badge(): String? {
