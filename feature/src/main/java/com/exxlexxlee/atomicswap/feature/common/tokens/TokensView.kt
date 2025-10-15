@@ -35,17 +35,6 @@ fun TokensView(
     eventHandler: (Event) -> Unit,
 ) {
 
-    SearchBar(
-        title = viewState.title,
-        searchHintText = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.search),
-        onClose = {
-            eventHandler.invoke(Event.OnDismissRequest)
-        },
-        onSearchTextChanged = { text ->
-            eventHandler.invoke(Event.Filter(text))
-        }
-    )
-
     if (viewState.fullCoins.isEmpty()) {
         ListEmptyView(
             text = stringResource(R.string.tokens_empty_list),

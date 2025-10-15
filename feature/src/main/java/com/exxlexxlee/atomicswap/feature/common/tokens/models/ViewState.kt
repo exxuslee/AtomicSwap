@@ -8,4 +8,5 @@ data class ViewState(
     val hasMoreItems: Boolean = true,
     val title: String = "",
     val fullCoins: List<FullCoin> = listOf(),
+    val isTokenView: Boolean = true,
 )

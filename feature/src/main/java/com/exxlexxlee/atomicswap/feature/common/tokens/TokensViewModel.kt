@@ -57,6 +57,8 @@ class TokensViewModel(
                 else tokensUseCase.fullCoins(filter, page * LIMIT)
                 viewState = viewState.copy(fullCoins = current)
             }
+
+            Event.OnTokenView -> viewState = viewState.copy(isTokenView = !viewState.isTokenView)
         }
     }
 

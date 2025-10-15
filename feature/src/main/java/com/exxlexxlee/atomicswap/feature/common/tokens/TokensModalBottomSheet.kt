@@ -8,6 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.exxlexxlee.atomicswap.core.common.ui.SearchBar
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 import com.exxlexxlee.atomicswap.feature.common.tokens.models.Action
 import com.exxlexxlee.atomicswap.feature.common.tokens.models.Event
@@ -33,7 +35,19 @@ fun TokensModalBottomSheet(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
     ) {
-        TokensView(viewState) {
+        SearchBar(
+            title = viewState.title,
+            searchHintText = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.search),
+            onClose = onDismissRequest,
+            onSearchTextChanged = { text ->
+                viewModel.obtainEvent(Event.Filter(text))
+            },
+            onChainFilter = { viewModel.obtainEvent(Event.OnTokenView) },
+        )
+
+        if (viewState.isTokenView) TokensView(viewState) {
+            viewModel.obtainEvent(it)
+        } else ChainsView(viewState) {
             viewModel.obtainEvent(it)
         }
     }
@@ -48,6 +62,7 @@ fun TokensModalBottomSheet(
             onClick((viewAction as Action.OnSelectToken).token)
             viewModel.clearAction()
         }
+
         null -> {}
     }
 

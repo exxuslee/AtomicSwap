@@ -44,6 +44,7 @@ fun SearchBar(
     searchModeInitial: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() },
     onClose: () -> Unit,
+    onChainFilter: () -> Unit,
     onSearchTextChanged: (String) -> Unit = {},
 ) {
     var searchMode by remember { mutableStateOf(searchModeInitial) }
@@ -146,9 +147,9 @@ fun SearchBar(
                         contentDescription = stringResource(R.string.search),
                     )
                 }
-                HsIconButton(onClick = {
-
-                }) {
+                HsIconButton(
+                    onClick = onChainFilter,
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.outline_category_24),
                         contentDescription = stringResource(R.string.blockchain),
