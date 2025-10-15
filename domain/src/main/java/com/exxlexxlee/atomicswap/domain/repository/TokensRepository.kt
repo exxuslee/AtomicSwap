@@ -7,5 +7,6 @@ interface TokensRepository {
     fun tokens(): List<Token>
 
     fun fullCoins(filter: String, limit: Int = 20): List<FullCoin>
+    fun topFullCoins(limit: Int = 20): List<FullCoin>
     fun updateTokenAll()
 }

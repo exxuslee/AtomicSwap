@@ -7,6 +7,7 @@ import com.exxlexxlee.atomicswap.domain.repository.TokensRepository
 interface TokensUseCase {
     fun tokens(): List<Token>
     fun fullCoins(filter: String, limit: Int = 20): List<FullCoin>
+    fun topFullCoins(limit: Int = 20): List<FullCoin>
 
     class Base(
         private val tokensRepository: TokensRepository
@@ -17,6 +18,10 @@ interface TokensUseCase {
 
         override fun fullCoins(filter: String, limit: Int): List<FullCoin> {
             return tokensRepository.fullCoins(filter, limit)
+        }
+
+        override fun topFullCoins(limit: Int): List<FullCoin> {
+            return tokensRepository.topFullCoins(limit)
         }
     }
 }

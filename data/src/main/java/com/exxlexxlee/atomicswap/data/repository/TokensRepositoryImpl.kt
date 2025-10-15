@@ -18,8 +18,20 @@ class TokensRepositoryImpl(
         return tokens
     }
 
-    override fun fullCoins(filter: String, limit: Int): List<FullCoin> {
+    override fun fullCoins(
+        filter: String,
+        limit: Int
+    ): List<FullCoin> {
         return marketKit.fullCoins(filter, limit).mapNotNull { fullCoin ->
+            val domainCoin = fullCoin.coin.toDomain()
+            val domainTokens = fullCoin.tokens
+                .map { it.toDomain() }.filter { it.blockchain.isSupported() }
+            if (domainTokens.isNotEmpty()) FullCoin(domainCoin, domainTokens) else null
+        }
+    }
+
+    override fun topFullCoins(limit: Int): List<FullCoin> {
+        return marketKit.topFullCoins(limit).mapNotNull { fullCoin ->
             val domainCoin = fullCoin.coin.toDomain()
             val domainTokens = fullCoin.tokens
                 .map { it.toDomain() }.filter { it.blockchain.isSupported() }

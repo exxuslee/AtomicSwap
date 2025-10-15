@@ -101,7 +101,7 @@ fun SearchBar(
                                     showClearButton = false
                                 }) {
                                     Icon(
-                                        painter = painterResource(R.drawable.outline_arrow_back_ios_new_24),
+                                        painter = painterResource(R.drawable.outline_cancel_24),
                                         contentDescription = stringResource(R.string.cancel),
                                     )
                                 }

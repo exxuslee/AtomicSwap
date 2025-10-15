@@ -8,4 +8,5 @@ sealed class Event {
     data object OnDismissRequest: Event()
     data object OnLoadMore: Event()
     data class OnSelectToken(val token: Token): Event()
+    data class Filter(val text: String): Event()
 }

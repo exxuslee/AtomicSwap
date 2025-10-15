@@ -41,7 +41,9 @@ fun TokensView(
         onClose = {
             eventHandler.invoke(Event.OnDismissRequest)
         },
-        onSearchTextChanged = { text -> }
+        onSearchTextChanged = { text ->
+            eventHandler.invoke(Event.Filter(text))
+        }
     )
 
     if (viewState.fullCoins.isEmpty()) {
