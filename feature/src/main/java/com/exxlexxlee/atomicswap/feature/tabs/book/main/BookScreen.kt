@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.book
+package com.exxlexxlee.atomicswap.feature.tabs.book.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

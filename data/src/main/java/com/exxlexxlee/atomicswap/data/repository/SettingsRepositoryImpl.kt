@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import androidx.core.content.edit
 import com.exxlexxlee.atomicswap.core.network.ConnectionManager
+import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,7 @@ class SettingsRepositoryImpl(
     }
 
     override fun selectedRoute(): String {
-        return prefs.getString("selectedRoute", "maker") ?: "maker"
+        return prefs.getString("selectedRoute", "book/main") ?: "book/main"
     }
     override fun selectedRoute(route: String) {
         prefs.edit { putString("selectedRoute", route) }
@@ -74,5 +75,16 @@ class SettingsRepositoryImpl(
     override fun selectedFilterStateChronicle(filterStateChronicle: FilterStateChronicle) {
         _selectedFilterStateChronicle.value = filterStateChronicle
         prefs.edit { putInt("filterStateChronicle", filterStateChronicle.pos) }
+    }
+
+    private val _selectedFilterStateBook = MutableStateFlow(selectedFilterStateBook())
+    override val selectedFilterStateBook: StateFlow<FilterStateBook> = _selectedFilterStateBook
+    override fun selectedFilterStateBook(): FilterStateBook {
+        val pos = prefs.getInt("filterStateBook", 0)
+        return FilterStateBook.fromPos(pos)
+    }
+    override fun selectedFilterStateBook(filterStateBook: FilterStateBook) {
+        _selectedFilterStateBook.value = filterStateBook
+        prefs.edit { putInt("filterStateBook", filterStateBook.pos) }
     }
 }

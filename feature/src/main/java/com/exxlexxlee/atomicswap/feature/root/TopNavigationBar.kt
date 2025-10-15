@@ -19,10 +19,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,10 +31,11 @@ import com.exxlexxlee.atomicswap.core.common.ui.BadgeType
 import com.exxlexxlee.atomicswap.core.common.ui.BadgedIcon
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
+import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.feature.common.TokenSelector
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
-import com.exxlexxlee.atomicswap.feature.navigation.Routes.MakerRoute
+import com.exxlexxlee.atomicswap.feature.navigation.Routes.BookRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
 import com.exxlexxlee.atomicswap.feature.navigation.asRoute
 import com.exxlexxlee.atomicswap.feature.navigation.isPrimaryRoute
@@ -104,7 +101,7 @@ fun TopNavigationBar(
                             icon = {
                                 BadgedIcon(
                                     badge = BadgeType.fromInt(
-                                        viewState.swapFilterBadgeType[filterState] ?: 0
+                                        viewState.swapFilterChronicleBadgeType[filterState] ?: 0
                                     )
                                 ) {
                                     Icon(
@@ -119,50 +116,44 @@ fun TopNavigationBar(
                 }
             }
 
-            is MakerRoute -> {
-                RowUniversal(
-                    modifier = Modifier.padding(0.dp, topPadding, 0.dp, 4.dp),
-                    verticalPadding = 0.dp,
-                ) {
-                    TokenSelector(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 12.dp),
-                        token = viewState.filterToken.first,
-                        expanded = viewState.expandedTaker,
-                        placeholder = stringResource(R.string.from),
-                    ) {
-                        if (viewState.filterToken.first != null) {
-                            eventHandler.invoke(Event.TakerToken(null))
-                        } else eventHandler.invoke(Event.TakerTokenSheet)
-                    }
-
-                    IconButton(
-                        onClick = {
-                            eventHandler.invoke(Event.SwitchToken)
-                        }
-                    ) {
-                        Icon(
+            is BookRoute -> {
+                PrimaryTabRow(
+                    modifier = Modifier.padding(top = topPadding),
+                    selectedTabIndex = viewState.selectedBookTab.pos,
+                    indicator = {
+                        PrimaryIndicator(
+                            color = primaryContentColor,
                             modifier = Modifier
-                                .size(24.dp),
-                            painter = painterResource(id = com.exxlexxlee.atomicswap.feature.R.drawable.outline_arrow_right_alt_24),
-                            contentDescription = "token selector",
+                                .tabIndicatorOffset(
+                                    viewState.selectedBookTab.pos,
+                                    matchContentSize = false
+                                ),
+                            width = Dp.Unspecified,
+                        )
+                    },
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
+                ) {
+                    FilterStateBook.values.forEach { filterState ->
+                        Tab(
+                            selected = viewState.selectedBookTab == filterState,
+                            onClick = {
+                                eventHandler.invoke(Event.BookTab(filterState))
+                            },
+                            icon = {
+                                BadgedIcon(
+                                    badge = BadgeType.fromInt(
+                                        viewState.swapFilterBookBadgeType[filterState] ?: 0
+                                    )
+                                ) {
+                                    Icon(
+                                        modifier = Modifier.padding(horizontal = 4.dp),
+                                        painter = painterResource(filterState.icon),
+                                        contentDescription = filterState.pos.toString()
+                                    )
+                                }
+                            },
                         )
                     }
-
-                    TokenSelector(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 12.dp),
-                        token = viewState.filterToken.second,
-                        expanded = viewState.expandedMaker,
-                        placeholder = stringResource(R.string.to),
-                    ) {
-                        if (viewState.filterToken.second != null) {
-                            eventHandler.invoke(Event.MakerToken(null))
-                        } else eventHandler.invoke(Event.MakerTokenSheet)
-                    }
-
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.book
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.all
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,16 +18,14 @@ import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
 import com.exxlexxlee.atomicswap.feature.R
-import com.exxlexxlee.atomicswap.feature.common.MakeViewItem
 import com.exxlexxlee.atomicswap.feature.common.SwapViewItem
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
-import com.exxlexxlee.atomicswap.feature.tabs.book.models.Event
-import com.exxlexxlee.atomicswap.feature.tabs.book.models.ViewState
-
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.Event
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.ViewState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookView(
+fun AllChronicleView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
@@ -40,7 +38,7 @@ fun BookView(
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
-        } else if (viewState.makes.isEmpty()) {
+        } else if (viewState.swaps.isEmpty()) {
             ListEmptyView(
                 text = stringResource(R.string.make_empty_list),
                 icon = R.drawable.outline_empty_dashboard_24
@@ -51,25 +49,27 @@ fun BookView(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(viewState.makes) { make ->
-                    MakeViewItem(make) {
-                        navController.navigate(Routes.ChronicleRoute.SwapRoute.createRoute(make.makeId))
-
+                items(viewState.swaps) { swap ->
+                    SwapViewItem(swap = swap) {
+                        navController.navigate(Routes.ChronicleRoute.SwapRoute.createRoute(swap.swapId))
                     }
                 }
             }
         }
     }
+
 }
 
 
 @Preview
 @Composable
-fun BookView_Preview() {
+fun MyMakeView_Preview() {
     AppTheme {
-        BookView(
+        AllChronicleView(
             viewState = ViewState(),
             eventHandler = {},
         )
     }
 }
+
+

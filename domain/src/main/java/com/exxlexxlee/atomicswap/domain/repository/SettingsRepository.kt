@@ -1,6 +1,7 @@
 package com.exxlexxlee.atomicswap.domain.repository
 
 import com.exxlexxlee.atomicswap.core.network.ConnectionManager
+import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.model.SupportedAggregators
 import kotlinx.coroutines.flow.Flow
@@ -29,4 +30,8 @@ interface SettingsRepository {
     val selectedFilterStateChronicle: Flow<FilterStateChronicle>
     fun selectedFilterStateChronicle(): FilterStateChronicle
     fun selectedFilterStateChronicle(filterStateChronicle: FilterStateChronicle)
+
+    val selectedFilterStateBook: Flow<FilterStateBook>
+    fun selectedFilterStateBook(): FilterStateBook
+    fun selectedFilterStateBook(filterStateBook: FilterStateBook)
 }

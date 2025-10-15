@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.models
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models
 
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 

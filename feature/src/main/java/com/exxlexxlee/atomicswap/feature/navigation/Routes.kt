@@ -13,14 +13,17 @@ sealed class Routes(
     val icon: @Composable () -> Painter,
     val iconSelect: @Composable () -> Painter,
 ) {
-    data class MakerRoute(
-        override val badge: Int? = null,
-    ) : Routes(
-        "maker",
+    sealed class BookRoute(subRoute: String) : Routes(
+        "book/$subRoute",
         label = { stringResource(R.string.title_maker) },
         icon = { painterResource( R.drawable.outline_book_2_24)},
         iconSelect = { painterResource( R.drawable.book_2_24px)},
-    )
+    ) {
+        data class MainRoute(override val badge: Int? = null) : BookRoute("main")
+        data object MyMakeRoute : BookRoute("myMake")
+        data object MakeRoute : BookRoute("book")
+        data object SubscriptionRoute : BookRoute("subscription")
+    }
 
     sealed class ChronicleRoute(subRoute: String) :
         Routes(

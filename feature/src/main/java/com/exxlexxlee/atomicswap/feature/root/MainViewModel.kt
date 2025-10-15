@@ -18,17 +18,18 @@ class MainViewModel(
 ) : BaseViewModel<ViewState, Action, Event>(
     initialState = ViewState(
         initialRoute = settingsUseCase.selectedRoute(),
-        makerRoute = Routes.MakerRoute(),
+        bookRoute = Routes.BookRoute.MainRoute(),
         chronicleRoute = Routes.ChronicleRoute.MainRoute(swapUseCase.mainBadgeType()),
         settingsRoute = Routes.SettingsRoute.MainRoute(settingsUseCase.badgeType()),
-        selectedChronicleTab = settingsUseCase.selectedFilterStateChronicle()
+        selectedChronicleTab = settingsUseCase.selectedFilterStateChronicle(),
+        selectedBookTab = settingsUseCase.selectedFilterStateBook(),
     )
 ) {
 
     init {
         viewModelScope.launch {
             swapUseCase.swapFilterBadgeType.collect {
-                viewState = viewState.copy(swapFilterBadgeType = it)
+                viewState = viewState.copy(swapFilterChronicleBadgeType = it)
             }
         }
         viewModelScope.launch {
@@ -60,36 +61,14 @@ class MainViewModel(
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
             is Event.MainRoute -> settingsUseCase.selectedRoute(viewEvent.route)
+
             is Event.ChronicleTab -> {
                 settingsUseCase.selectedFilterStateChronicle(viewEvent.filterState)
             }
-
-            Event.MakerTokenSheet -> {
-                viewState = viewState.copy(expandedMaker = !viewState.expandedMaker)
-                viewAction = Action.MakerToken
+            is Event.BookTab ->  {
+                settingsUseCase.selectedFilterStateBook(viewEvent.filterState)
             }
-            Event.TakerTokenSheet -> {
-                viewState = viewState.copy(expandedTaker = !viewState.expandedTaker)
-                viewAction = Action.TakerToken
-            }
-            Event.ClearAction -> {
-                viewState = viewState.copy(expandedTaker = false, expandedMaker = false)
-                clearAction()
-            }
-            is Event.MakerToken -> viewState = viewState.copy(
-                filterToken = viewState.filterToken.first to viewEvent.token,
-                expandedMaker = false,
-            ).also { clearAction() }
 
-            is Event.TakerToken -> viewState = viewState.copy(
-                filterToken = viewEvent.token to viewState.filterToken.second,
-                expandedTaker = false,
-
-            ).also { clearAction() }
-
-            Event.SwitchToken -> viewState = viewState.copy(
-                filterToken = viewState.filterToken.second to viewState.filterToken.first
-            )
         }
 
     }

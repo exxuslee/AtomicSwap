@@ -6,7 +6,10 @@ fun NavDestination?.asRoute(): Routes? {
     val route = this?.route ?: return null
     return when {
         // Maker
-        route == Routes.MakerRoute().route -> Routes.MakerRoute()
+        route == Routes.BookRoute.MainRoute().route -> Routes.BookRoute.MainRoute()
+        route == Routes.BookRoute.MakeRoute.route -> Routes.BookRoute.MyMakeRoute
+        route == Routes.BookRoute.MyMakeRoute.route -> Routes.BookRoute.MyMakeRoute
+        route == Routes.BookRoute.SubscriptionRoute.route -> Routes.BookRoute.SubscriptionRoute
 
         // Chronicle
         route == Routes.ChronicleRoute.MainRoute().route -> Routes.ChronicleRoute.MainRoute()

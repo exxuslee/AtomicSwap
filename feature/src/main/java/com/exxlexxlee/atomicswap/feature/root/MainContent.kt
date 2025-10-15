@@ -28,12 +28,12 @@ import com.exxlexxlee.atomicswap.core.common.ui.AnimatedFAB
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
 import com.exxlexxlee.atomicswap.feature.common.tokens.TokensModalBottomSheet
+import com.exxlexxlee.atomicswap.feature.navigation.Routes.BookRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
-import com.exxlexxlee.atomicswap.feature.navigation.Routes.MakerRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
 import com.exxlexxlee.atomicswap.feature.root.models.Action
 import com.exxlexxlee.atomicswap.feature.root.models.Event
-import com.exxlexxlee.atomicswap.feature.tabs.book.BookScreen
+import com.exxlexxlee.atomicswap.feature.tabs.book.main.BookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorScreen
@@ -78,7 +78,8 @@ fun MainContent(
         },
         floatingActionButton = {
             AnimatedFAB(
-                backStackEntry?.destination?.route == MakerRoute().route ||
+                backStackEntry?.destination?.route == BookRoute.MakeRoute.route ||
+                        backStackEntry?.destination?.route == BookRoute.MyMakeRoute.route ||
                         (backStackEntry?.destination?.route == ChronicleRoute.MainRoute().route &&
                                 viewState.selectedChronicleTab == FilterStateChronicle.MyMake)
             ) {
@@ -99,9 +100,10 @@ fun MainContent(
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
             ) {
-                animatedComposable(MakerRoute().route) { BookScreen() }
+                animatedComposable(BookRoute.MainRoute().route) { BookScreen() }
 
                 animatedComposable(ChronicleRoute.MainRoute().route) { ChronicleScreen() }
+
                 animatedComposable(
                     route = ChronicleRoute.SwapRoute.route,
                     arguments = listOf(
@@ -147,22 +149,6 @@ fun MainContent(
         }
 
         when (viewAction) {
-            Action.MakerToken -> TokensModalBottomSheet(
-                title = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.to),
-                onDismissRequest = {
-                    viewModel.obtainEvent(Event.ClearAction)
-                }) {
-                viewModel.obtainEvent(Event.MakerToken(it))
-            }
-
-            Action.TakerToken -> TokensModalBottomSheet(
-                title = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.from),
-                onDismissRequest = {
-                    viewModel.obtainEvent(Event.ClearAction)
-                }) {
-                viewModel.obtainEvent(Event.TakerToken(it))
-            }
-
             null -> {}
         }
     }

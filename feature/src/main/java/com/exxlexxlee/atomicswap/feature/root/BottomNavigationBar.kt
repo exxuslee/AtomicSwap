@@ -29,7 +29,7 @@ fun BottomNavigationBar(
         tonalElevation = 4.dp,
     ) {
         listOf(
-            viewState.makerRoute,
+            viewState.bookRoute,
             viewState.chronicleRoute,
             viewState.settingsRoute,
         ).forEach { dest ->

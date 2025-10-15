@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.main
+package com.exxlexxlee.atomicswap.feature.tabs.book.main
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.togetherWith
@@ -8,21 +8,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.exxlexxlee.atomicswap.core.common.navigation.TabAnimation
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.ConnectionStateView
-import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveChronicleScreen
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.ConfirmedChronicleScreen
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.Event
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.models.ViewState
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.AllChronicleScreen
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.refunded.RefundedChronicleScreen
+import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
+import com.exxlexxlee.atomicswap.feature.tabs.book.main.models.Event
+import com.exxlexxlee.atomicswap.feature.tabs.book.main.models.ViewState
+import com.exxlexxlee.atomicswap.feature.tabs.book.make.MakeBookScreen
+import com.exxlexxlee.atomicswap.feature.tabs.book.my.MyMakeBookScreen
+import com.exxlexxlee.atomicswap.feature.tabs.book.subscribe.SubscribeBookScreen
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChronicleView(
+fun BookView(
     viewState: ViewState,
     eventHandler: (Event) -> Unit,
 ) {
-
     ConnectionStateView(
         networkConnect = viewState.connectionState,
         onRetry = {},
@@ -35,21 +34,20 @@ fun ChronicleView(
             },
         ) { tab ->
             when (tab) {
-                FilterStateChronicle.MyMake -> AllChronicleScreen()
-                FilterStateChronicle.Active -> ActiveChronicleScreen()
-                FilterStateChronicle.Complete -> ConfirmedChronicleScreen()
-                FilterStateChronicle.Refund -> RefundedChronicleScreen()
+                FilterStateBook.Make -> MakeBookScreen()
+                FilterStateBook.MyMake -> MyMakeBookScreen()
+                FilterStateBook.Subscription -> SubscribeBookScreen()
             }
         }
     }
-
 }
+
 
 @Preview
 @Composable
-fun ChronicleView_Preview() {
+fun BookView_Preview() {
     AppTheme {
-        ChronicleView(
+        BookView(
             viewState = ViewState(),
             eventHandler = {},
         )

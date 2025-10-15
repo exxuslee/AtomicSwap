@@ -1,15 +1,15 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.all
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.models.Action
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.models.Event
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake.models.ViewState
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.Action
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.Event
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.ViewState
 import kotlinx.coroutines.launch
 
-class MyMakeViewModel(
+class AllChronicleViewModel(
     private val swapUseCase: SwapUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
 

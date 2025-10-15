@@ -1,4 +1,4 @@
-package com.exxlexxlee.atomicswap.feature.tabs.chronicle.mymake
+package com.exxlexxlee.atomicswap.feature.tabs.chronicle.all
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -6,12 +6,12 @@ import androidx.compose.runtime.getValue
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MyMakeChronicleScreen(
-    viewModel: MyMakeViewModel = koinViewModel(),
+fun AllChronicleScreen(
+    viewModel: AllChronicleViewModel = koinViewModel(),
 ) {
     val viewState by viewModel.viewStates().collectAsState()
 
-    MyMakeView(viewState) {
+    AllChronicleView(viewState) {
         viewModel.obtainEvent(it)
     }
 
