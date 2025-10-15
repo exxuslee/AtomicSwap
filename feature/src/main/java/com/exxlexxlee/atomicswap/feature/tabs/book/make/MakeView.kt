@@ -39,56 +39,6 @@ fun MakeView(
 ) {
     val navController = LocalNavController.current
 
-    LazyColumn {
-        stickyHeader {
-            RowUniversal(
-                modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 4.dp),
-                verticalPadding = 0.dp,
-            ) {
-                TokenSelector(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 12.dp),
-                    token = viewState.filterToken.first,
-                    expanded = viewState.expandedTaker,
-                    placeholder = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.from),
-                ) {
-                    if (viewState.filterToken.first != null) {
-                        eventHandler.invoke(Event.TakerToken(null))
-                    } else eventHandler.invoke(Event.TakerTokenSheet)
-                }
-
-                IconButton(
-                    onClick = {
-                        eventHandler.invoke(Event.SwitchToken)
-                    }
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(24.dp),
-                        painter = painterResource(id = R.drawable.outline_arrow_right_alt_24),
-                        contentDescription = "token selector",
-                    )
-                }
-
-                TokenSelector(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 12.dp),
-                    token = viewState.filterToken.second,
-                    expanded = viewState.expandedMaker,
-                    placeholder = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.to),
-                ) {
-                    if (viewState.filterToken.second != null) {
-                        eventHandler.invoke(Event.MakerToken(null))
-                    } else eventHandler.invoke(Event.MakerTokenSheet)
-                }
-
-            }
-        }
-
-    }
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -104,9 +54,51 @@ fun MakeView(
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(horizontal = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                stickyHeader {
+                    RowUniversal {
+                        TokenSelector(
+                            modifier = Modifier
+                                .weight(1f),
+                            token = viewState.filterToken.first,
+                            expanded = viewState.expandedTaker,
+                            placeholder = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.from),
+                        ) {
+                            if (viewState.filterToken.first != null) {
+                                eventHandler.invoke(Event.TakerToken(null))
+                            } else eventHandler.invoke(Event.TakerTokenSheet)
+                        }
+
+                        IconButton(
+                            onClick = {
+                                eventHandler.invoke(Event.SwitchToken)
+                            }
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(24.dp),
+                                painter = painterResource(id = R.drawable.outline_arrow_right_alt_24),
+                                contentDescription = "token selector",
+                            )
+                        }
+
+                        TokenSelector(
+                            modifier = Modifier
+                                .weight(1f),
+                            token = viewState.filterToken.second,
+                            expanded = viewState.expandedMaker,
+                            placeholder = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.to),
+                        ) {
+                            if (viewState.filterToken.second != null) {
+                                eventHandler.invoke(Event.MakerToken(null))
+                            } else eventHandler.invoke(Event.MakerTokenSheet)
+                        }
+
+                    }
+                }
+
                 items(viewState.makes) { make ->
                     MakeViewItem(make) {
                         navController.navigate(Routes.ChronicleRoute.SwapRoute.createRoute(make.makeId))

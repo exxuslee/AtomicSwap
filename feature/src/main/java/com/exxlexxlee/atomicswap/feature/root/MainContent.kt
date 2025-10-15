@@ -13,7 +13,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,14 +24,11 @@ import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.navigation.LocalPaddingController
 import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
 import com.exxlexxlee.atomicswap.core.common.ui.AnimatedFAB
-import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
+import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
-import com.exxlexxlee.atomicswap.feature.common.tokens.TokensModalBottomSheet
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.BookRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
-import com.exxlexxlee.atomicswap.feature.root.models.Action
-import com.exxlexxlee.atomicswap.feature.root.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.book.main.BookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
@@ -78,10 +74,9 @@ fun MainContent(
         },
         floatingActionButton = {
             AnimatedFAB(
-                backStackEntry?.destination?.route == BookRoute.MakeRoute.route ||
-                        backStackEntry?.destination?.route == BookRoute.MyMakeRoute.route ||
-                        (backStackEntry?.destination?.route == ChronicleRoute.MainRoute().route &&
-                                viewState.selectedChronicleTab == FilterStateChronicle.MyMake)
+                backStackEntry?.destination?.route == BookRoute.MainRoute().route &&
+                        (viewState.selectedBookTab == FilterStateBook.MyMake
+                                || viewState.selectedBookTab == FilterStateBook.Make)
             ) {
 
             }

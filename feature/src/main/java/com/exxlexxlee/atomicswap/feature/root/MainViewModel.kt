@@ -50,6 +50,11 @@ class MainViewModel(
             }
         }
         viewModelScope.launch {
+            settingsUseCase.selectedFilterStateBook.collect {
+                viewState = viewState.copy(selectedBookTab = it)
+            }
+        }
+        viewModelScope.launch {
             swapUseCase.mainBadgeType.collect {
                 viewState = viewState.copy(
                     chronicleRoute = Routes.ChronicleRoute.MainRoute(it)

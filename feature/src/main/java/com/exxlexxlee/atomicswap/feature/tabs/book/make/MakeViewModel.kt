@@ -1,12 +1,25 @@
 package com.exxlexxlee.atomicswap.feature.tabs.book.make
 
+import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
+import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.book.make.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.book.make.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.book.make.models.ViewState
+import kotlinx.coroutines.launch
 
 class MakeViewModel(
+    private val makeUseCase: MakeUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState()) {
+
+    init {
+
+        viewModelScope.launch {
+            makeUseCase.makesFlow.collect {
+                viewState = viewState.copy(isLoading = false, makes = it)
+            }
+        }
+    }
 
 
     override fun obtainEvent(viewEvent: Event) {

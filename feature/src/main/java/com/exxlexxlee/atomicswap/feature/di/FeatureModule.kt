@@ -30,7 +30,7 @@ val featureModule = module {
     viewModel { TokensViewModel(get()) }
 
     viewModel { BookViewModel(get()) }
-    viewModel { MakeViewModel() }
+    viewModel { MakeViewModel(get()) }
     viewModel { MyMakeViewModel() }
     viewModel { SubscribeViewModel() }
 
