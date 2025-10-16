@@ -52,7 +52,7 @@ sealed class Blockchain(
                 else -> Unsupported
             }
 
-        fun list() = listOf(Bitcoin, Ethereum, BinanceSmartChain, Solana, Tron, Litecoin)
+        fun supportedList() = listOf(Bitcoin, Ethereum, BinanceSmartChain, Solana, Tron, Litecoin)
 
     }
 

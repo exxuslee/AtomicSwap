@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.feature.common.tokens
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
+import com.exxlexxlee.atomicswap.core.swap.model.FullCoin
 import com.exxlexxlee.atomicswap.domain.usecases.TokensUseCase
 import com.exxlexxlee.atomicswap.feature.common.tokens.models.Action
 import com.exxlexxlee.atomicswap.feature.common.tokens.models.Action.OnDismissRequest
@@ -24,7 +25,7 @@ class TokensViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            viewState = viewState.copy(fullCoins = tokensUseCase.topFullCoins( page * LIMIT))
+            viewState = viewState.copy(fullCoins = tokensUseCase.topFullCoins(page * LIMIT))
         }
     }
 
@@ -45,27 +46,39 @@ class TokensViewModel(
             Event.OnLoadMore -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     page++
-                    val current = if (filter.isBlank()) tokensUseCase.topFullCoins(page * LIMIT)
-                    else tokensUseCase.fullCoins(filter, page * LIMIT)
-                    viewState = viewState.copy(fullCoins = current)
+                    updateFullTokens()
                 }
             }
 
             is Event.Filter -> viewModelScope.launch(Dispatchers.IO) {
                 filter = viewEvent.text
-                val current = if (filter.isBlank()) tokensUseCase.topFullCoins(page * LIMIT)
-                else tokensUseCase.fullCoins(filter, page * LIMIT)
-                viewState = viewState.copy(fullCoins = current)
+                updateFullTokens()
             }
 
             Event.OnTokenView -> viewState = viewState.copy(isTokenView = !viewState.isTokenView)
-            is Event.ChainCheck -> {
-                val currentValue = viewState.isChainCheck[viewEvent.chain] ?: false
+
+            is Event.ChainsCheck -> viewModelScope.launch(Dispatchers.IO) {
+                val currentValue = viewState.isChainDismiss[viewEvent.chain] ?: false
                 viewState = viewState.copy(
-                    isChainCheck = viewState.isChainCheck + (viewEvent.chain to !currentValue)
+                    isChainDismiss = viewState.isChainDismiss + (viewEvent.chain to !currentValue),
                 )
+                updateFullTokens()
             }
+
+            is Event.PrimaryChain -> viewState = viewState.copy(primaryChain = viewEvent.chain)
         }
+    }
+
+    private fun updateFullTokens() {
+        val current = if (filter.isBlank()) tokensUseCase.topFullCoins(page * LIMIT)
+        else tokensUseCase.fullCoins(filter, page * LIMIT)
+        val currentFiltered = current.mapNotNull { fullCoin ->
+            val domainTokens = fullCoin.tokens
+                .filterNot { viewState.isChainDismiss[it.blockchain] == true }
+            if (domainTokens.isNotEmpty()) FullCoin(fullCoin.coin, domainTokens)
+            else null
+        }
+        viewState = viewState.copy(fullCoins = currentFiltered)
     }
 
 }

@@ -10,5 +10,6 @@ data class ViewState(
     val title: String = "",
     val fullCoins: List<FullCoin> = listOf(),
     val isTokenView: Boolean = true,
-    val isChainCheck: Map<Blockchain, Boolean> = mapOf(),
+    val isChainDismiss: Map<Blockchain, Boolean> = mapOf(),
+    val primaryChain: Blockchain? = null,
 )

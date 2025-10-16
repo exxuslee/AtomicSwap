@@ -21,7 +21,6 @@ import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
-import com.exxlexxlee.atomicswap.core.common.ui.SearchBar
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.common.Badge
 import com.exxlexxlee.atomicswap.feature.common.TokenIcon
@@ -49,6 +48,8 @@ fun TokensView(
                 eventHandler.invoke(Event.OnLoadMore)
             },
         ) { item ->
+            val primaryToken = item.tokens.firstOrNull { it.blockchain == viewState.primaryChain }
+                ?: item.tokens.first()
             RowUniversal(
                 modifier = Modifier.padding(start = 12.dp),
                 verticalAlignment = Alignment.Bottom,
@@ -56,7 +57,7 @@ fun TokensView(
                     eventHandler.invoke(Event.OnSelectToken(item.tokens.first()))
                 },
             ) {
-                TokenIcon(item.tokens.first())
+                TokenIcon(primaryToken)
                 HSpacer(12.dp)
                 Column(modifier = Modifier.weight(1f)) {
                     Row {
@@ -65,7 +66,7 @@ fun TokensView(
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.SemiBold,
                         )
-                        item.tokens.first().badge()?.let {
+                        primaryToken.badge()?.let {
                             Badge(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 text = it
@@ -74,7 +75,7 @@ fun TokensView(
                     }
                     Row {
                         Text(
-                            text = item.tokens.first().contractAddress ?: "",
+                            text = primaryToken.contractAddress ?: "",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
@@ -83,7 +84,9 @@ fun TokensView(
                     }
                 }
                 item.tokens.forEach { token ->
-                    HsIconButton(onClick = {}) {
+                    HsIconButton(onClick = {
+                        eventHandler.invoke(Event.PrimaryChain(token.blockchain))
+                    }) {
                         AsyncImage(
                             model = token.blockchain.iconUrl,
                             contentDescription = null,

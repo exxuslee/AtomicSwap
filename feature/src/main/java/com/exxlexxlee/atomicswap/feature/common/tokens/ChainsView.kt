@@ -23,7 +23,7 @@ fun ChainsView(
     eventHandler: (Event) -> Unit,
 ) {
     CellUniversalSection(
-        Blockchain.list().map { chain ->
+        Blockchain.supportedList().map { chain ->
             {
                 HsRow(
                     imageUrl = chain.iconUrl,
@@ -36,14 +36,14 @@ fun ChainsView(
                         )
                     },
                     onClick = {
-                        eventHandler.invoke(Event.ChainCheck(chain))
+                        eventHandler.invoke(Event.ChainsCheck(chain))
                     },
                     arrowRight = false,
                 ) {
                     Checkbox(
-                        checked = !(viewState.isChainCheck[chain]?:false),
+                        checked = !(viewState.isChainDismiss[chain]?:false),
                         onCheckedChange = {
-                            eventHandler.invoke(Event.ChainCheck(chain))
+                            eventHandler.invoke(Event.ChainsCheck(chain))
                         }
                     )
                 }
