@@ -58,10 +58,12 @@
     <string name="qr_scanner">QR-сканнер</string>
     <string name="network_type">Основной тип сети</string>
 	<string name="tokens_empty_list">Пустой список токенов</string>
-    <string name="select_chain">Select chains</string>
-    <string name="create_order">Create order</string>
-    <string name="available">Available</string>
-	<string name="price">Price</string>
-    <string name="price_market">Market price</string>
-	<string name="price_fixed">Price fixed</string>
+    <string name="select_chain">Выбрать сеть</string>
+    <string name="create_order">Создать объявление</string>
+    <string name="available">Доступно</string>
+	<string name="price">Цена</string>
+    <string name="price_market">Цена по рынкуe</string>
+	<string name="price_fixed">Фиксированная цена</string>
+    <string name="refund">Возврат</string>
+	<string name="redeem">Пополнение</string>
 </resources>
