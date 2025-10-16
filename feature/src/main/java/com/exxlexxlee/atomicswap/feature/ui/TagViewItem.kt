@@ -16,7 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +31,7 @@ import com.exxlexxlee.atomicswap.feature.R
 @Composable
 fun TagViewItem(
     modifier: Modifier = Modifier,
-    icon: Painter,
+    icon: ImageVector,
     text: String,
     textColor: Color = MaterialTheme.colorScheme.primary,
     iconEnd: Painter? = null,
@@ -37,32 +39,31 @@ fun TagViewItem(
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.size(36.dp),
-                painter = icon,
+                modifier = Modifier.size(34.dp),
+                imageVector = icon,
                 contentDescription = text,
                 tint = MaterialTheme.colorScheme.primary
             )
             HSpacer(8.dp)
             Text(
                 text = text,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.bodyLarge,
                 color = textColor,
                 textAlign = TextAlign.Center,
             )
             iconEnd?.let {
                 Icon(
                     modifier = Modifier.size(36.dp),
-                    painter = icon,
+                    imageVector = icon,
                     contentDescription = text,
                     tint = textColor
                 )
@@ -77,12 +78,12 @@ private fun TagViewItemPreview() {
     AppTheme {
         Column {
             TagViewItem(
-                icon = painterResource(R.drawable.outline_wallet_24),
+                icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                 text = "1 BNB = 1000 USDT",
             )
             VSpacer(12.dp)
             TagViewItem(
-                icon = painterResource(R.drawable.outline_wallet_24),
+                icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                 text = "1 BNB = 1000 USDT",
                 textColor = MaterialTheme.colorScheme.error,
                 iconEnd = painterResource(R.drawable.outline_wallet_24),

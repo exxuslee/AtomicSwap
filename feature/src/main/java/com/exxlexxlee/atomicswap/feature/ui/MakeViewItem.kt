@@ -14,7 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
@@ -65,12 +67,12 @@ fun MakeViewItem(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TagViewItem(
-                    icon = painterResource(R.drawable.outline_wallet_24),
+                    icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                     text = "1 BNB =\n1000.00 USDT"
                 )
 
                 TagViewItem(
-                    icon = painterResource(R.drawable.outline_wallet_24),
+                    icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                     text = "1000.00 USDT"
                 )
             }

@@ -22,11 +22,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
-import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.ViewState
+import com.exxlexxlee.atomicswap.feature.ui.TagViewItem
 import com.exxlexxlee.atomicswap.feature.ui.TokenSelector
 
 
@@ -86,27 +86,37 @@ fun NewMakeView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    text = "Price",
-                )
                 RowUniversal(
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceAround,
                 ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.outline_sell_24),
-                        contentDescription = "Price"
+                    TagViewItem(
+                        icon = ImageVector.vectorResource(R.drawable.outline_store_24),
+                        text = stringResource(R.string.price_market)
                     )
-                    Text("1 BNB = 1000 USDT")
+                    TagViewItem(
+                        icon = ImageVector.vectorResource(R.drawable.outline_sell_24),
+                        text = stringResource(R.string.price_fixed)
+                    )
+
                 }
+                RowUniversal(horizontalArrangement = Arrangement.Center) {
+                    Text(
+                        text = "1 BNB = 1000 USDT",
+                        style = MaterialTheme.typography.headlineSmall,
+                    )
+                }
+
                 RowUniversal(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Slider(
-                        state = rememberSliderState()
+                    val sliderState = rememberSliderState(
+                        value = 6f,
+                        valueRange = 0f..12f,
+                        steps = 11
                     )
+                    Slider(state = sliderState)
                 }
             }
         }
@@ -118,31 +128,26 @@ fun NewMakeView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    text = "Available",
-                )
+
                 RowUniversal(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.outline_open_in_full_24),
-                        contentDescription = "Available"
+                    TagViewItem(
+                        icon = ImageVector.vectorResource(R.drawable.outline_open_in_full_24),
+                        text = stringResource(R.string.available)
                     )
-                    HsIconButton(
-                        onClick = {}
-                    ) {
-                        Text("max")
-                    }
                 }
                 RowUniversal(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Slider(
-                        state = rememberSliderState()
+                    val sliderState = rememberSliderState(
+                        value = 0f,
+                        valueRange = 0f..12f,
+                        steps = 11
                     )
+                    Slider(state = sliderState)
                 }
 
 

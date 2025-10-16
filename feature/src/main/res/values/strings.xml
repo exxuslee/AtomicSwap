@@ -60,4 +60,8 @@
 	<string name="tokens_empty_list">Empty tokens list</string>
     <string name="select_chain">Select chains</string>
     <string name="create_order">Create order</string>
+    <string name="available">Available</string>
+	<string name="price">Price</string>
+    <string name="price_market">Market price</string>
+	<string name="price_fixed">Price fixed</string>
 </resources>
