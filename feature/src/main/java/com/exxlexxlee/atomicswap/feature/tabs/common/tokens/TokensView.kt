@@ -54,7 +54,7 @@ fun TokensView(
                 modifier = Modifier.padding(start = 12.dp),
                 verticalAlignment = Alignment.Bottom,
                 onClick = {
-                    eventHandler.invoke(Event.OnSelectToken(item.tokens.first()))
+                    eventHandler.invoke(Event.OnSelectToken(primaryToken))
                 },
             ) {
                 TokenIcon(primaryToken)

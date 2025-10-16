@@ -6,9 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.exxlexxlee.atomicswap.core.common.R
 import com.exxlexxlee.atomicswap.feature.tabs.book.makes.models.Action
-import com.exxlexxlee.atomicswap.feature.tabs.book.makes.models.Event.ClearAction
-import com.exxlexxlee.atomicswap.feature.tabs.book.makes.models.Event.MakerToken
-import com.exxlexxlee.atomicswap.feature.tabs.book.makes.models.Event.TakerToken
+import com.exxlexxlee.atomicswap.feature.tabs.book.makes.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.common.tokens.TokensModalBottomSheet
 import org.koin.androidx.compose.koinViewModel
 
@@ -27,17 +25,17 @@ fun MakesBookScreen(
         Action.MakerToken -> TokensModalBottomSheet(
             title = stringResource(R.string.to),
             onDismissRequest = {
-                viewModel.obtainEvent(ClearAction)
+                viewModel.obtainEvent(Event.ClearAction)
             }) {
-            viewModel.obtainEvent(MakerToken(it))
+            viewModel.obtainEvent(Event.MakerToken(it))
         }
 
         Action.TakerToken -> TokensModalBottomSheet(
             title = stringResource(R.string.from),
             onDismissRequest = {
-                viewModel.obtainEvent(ClearAction)
+                viewModel.obtainEvent(Event.ClearAction)
             }) {
-            viewModel.obtainEvent(TakerToken(it))
+            viewModel.obtainEvent(Event.TakerToken(it))
         }
 
         null -> {}

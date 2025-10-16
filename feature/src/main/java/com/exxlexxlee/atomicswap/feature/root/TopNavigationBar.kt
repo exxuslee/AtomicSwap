@@ -33,8 +33,9 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.BookRoute
+import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
 import com.exxlexxlee.atomicswap.feature.navigation.asRoute
 import com.exxlexxlee.atomicswap.feature.navigation.isPrimaryRoute
@@ -69,7 +70,17 @@ fun TopNavigationBar(
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
-            )
+            ),
+            actions = {
+                if (currentRoute == BookRoute.NewMakeRoute) HsIconButton(
+                    onClick = {}
+                ) {
+                    Icon(
+                        painter = painterResource(com.exxlexxlee.atomicswap.feature.R.drawable.outline_check_24),
+                        contentDescription = "confirm"
+                    )
+                }
+            }
         )
     } else {
         val topPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
