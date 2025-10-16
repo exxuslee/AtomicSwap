@@ -25,12 +25,14 @@ import com.exxlexxlee.atomicswap.core.common.navigation.LocalPaddingController
 import com.exxlexxlee.atomicswap.core.common.navigation.animatedComposable
 import com.exxlexxlee.atomicswap.core.common.ui.AnimatedFAB
 import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
-import com.exxlexxlee.atomicswap.feature.common.swap.SwapScreen
+import com.exxlexxlee.atomicswap.feature.navigation.Routes
+import com.exxlexxlee.atomicswap.feature.tabs.common.swap.SwapScreen
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.BookRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute
 import com.exxlexxlee.atomicswap.feature.tabs.book.main.BookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleScreen
+import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.NewMakeScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.about.AboutScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorScreen
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateScreen
@@ -78,7 +80,7 @@ fun MainContent(
                         (viewState.selectedBookTab == FilterStateBook.MyMake
                                 || viewState.selectedBookTab == FilterStateBook.Make)
             ) {
-
+                navController.navigate(BookRoute.NewMakeRoute.createRoute(""))
             }
         },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
@@ -96,9 +98,18 @@ fun MainContent(
                     .background(MaterialTheme.colorScheme.surface)
             ) {
                 animatedComposable(BookRoute.MainRoute().route) { BookScreen() }
+                animatedComposable(
+                    route = BookRoute.NewMakeRoute.route,
+                    arguments = listOf(
+                        navArgument("makeId") { type = NavType.StringType }
+                    )
+                ) { backStackEntry ->
+                    val makeId = backStackEntry.arguments?.getString("makeId") ?: ""
+                    NewMakeScreen(makeId)
+                }
+
 
                 animatedComposable(ChronicleRoute.MainRoute().route) { ChronicleScreen() }
-
                 animatedComposable(
                     route = ChronicleRoute.SwapRoute.route,
                     arguments = listOf(
@@ -108,6 +119,7 @@ fun MainContent(
                     val swapId = backStackEntry.arguments?.getString("swapId") ?: ""
                     SwapScreen(swapId)
                 }
+
 
                 animatedComposable(SettingsRoute.MainRoute().route) { SettingsScreen() }
                 animatedComposable(

@@ -1,11 +1,11 @@
 package com.exxlexxlee.atomicswap.feature.di
 
 import com.exxlexxlee.atomicswap.core.walletconnect.WalletConnectManager
-import com.exxlexxlee.atomicswap.feature.common.swap.SwapViewModel
-import com.exxlexxlee.atomicswap.feature.common.tokens.TokensViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.common.swap.SwapViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.common.tokens.TokensViewModel
 import com.exxlexxlee.atomicswap.feature.root.MainViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.main.BookViewModel
-import com.exxlexxlee.atomicswap.feature.tabs.book.make.MakeViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.book.makes.MakesViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.my.MyMakeViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.subscribe.SubscribeViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveViewModel
@@ -30,8 +30,8 @@ val featureModule = module {
     viewModel { TokensViewModel(get()) }
 
     viewModel { BookViewModel(get()) }
-    viewModel { MakeViewModel(get()) }
-    viewModel { MyMakeViewModel() }
+    viewModel { MakesViewModel(get()) }
+    viewModel { MyMakeViewModel(get()) }
     viewModel { SubscribeViewModel() }
 
     viewModel { ChronicleViewModel(get() ) }

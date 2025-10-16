@@ -7,9 +7,10 @@ fun NavDestination?.asRoute(): Routes? {
     return when {
         // Maker
         route == Routes.BookRoute.MainRoute().route -> Routes.BookRoute.MainRoute()
-        route == Routes.BookRoute.MakeRoute.route -> Routes.BookRoute.MyMakeRoute
+        route == Routes.BookRoute.MakesRoute.route -> Routes.BookRoute.MyMakeRoute
         route == Routes.BookRoute.MyMakeRoute.route -> Routes.BookRoute.MyMakeRoute
         route == Routes.BookRoute.SubscriptionRoute.route -> Routes.BookRoute.SubscriptionRoute
+        route.startsWith("book/newMake/") -> Routes.ChronicleRoute.SwapRoute
 
         // Chronicle
         route == Routes.ChronicleRoute.MainRoute().route -> Routes.ChronicleRoute.MainRoute()
@@ -17,10 +18,7 @@ fun NavDestination?.asRoute(): Routes? {
         route == Routes.ChronicleRoute.ActiveRoute.route -> Routes.ChronicleRoute.ActiveRoute
         route == Routes.ChronicleRoute.CompleteRoute.route -> Routes.ChronicleRoute.CompleteRoute
         route == Routes.ChronicleRoute.RefundRoute.route -> Routes.ChronicleRoute.RefundRoute
-        route.startsWith("chronicle/swap/") -> {
-            val swapId = route.removePrefix("chronicle/swap/")
-            Routes.ChronicleRoute.SwapRoute
-        }
+        route.startsWith("chronicle/swap/") -> Routes.ChronicleRoute.SwapRoute
 
         // Settings
         route == Routes.SettingsRoute.MainRoute().route -> Routes.SettingsRoute.MainRoute()

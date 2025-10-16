@@ -20,9 +20,12 @@ sealed class Routes(
         iconSelect = { painterResource( R.drawable.book_2_24px)},
     ) {
         data class MainRoute(override val badge: Int? = null) : BookRoute("main")
+        data object MakesRoute : BookRoute("book")
         data object MyMakeRoute : BookRoute("myMake")
-        data object MakeRoute : BookRoute("book")
         data object SubscriptionRoute : BookRoute("subscription")
+        data object NewMakeRoute : BookRoute("newMake/{makeId}"){
+            fun createRoute(makeId: String) = "book/newMake/$makeId"
+        }
     }
 
     sealed class ChronicleRoute(subRoute: String) :

@@ -1,0 +1,15 @@
+package com.exxlexxlee.atomicswap.feature.tabs.common.tokens.models
+
+import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
+import com.exxlexxlee.atomicswap.core.swap.model.FullCoin
+
+
+data class ViewState(
+    val isLoading: Boolean = false,
+    val hasMoreItems: Boolean = true,
+    val title: String = "",
+    val fullCoins: List<FullCoin> = listOf(),
+    val isTokenView: Boolean = true,
+    val isChainDismiss: Map<Blockchain, Boolean> = mapOf(),
+    val primaryChain: Blockchain? = null,
+)

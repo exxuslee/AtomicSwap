@@ -18,7 +18,7 @@ import com.exxlexxlee.atomicswap.core.common.navigation.LocalNavController
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
 import com.exxlexxlee.atomicswap.core.common.ui.ListEmptyView
 import com.exxlexxlee.atomicswap.feature.R
-import com.exxlexxlee.atomicswap.feature.common.SwapViewItem
+import com.exxlexxlee.atomicswap.feature.ui.SwapViewItem
 import com.exxlexxlee.atomicswap.feature.navigation.Routes
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.models.ViewState

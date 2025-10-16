@@ -33,7 +33,6 @@ import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.domain.model.FilterStateChronicle
-import com.exxlexxlee.atomicswap.feature.common.TokenSelector
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.ChronicleRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.BookRoute
 import com.exxlexxlee.atomicswap.feature.navigation.Routes.SettingsRoute

@@ -11,7 +11,7 @@ import com.exxlexxlee.atomicswap.core.common.ui.ConnectionStateView
 import com.exxlexxlee.atomicswap.domain.model.FilterStateBook
 import com.exxlexxlee.atomicswap.feature.tabs.book.main.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.book.main.models.ViewState
-import com.exxlexxlee.atomicswap.feature.tabs.book.make.MakeBookScreen
+import com.exxlexxlee.atomicswap.feature.tabs.book.makes.MakesBookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.book.my.MyMakeBookScreen
 import com.exxlexxlee.atomicswap.feature.tabs.book.subscribe.SubscribeBookScreen
 
@@ -34,7 +34,7 @@ fun BookView(
             },
         ) { tab ->
             when (tab) {
-                FilterStateBook.Make -> MakeBookScreen()
+                FilterStateBook.Make -> MakesBookScreen()
                 FilterStateBook.MyMake -> MyMakeBookScreen()
                 FilterStateBook.Subscription -> SubscribeBookScreen()
             }
