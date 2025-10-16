@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,12 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
@@ -43,18 +46,20 @@ fun PriceView (
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
             TagViewItem(
-                icon = ImageVector.vectorResource(R.drawable.outline_store_24),
-                text = stringResource(R.string.price_market)
-            )
-            TagViewItem(
                 icon = ImageVector.vectorResource(R.drawable.outline_sell_24),
                 text = stringResource(R.string.price_fixed)
             )
-
+            TagViewItem(
+                    icon = ImageVector.vectorResource(R.drawable.outline_store_24),
+            text = stringResource(R.string.price_market)
+            )
         }
-        RowUniversal(horizontalArrangement = Arrangement.Center) {
+        RowUniversal(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            HSpacer(0.dp)
             Text(
-                modifier = Modifier.weight(1f),
                 text = "1 BNB = 1000 USDT",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
@@ -67,6 +72,7 @@ fun PriceView (
                     contentDescription = "refresh"
                 )
             }
+
         }
 
         RowUniversal(
