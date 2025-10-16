@@ -59,4 +59,5 @@
     <string name="network_type">Main network type</string>
 	<string name="tokens_empty_list">Empty tokens list</string>
     <string name="select_chain">Select chains</string>
+    <string name="create_order">Create order</string>
 </resources>

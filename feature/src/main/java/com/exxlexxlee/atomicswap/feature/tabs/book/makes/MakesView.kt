@@ -61,11 +61,11 @@ fun MakesView(
                         TokenSelector(
                             modifier = Modifier
                                 .weight(1f),
-                            token = viewState.filterToken.first,
+                            token = viewState.tokenPair.first,
                             expanded = viewState.expandedTaker,
                             placeholder = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.from),
                         ) {
-                            if (viewState.filterToken.first != null) {
+                            if (viewState.tokenPair.first != null) {
                                 eventHandler.invoke(Event.TakerToken(null))
                             } else eventHandler.invoke(Event.TakerTokenSheet)
                         }
@@ -86,11 +86,11 @@ fun MakesView(
                         TokenSelector(
                             modifier = Modifier
                                 .weight(1f),
-                            token = viewState.filterToken.second,
+                            token = viewState.tokenPair.second,
                             expanded = viewState.expandedMaker,
                             placeholder = stringResource(com.exxlexxlee.atomicswap.core.common.R.string.to),
                         ) {
-                            if (viewState.filterToken.second != null) {
+                            if (viewState.tokenPair.second != null) {
                                 eventHandler.invoke(Event.MakerToken(null))
                             } else eventHandler.invoke(Event.MakerTokenSheet)
                         }

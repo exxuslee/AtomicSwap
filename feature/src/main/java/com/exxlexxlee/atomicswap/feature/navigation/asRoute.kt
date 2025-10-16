@@ -10,7 +10,7 @@ fun NavDestination?.asRoute(): Routes? {
         route == Routes.BookRoute.MakesRoute.route -> Routes.BookRoute.MyMakeRoute
         route == Routes.BookRoute.MyMakeRoute.route -> Routes.BookRoute.MyMakeRoute
         route == Routes.BookRoute.SubscriptionRoute.route -> Routes.BookRoute.SubscriptionRoute
-        route.startsWith("book/newMake/") -> Routes.ChronicleRoute.SwapRoute
+        route.startsWith("book/newMake/") -> Routes.BookRoute.NewMakeRoute
 
         // Chronicle
         route == Routes.ChronicleRoute.MainRoute().route -> Routes.ChronicleRoute.MainRoute()

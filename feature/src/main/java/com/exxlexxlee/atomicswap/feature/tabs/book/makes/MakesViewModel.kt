@@ -40,18 +40,18 @@ class MakesViewModel(
             }
 
             is Event.MakerToken -> viewState = viewState.copy(
-                filterToken = viewState.filterToken.first to viewEvent.token,
+                tokenPair = viewState.tokenPair.first to viewEvent.token,
                 expandedMaker = false,
             ).also { clearAction() }
 
             is Event.TakerToken -> viewState = viewState.copy(
-                filterToken = viewEvent.token to viewState.filterToken.second,
+                tokenPair = viewEvent.token to viewState.tokenPair.second,
                 expandedTaker = false,
 
                 ).also { clearAction() }
 
             Event.SwitchToken -> viewState = viewState.copy(
-                filterToken = viewState.filterToken.second to viewState.filterToken.first
+                tokenPair = viewState.tokenPair.second to viewState.tokenPair.first
             )
         }
     }

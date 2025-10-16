@@ -13,17 +13,23 @@ sealed class Routes(
     val icon: @Composable () -> Painter,
     val iconSelect: @Composable () -> Painter,
 ) {
-    sealed class BookRoute(subRoute: String) : Routes(
+    sealed class BookRoute(
+        subRoute: String,
+        label: @Composable () -> String = { stringResource(R.string.title_maker) }
+    ) : Routes(
         "book/$subRoute",
-        label = { stringResource(R.string.title_maker) },
-        icon = { painterResource( R.drawable.outline_book_2_24)},
-        iconSelect = { painterResource( R.drawable.book_2_24px)},
+        label = label,
+        icon = { painterResource(R.drawable.outline_book_2_24) },
+        iconSelect = { painterResource(R.drawable.book_2_24px) },
     ) {
         data class MainRoute(override val badge: Int? = null) : BookRoute("main")
-        data object MakesRoute : BookRoute("book")
+        data object MakesRoute : BookRoute("makes")
         data object MyMakeRoute : BookRoute("myMake")
         data object SubscriptionRoute : BookRoute("subscription")
-        data object NewMakeRoute : BookRoute("newMake/{makeId}"){
+        data object NewMakeRoute : BookRoute(
+            "newMake/{makeId}",
+            { stringResource(R.string.create_order) }
+        ) {
             fun createRoute(makeId: String) = "book/newMake/$makeId"
         }
     }
@@ -32,8 +38,8 @@ sealed class Routes(
         Routes(
             "chronicle/$subRoute",
             label = { stringResource(R.string.title_chronicle) },
-            icon = { painterResource( R.drawable.outline_chronic_24)},
-            iconSelect = { painterResource( R.drawable.chronic_24px)},
+            icon = { painterResource(R.drawable.outline_chronic_24) },
+            iconSelect = { painterResource(R.drawable.chronic_24px) },
         ) {
         data class MainRoute(override val badge: Int? = null) : ChronicleRoute("main")
         data object MyMakeRoute : ChronicleRoute("myMake")
@@ -49,8 +55,8 @@ sealed class Routes(
         Routes(
             "settings/$subRoute",
             label = label,
-            icon = { painterResource( R.drawable.outline_settings_24)},
-            iconSelect = { painterResource( R.drawable.baseline_settings_24)},
+            icon = { painterResource(R.drawable.outline_settings_24) },
+            iconSelect = { painterResource(R.drawable.baseline_settings_24) },
         ) {
         data class MainRoute(override val badge: Int? = null) :
             SettingsRoute("main", label = { stringResource(R.string.title_settings) })

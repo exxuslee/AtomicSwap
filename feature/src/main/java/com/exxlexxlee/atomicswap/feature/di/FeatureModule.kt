@@ -1,18 +1,19 @@
 package com.exxlexxlee.atomicswap.feature.di
 
 import com.exxlexxlee.atomicswap.core.walletconnect.WalletConnectManager
-import com.exxlexxlee.atomicswap.feature.tabs.common.swap.SwapViewModel
-import com.exxlexxlee.atomicswap.feature.tabs.common.tokens.TokensViewModel
 import com.exxlexxlee.atomicswap.feature.root.MainViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.main.BookViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.makes.MakesViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.my.MyMakeViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.book.subscribe.SubscribeViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.active.ActiveViewModel
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleViewModel
-import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.CompleteViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.all.AllChronicleViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.complete.CompleteViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.chronicle.main.ChronicleViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.chronicle.refunded.RefundedViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.NewMakeViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.common.swap.SwapViewModel
+import com.exxlexxlee.atomicswap.feature.tabs.common.tokens.TokensViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.aggregator.AggregatorViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.donate.DonateViewModel
 import com.exxlexxlee.atomicswap.feature.tabs.settings.language.LanguageViewModel
@@ -25,20 +26,20 @@ import org.koin.dsl.module
 
 val featureModule = module {
     viewModel { MainViewModel(get(), get(), get()) }
-
-    viewModel { (swapId: String) -> SwapViewModel(swapId, get()) }
     viewModel { TokensViewModel(get()) }
 
     viewModel { BookViewModel(get()) }
     viewModel { MakesViewModel(get()) }
     viewModel { MyMakeViewModel(get()) }
     viewModel { SubscribeViewModel() }
+    viewModel { (makeId: String) -> NewMakeViewModel(makeId, get()) }
 
-    viewModel { ChronicleViewModel(get() ) }
+    viewModel { ChronicleViewModel(get()) }
     viewModel { AllChronicleViewModel(get()) }
     viewModel { ActiveViewModel(get()) }
     viewModel { CompleteViewModel(get()) }
     viewModel { RefundedViewModel(get()) }
+    viewModel { (swapId: String) -> SwapViewModel(swapId, get()) }
 
     viewModel { SettingsViewModel(get(), get(), get(), get(), get<WalletConnectManager>()) }
     viewModel { DonateViewModel() }
