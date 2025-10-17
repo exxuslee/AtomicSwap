@@ -30,20 +30,23 @@ class NewMakeViewModel(
                 clearAction()
             }
 
-            is Event.MakerToken -> viewState = viewState.copy(
-                tokenPair = viewState.tokenPair.first to viewEvent.token,
-                expandedMaker = false,
-            ).also { clearAction() }
+            is Event.MakerToken -> {
+                val make = viewState.make.copy(makerToken = viewEvent.token)
+                clearAction()
+                viewState = viewState.copy(make = make, expandedMaker = false)
+            }
 
-            is Event.TakerToken -> viewState = viewState.copy(
-                tokenPair = viewEvent.token to viewState.tokenPair.second,
-                expandedTaker = false,
+            is Event.TakerToken ->  {
+                val make = viewState.make.copy(takerToken = viewEvent.token)
+                clearAction()
+                viewState = viewState.copy(make = make, expandedMaker = false)
+            }
 
-                ).also { clearAction() }
-
-            Event.SwitchToken -> viewState = viewState.copy(
-                tokenPair = viewState.tokenPair.second to viewState.tokenPair.first
-            )
+            Event.SwitchToken -> {
+                val make = viewState.make.copy(takerToken = viewEvent.token)
+                val make = viewState.make.copy(takerToken = viewEvent.token)
+                viewState = viewState.copy(make = make, expandedMaker = false)
+            }
         }
 
     }

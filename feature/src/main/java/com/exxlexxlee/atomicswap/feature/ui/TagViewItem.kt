@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +32,7 @@ fun TagViewItem(
     modifier: Modifier = Modifier,
     icon: ImageVector,
     text: String,
+    enabled: Boolean = false,
     textColor: Color = MaterialTheme.colorScheme.primary,
     iconEnd: Painter? = null,
 ) {
@@ -40,7 +40,10 @@ fun TagViewItem(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(
+            containerColor = if (enabled) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surface
+        ),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary)
     ) {
         Row(

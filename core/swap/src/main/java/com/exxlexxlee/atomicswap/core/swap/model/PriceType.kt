@@ -1,6 +1,8 @@
 package com.exxlexxlee.atomicswap.core.swap.model
 
+import java.math.BigDecimal
+
 sealed class PriceType {
-    data object Fixed : PriceType()
-    data object Market : PriceType()
+    data class Fixed(val price: BigDecimal) : PriceType()
+    data class Market(val discountPercent: Int) : PriceType()
 }

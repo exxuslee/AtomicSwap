@@ -4,14 +4,14 @@ import java.math.BigDecimal
 
 data class Make(
     val makeId: String,
+    val isOn: Boolean,
     val makerId: String,
     val makerToken: Token,
     val takerToken: Token,
     val refundAddress: String,
     val redeemAddress: String,
-    val amount: AmountType,
     val priceType: PriceType,
-    val isOn: Boolean,
+    val adAmount: BigDecimal,
     val reservedAmount: BigDecimal,
     val refundTime: Long,
     val timestamp: Long,
