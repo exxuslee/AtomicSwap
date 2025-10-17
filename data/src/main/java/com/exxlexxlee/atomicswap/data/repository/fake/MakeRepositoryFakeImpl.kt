@@ -45,16 +45,19 @@ class MakeRepositoryFakeImpl(
 
     companion object {
         private val btc = Coin(
+            uid = "btc",
             symbol = "BTC",
             name = "Bitcoin",
             iconUrl = "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
         )
         private val eth = Coin(
+            uid = "eth",
             symbol = "ETH",
             name = "Ethereum",
             iconUrl = "https://assets.coingecko.com/coins/images/279/small/ethereum.png"
         )
         private val usdt = Coin(
+            uid = "usdt",
             symbol = "USDT",
             name = "Tether",
             iconUrl = "https://assets.coingecko.com/coins/images/2/small/litecoin.png"

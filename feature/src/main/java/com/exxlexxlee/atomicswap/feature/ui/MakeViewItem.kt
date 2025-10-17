@@ -89,6 +89,13 @@ private fun MakeViewItemPreview() {
             blockchain: Blockchain
         ): Token {
             val coin = Coin(
+                uid = when (symbol) {
+                    "BTC" -> "btc"
+                    "ETH" -> "eth"
+                    "BNB" -> "bnb"
+                    "LTC" -> "ltc"
+                    else -> symbol
+                },
                 symbol = symbol,
                 name = when (symbol) {
                     "BTC" -> "Bitcoin"

@@ -32,7 +32,7 @@ val featureModule = module {
     viewModel { MakesViewModel(get()) }
     viewModel { MyMakeViewModel(get()) }
     viewModel { SubscribeViewModel() }
-    viewModel { (makeId: String) -> NewMakeViewModel(makeId, get()) }
+    viewModel { (makeId: String) -> NewMakeViewModel(makeId, get(), get()) }
 
     viewModel { ChronicleViewModel(get()) }
     viewModel { AllChronicleViewModel(get()) }

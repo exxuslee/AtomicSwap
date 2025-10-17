@@ -1,5 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
+import java.math.BigDecimal
 
 
 data class ViewState(
@@ -7,5 +8,5 @@ data class ViewState(
     val expandedTaker: Boolean = false,
     val expandedMaker: Boolean = false,
     val make: MakeViewItem = MakeViewItem(),
-    val discountSlider: Float = 0f,
+    val price: BigDecimal? = null
 )

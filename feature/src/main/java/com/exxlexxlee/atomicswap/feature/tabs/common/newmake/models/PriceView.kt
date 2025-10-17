@@ -1,7 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -60,9 +59,12 @@ fun PriceView(
                 enabled = hasBothTickers(),
             )
             if (hasBothTickers()) {
+                val takerTicker = viewState.make.takerToken?.coin?.symbol ?: ""
+                val makerTicker = viewState.make.makerToken?.coin?.symbol ?: ""
+                val price = "1 $makerTicker = ${viewState.price} $takerTicker"
                 Text(
-                    modifier = Modifier.weight(1f),
-                    text = "1 BNB = 1000 USDT",
+                    modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
+                    text = price,
                     style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.End,
                     maxLines = 1,
@@ -76,7 +78,7 @@ fun PriceView(
             HSpacer(0.dp)
             Text(
                 modifier = Modifier.weight(1f),
-                text = "1 BNB = 1000 USDT",
+                text = "Discount: ${viewState.make.discount}%",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
             )
@@ -100,7 +102,7 @@ fun PriceView(
             var wrapUp: Boolean by rememberSaveable { mutableStateOf(false) }
             val sliderState =
                 rememberSliderState(
-                    value = viewState.discountSlider,
+                    value = inverseGoldenRatio(viewState.make.discount),
                     valueRange = -6f..6f,
                     steps = 11,
                     onValueChangeFinished = { wrapUp = !wrapUp },
@@ -109,7 +111,7 @@ fun PriceView(
                 if (!hasBothTickers()) {
                     Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
                         .show()
-                    sliderState.value = viewState.discountSlider
+                    sliderState.value = 0f
                 } else eventHandler.invoke(Event.SetDiscount(sliderState.value))
             }
             val interactionSource = remember { MutableInteractionSource() }
@@ -131,4 +133,21 @@ fun PriceView(
 
         VSpacer(8.dp)
     }
+}
+
+private fun inverseGoldenRatio(value: Int): Float = when (value) {
+    13 -> 6f
+    8 -> 5f
+    5 -> 4f
+    3 -> 3f
+    2 -> 2f
+    1 -> 1f
+    0 -> 0f
+    -1 -> -1f
+    -2 -> -2f
+    -3 -> -3f
+    -5 -> -4f
+    -8 -> -5f
+    -13 -> -6f
+    else -> 0f
 }

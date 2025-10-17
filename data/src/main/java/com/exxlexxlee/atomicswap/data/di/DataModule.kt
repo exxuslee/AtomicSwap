@@ -6,6 +6,7 @@ import com.exxlexxlee.atomicswap.core.database.SwapDao
 import com.exxlexxlee.atomicswap.core.database.TakeDao
 import com.exxlexxlee.atomicswap.data.repository.fake.MakeRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.MakeRepositoryImpl
+import com.exxlexxlee.atomicswap.data.repository.PriceRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.fake.PushRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.PushRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.SettingsRepositoryImpl
@@ -13,6 +14,7 @@ import com.exxlexxlee.atomicswap.data.repository.fake.SwapRepositoryFakeImpl
 import com.exxlexxlee.atomicswap.data.repository.SwapRepositoryImpl
 import com.exxlexxlee.atomicswap.data.repository.TokensRepositoryImpl
 import com.exxlexxlee.atomicswap.domain.repository.MakeRepository
+import com.exxlexxlee.atomicswap.domain.repository.PriceRepository
 import com.exxlexxlee.atomicswap.domain.repository.PushRepository
 import com.exxlexxlee.atomicswap.domain.repository.SettingsRepository
 import com.exxlexxlee.atomicswap.domain.repository.SwapRepository
@@ -38,6 +40,7 @@ val dataModule = module {
     single<PushRepository> { PushRepositoryImpl(get<PushDao>()) }
     single<PushRepository.Reader> { PushRepositoryImpl(get<PushDao>()) }
     single<TokensRepository> { TokensRepositoryImpl(get()) }
+    single<PriceRepository> { PriceRepositoryImpl(get()) }
 }
 
 val fakeDataModule = module {
@@ -54,5 +57,5 @@ val fakeDataModule = module {
     single<PushRepository> { PushRepositoryFakeImpl() }
     single<PushRepository.Reader> { PushRepositoryFakeImpl() }
     single<TokensRepository> { TokensRepositoryImpl(get()) }
-
+    single<PriceRepository> { PriceRepositoryImpl(get()) }
 }

@@ -4,6 +4,7 @@ import io.horizontalsystems.marketkit.models.Coin
 
 fun Coin.toDomain(): com.exxlexxlee.atomicswap.core.swap.model.Coin {
     return com.exxlexxlee.atomicswap.core.swap.model.Coin(
+        uid = this.uid,
         symbol = this.code,
         name = this.name,
         iconUrl = this.image,

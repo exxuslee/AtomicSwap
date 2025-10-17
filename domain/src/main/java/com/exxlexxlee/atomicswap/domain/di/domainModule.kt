@@ -2,6 +2,7 @@ package com.exxlexxlee.atomicswap.domain.di
 
 import com.exxlexxlee.atomicswap.domain.usecases.AggregatorUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
+import com.exxlexxlee.atomicswap.domain.usecases.PriceUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.PushReaderUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SettingsUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.SwapUseCase
@@ -16,5 +17,6 @@ val domainModule = module {
     single<AggregatorUseCase> { AggregatorUseCase.Base(get()) }
     single<SwapUseCase> { SwapUseCase.Base(get()) }
     single<MakeUseCase> { MakeUseCase.Base(get()) }
-    single< TokensUseCase> { TokensUseCase.Base(get()) }
+    single<TokensUseCase> { TokensUseCase.Base(get()) }
+    single<PriceUseCase> { PriceUseCase.Base(get()) }
 }
