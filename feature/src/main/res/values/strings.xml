@@ -63,7 +63,7 @@
     <string name="make_edit_ad">Make edit ad</string>
     <string name="available">Available</string>
 	<string name="price">Price</string>
-    <string name="price_market">Market price</string>
+    <string name="market_price">Market price</string>
 	<string name="fixed_price">Fixed price</string>
     <string name="refund">Refund</string>
 	<string name="redeem">Redeem</string>

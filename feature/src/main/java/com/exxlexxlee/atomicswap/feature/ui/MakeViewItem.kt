@@ -19,11 +19,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.theme.AppTheme
-import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Make
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 import com.exxlexxlee.atomicswap.feature.R
 import java.math.BigDecimal
@@ -126,7 +124,7 @@ private fun MakeViewItemPreview() {
                 takerToken = takerToken,
                 refundAddress = "maker-refund-address",
                 redeemAddress = "maker-redeem-address",
-                priceType = PriceType.Fixed(BigDecimal.TEN),
+                discount = 1,
                 isOn = true,
                 adAmount = BigDecimal.TEN,
                 reservedAmount = BigDecimal.ZERO,

@@ -1,8 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake
 
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType.*
 import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Event
@@ -53,21 +51,30 @@ class NewMakeViewModel(
                 viewState = viewState.copy(make = make)
             }
 
-            Event.SetFixedPrice -> {
-                val make = viewState.make.copy(priceType = Fixed(BigDecimal.ONE))
-                viewState = viewState.copy(make = make)
-            }
-
-            Event.SetMarketPrice -> {
-                val make = viewState.make.copy(priceType = Market(2))
-                viewState = viewState.copy(make = make)
-            }
-
             is Event.SetDiscount -> {
-                Timber.d("${viewEvent.discountSlider}")
+                val make = viewState.make.copy(discount = goldenRatio(viewEvent.discountSlider))
+                viewState = viewState.copy(
+                    discountSlider = viewEvent.discountSlider, make = make
+                )
             }
         }
 
+    }
+
+    private fun goldenRatio(value: Float): Int = when {
+        value > 6f -> 13
+        value > 5f -> 8
+        value > 4f -> 5
+        value > 3f -> 3
+        value > 2f -> 2
+        value > 1f -> 1
+        value > 0f -> 0
+        value > -1f -> -1
+        value > -2f -> -2
+        value > -3f -> -3
+        value > -4f -> -5
+        value > -5f -> -8
+        else -> -13
     }
 
 }

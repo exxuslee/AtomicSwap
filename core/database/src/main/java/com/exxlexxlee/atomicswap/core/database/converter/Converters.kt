@@ -3,7 +3,6 @@ package com.exxlexxlee.atomicswap.core.database.converter
 import androidx.room.TypeConverter
 import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Make
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import com.exxlexxlee.atomicswap.core.swap.model.Take
 import com.exxlexxlee.atomicswap.core.swap.model.Token
@@ -45,16 +44,16 @@ object Converters {
         gson.fromJson(it, object : TypeToken<AmountType>() {}.type)
     }
 
-    // PriceType
-    @TypeConverter
-    @JvmStatic
-    fun priceTypeToString(value: PriceType?): String? = value?.let { gson.toJson(it) }
-
-    @TypeConverter
-    @JvmStatic
-    fun stringToPriceType(value: String?): PriceType? = value?.let {
-        gson.fromJson(it, object : TypeToken<PriceType>() {}.type)
-    }
+//    // PriceType
+//    @TypeConverter
+//    @JvmStatic
+//    fun priceTypeToString(value: PriceType?): String? = value?.let { gson.toJson(it) }
+//
+//    @TypeConverter
+//    @JvmStatic
+//    fun stringToPriceType(value: String?): PriceType? = value?.let {
+//        gson.fromJson(it, object : TypeToken<PriceType>() {}.type)
+//    }
 
     // Make
     @TypeConverter

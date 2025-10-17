@@ -1,10 +1,8 @@
 package com.exxlexxlee.atomicswap.data.repository.fake
 
-import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Make
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Swap
 import com.exxlexxlee.atomicswap.core.swap.model.SwapState
 import com.exxlexxlee.atomicswap.core.swap.model.Take
@@ -156,7 +154,7 @@ class SwapRepositoryFakeImpl : SwapRepository {
             refundAddress = "maker-refund-address-${makeId}",
             redeemAddress = "maker-redeem-address-${makeId}",
             adAmount = BigDecimal("0.10000000"),
-            priceType = PriceType.Fixed(BigDecimal("0.10000000")),
+            discount = 1,
             isOn = true,
             reservedAmount = BigDecimal.ZERO,
             refundTime = 0L,

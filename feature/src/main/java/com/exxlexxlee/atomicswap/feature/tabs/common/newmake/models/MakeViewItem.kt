@@ -1,6 +1,5 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 import java.math.BigDecimal
 
@@ -13,7 +12,7 @@ data class MakeViewItem(
     val refundAddress: String? = null,
     val redeemAddress: String? = null,
     val adAmount: BigDecimal? = null,
-    val priceType: PriceType? = null,
+    val discount: Int = 0,
     val refundTime: Long = 600_000,
     val timestamp: Long = System.currentTimeMillis(),
 )

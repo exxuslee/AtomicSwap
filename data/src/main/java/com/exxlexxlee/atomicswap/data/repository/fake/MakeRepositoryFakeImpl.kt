@@ -1,10 +1,8 @@
 package com.exxlexxlee.atomicswap.data.repository.fake
 
-import com.exxlexxlee.atomicswap.core.swap.model.AmountType
 import com.exxlexxlee.atomicswap.core.swap.model.Blockchain
 import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.core.swap.model.Make
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.core.swap.model.Token
 import com.exxlexxlee.atomicswap.domain.repository.MakeRepository
 import kotlinx.coroutines.flow.Flow
@@ -90,7 +88,7 @@ class MakeRepositoryFakeImpl(
                 refundAddress = "bc1qrefundaddrxxxxxxxxxx",
                 redeemAddress = "0xRedeemAddr111111111111111111111111111111",
                 adAmount = BigDecimal("0.10000000"),
-                priceType = PriceType.Fixed(BigDecimal("0.10000000")),
+                discount = 1,
                 isOn = true,
                 reservedAmount = BigDecimal("0.00000000"),
                 refundTime = 3_600_000L,
@@ -104,7 +102,7 @@ class MakeRepositoryFakeImpl(
                 refundAddress = "0xRefundAddr222222222222222222222222222222",
                 redeemAddress = "TReDeemAddr2222222222222",
                 adAmount = BigDecimal("0.10000000"),
-                priceType = PriceType.Fixed(BigDecimal("0.10000000")),
+                discount = 1,
                 isOn = true,
                 reservedAmount = BigDecimal("0.500000000000000000"),
                 refundTime = 7_200_000L,
@@ -118,7 +116,7 @@ class MakeRepositoryFakeImpl(
                 refundAddress = "TRefundAddr3333333333333",
                 redeemAddress = "bc1qredeemaddrxxxxxxxxxx",
                 adAmount = BigDecimal("0.10000000"),
-                priceType = PriceType.Fixed(BigDecimal("0.10000000")),
+                discount = 1,
                 isOn = false,
                 reservedAmount = BigDecimal("100.000000"),
                 refundTime = 10_800_000L,

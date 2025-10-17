@@ -34,7 +34,6 @@ import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
-import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.ui.TagViewItem
 
@@ -43,6 +42,9 @@ import com.exxlexxlee.atomicswap.feature.ui.TagViewItem
 fun PriceView(
     viewState: ViewState, eventHandler: (Event) -> Unit
 ) {
+    fun hasBothTickers() =
+        viewState.make.makerToken != null && viewState.make.takerToken != null
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -51,37 +53,29 @@ fun PriceView(
         val context = LocalContext.current
         RowUniversal(
             modifier = Modifier.padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
         ) {
             TagViewItem(
-                modifier = Modifier.clickable(onClick = {
-                    if (viewState.make.makerToken == null || viewState.make.takerToken == null)
-                        Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
-                            .show()
-                    else eventHandler.invoke(Event.SetFixedPrice)
-                }),
-                icon = ImageVector.vectorResource(R.drawable.outline_sell_24),
-                text = stringResource(R.string.fixed_price),
-                enabled = viewState.make.priceType is PriceType.Fixed,
-            )
-            TagViewItem(
-                modifier = Modifier.clickable(onClick = {
-                    if (viewState.make.makerToken == null || viewState.make.takerToken == null)
-                        Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
-                            .show()
-                    eventHandler.invoke(Event.SetMarketPrice)
-                }),
                 icon = ImageVector.vectorResource(R.drawable.outline_store_24),
-                text = stringResource(R.string.price_market),
-                enabled = viewState.make.priceType is PriceType.Market,
+                text = stringResource(R.string.market_price),
+                enabled = hasBothTickers(),
             )
+            if (hasBothTickers()) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = "1 BNB = 1000 USDT",
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.End,
+                    maxLines = 1,
+                )
+            }
         }
-        RowUniversal(
+        if (hasBothTickers()) RowUniversal(
             modifier = Modifier.padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             HSpacer(0.dp)
             Text(
+                modifier = Modifier.weight(1f),
                 text = "1 BNB = 1000 USDT",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
@@ -94,13 +88,15 @@ fun PriceView(
                     contentDescription = "refresh"
                 )
             }
-
         }
-
         RowUniversal(
             modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.outline_percent_discount_24),
+                contentDescription = "refresh"
+            )
             var wrapUp: Boolean by rememberSaveable { mutableStateOf(false) }
             val sliderState =
                 rememberSliderState(
@@ -110,10 +106,11 @@ fun PriceView(
                     onValueChangeFinished = { wrapUp = !wrapUp },
                 )
             LaunchedEffect(wrapUp) {
-                if (viewState.make.makerToken == null || viewState.make.takerToken == null)
+                if (!hasBothTickers()) {
                     Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
                         .show()
-                else eventHandler.invoke(Event.SetDiscount(sliderState.value))
+                    sliderState.value = viewState.discountSlider
+                } else eventHandler.invoke(Event.SetDiscount(sliderState.value))
             }
             val interactionSource = remember { MutableInteractionSource() }
             Slider(
@@ -125,12 +122,13 @@ fun PriceView(
                 thumb = { SliderDefaults.Thumb(interactionSource = interactionSource) },
                 track = {
                     SliderDefaults.Track(
-                        enabled = viewState.make.priceType != null,
+                        enabled = hasBothTickers(),
                         sliderState = sliderState
                     )
                 }
             )
         }
+
         VSpacer(8.dp)
     }
 }

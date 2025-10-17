@@ -10,7 +10,7 @@ data class Make(
     val takerToken: Token,
     val refundAddress: String,
     val redeemAddress: String,
-    val priceType: PriceType,
+    val discount: Int,
     val adAmount: BigDecimal,
     val reservedAmount: BigDecimal,
     val refundTime: Long,

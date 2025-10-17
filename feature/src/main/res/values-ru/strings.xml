@@ -63,7 +63,7 @@
     <string name="make_edit_ad">Изменить объявление</string>
     <string name="available">Доступно</string>
 	<string name="price">Цена</string>
-    <string name="price_market">Цена по рынкуe</string>
+    <string name="market_price">Цена по рынкуe</string>
 	<string name="fixed_price">Фиксированная цена</string>
     <string name="refund">Возврат</string>
 	<string name="redeem">Пополнение</string>
