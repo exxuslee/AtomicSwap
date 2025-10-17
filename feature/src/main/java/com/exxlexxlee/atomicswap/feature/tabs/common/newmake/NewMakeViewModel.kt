@@ -1,10 +1,12 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake
 
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.ViewState
+import java.math.BigDecimal
 
 
 class NewMakeViewModel(
@@ -36,7 +38,7 @@ class NewMakeViewModel(
                 viewState = viewState.copy(make = make, expandedMaker = false)
             }
 
-            is Event.TakerToken ->  {
+            is Event.TakerToken -> {
                 val make = viewState.make.copy(takerToken = viewEvent.token)
                 clearAction()
                 viewState = viewState.copy(make = make, expandedMaker = false)
@@ -46,6 +48,16 @@ class NewMakeViewModel(
                 val makerToken = viewState.make.makerToken
                 val takerToken = viewState.make.takerToken
                 val make = viewState.make.copy(makerToken = takerToken, takerToken = makerToken)
+                viewState = viewState.copy(make = make)
+            }
+
+            Event.SetFixedPrice -> {
+                val make = viewState.make.copy(priceType = PriceType.Fixed(BigDecimal.ONE))
+                viewState = viewState.copy(make = make)
+            }
+
+            Event.SetMarketPrice -> {
+                val make = viewState.make.copy(priceType = PriceType.Market(2))
                 viewState = viewState.copy(make = make)
             }
         }

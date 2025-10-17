@@ -9,4 +9,6 @@ sealed class Event {
     data class MakerToken(val token: Token?) : Event()
     data object SwitchToken : Event()
     data object ClearAction : Event()
+    data object SetFixedPrice : Event()
+    data object SetMarketPrice : Event()
 }

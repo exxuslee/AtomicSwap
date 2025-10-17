@@ -1,5 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,11 +46,17 @@ fun PriceView(
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
             TagViewItem(
+                modifier = Modifier.clickable(onClick = {
+                    eventHandler.invoke(Event.SetFixedPrice)
+                }),
                 icon = ImageVector.vectorResource(R.drawable.outline_sell_24),
                 text = stringResource(R.string.price_fixed),
                 enabled = viewState.make.priceType is PriceType.Fixed,
             )
             TagViewItem(
+                modifier = Modifier.clickable(onClick = {
+                    eventHandler.invoke(Event.SetMarketPrice)
+                }),
                 icon = ImageVector.vectorResource(R.drawable.outline_store_24),
                 text = stringResource(R.string.price_market),
                 enabled = viewState.make.priceType is PriceType.Market,

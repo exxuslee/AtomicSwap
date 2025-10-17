@@ -67,4 +67,5 @@
 	<string name="price_fixed">Фиксированная цена</string>
     <string name="refund">Возврат</string>
 	<string name="redeem">Пополнение</string>
+	<string name="please_paste_address">Please, paste the address</string>
 </resources>
