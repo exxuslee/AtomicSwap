@@ -37,7 +37,6 @@ fun TagViewItem(
     iconEnd: Painter? = null,
 ) {
     Card(
-        modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
@@ -47,7 +46,7 @@ fun TagViewItem(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary)
     ) {
         Row(
-            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+            modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(

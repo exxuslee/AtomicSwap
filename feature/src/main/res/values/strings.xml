@@ -64,7 +64,7 @@
     <string name="available">Available</string>
 	<string name="price">Price</string>
     <string name="price_market">Market price</string>
-	<string name="price_fixed">Price fixed</string>
+	<string name="fixed_price">Fixed price</string>
     <string name="refund">Refund</string>
 	<string name="redeem">Redeem</string>
 	<string name="please_paste_address">Please, paste the address</string>

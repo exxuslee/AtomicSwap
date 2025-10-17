@@ -11,4 +11,7 @@ sealed class Event {
     data object ClearAction : Event()
     data object SetFixedPrice : Event()
     data object SetMarketPrice : Event()
+    data class SetDiscount(val discountSlider: Float) : Event()
+
+
 }

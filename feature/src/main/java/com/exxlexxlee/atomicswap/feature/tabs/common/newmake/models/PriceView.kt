@@ -1,5 +1,6 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -16,9 +17,15 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -41,20 +48,27 @@ fun PriceView(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
+        val context = LocalContext.current
         RowUniversal(
             modifier = Modifier.padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
             TagViewItem(
                 modifier = Modifier.clickable(onClick = {
-                    eventHandler.invoke(Event.SetFixedPrice)
+                    if (viewState.make.makerToken == null || viewState.make.takerToken == null)
+                        Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
+                            .show()
+                    else eventHandler.invoke(Event.SetFixedPrice)
                 }),
                 icon = ImageVector.vectorResource(R.drawable.outline_sell_24),
-                text = stringResource(R.string.price_fixed),
+                text = stringResource(R.string.fixed_price),
                 enabled = viewState.make.priceType is PriceType.Fixed,
             )
             TagViewItem(
                 modifier = Modifier.clickable(onClick = {
+                    if (viewState.make.makerToken == null || viewState.make.takerToken == null)
+                        Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
+                            .show()
                     eventHandler.invoke(Event.SetMarketPrice)
                 }),
                 icon = ImageVector.vectorResource(R.drawable.outline_store_24),
@@ -87,16 +101,20 @@ fun PriceView(
             modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            var wrapUp: Boolean by rememberSaveable { mutableStateOf(false) }
             val sliderState =
                 rememberSliderState(
-                    value = 0f,
+                    value = viewState.discountSlider,
                     valueRange = -6f..6f,
                     steps = 11,
-                    onValueChangeFinished = {
-                        // launch some business logic update with the state you hold
-                        // viewModel.updateSelectedSliderValue(sliderPosition)
-                    },
+                    onValueChangeFinished = { wrapUp = !wrapUp },
                 )
+            LaunchedEffect(wrapUp) {
+                if (viewState.make.makerToken == null || viewState.make.takerToken == null)
+                    Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
+                        .show()
+                else eventHandler.invoke(Event.SetDiscount(sliderState.value))
+            }
             val interactionSource = remember { MutableInteractionSource() }
             Slider(
                 modifier = Modifier
@@ -106,7 +124,10 @@ fun PriceView(
                 interactionSource = interactionSource,
                 thumb = { SliderDefaults.Thumb(interactionSource = interactionSource) },
                 track = {
-                    SliderDefaults.Track(enabled = false, sliderState = sliderState)
+                    SliderDefaults.Track(
+                        enabled = viewState.make.priceType != null,
+                        sliderState = sliderState
+                    )
                 }
             )
         }

@@ -7,4 +7,5 @@ data class ViewState(
     val expandedTaker: Boolean = false,
     val expandedMaker: Boolean = false,
     val make: MakeViewItem = MakeViewItem(),
+    val discountSlider: Float = 0f,
 )

@@ -2,10 +2,12 @@ package com.exxlexxlee.atomicswap.feature.tabs.common.newmake
 
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.core.swap.model.PriceType
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType.*
 import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.ViewState
+import timber.log.Timber
 import java.math.BigDecimal
 
 
@@ -52,13 +54,17 @@ class NewMakeViewModel(
             }
 
             Event.SetFixedPrice -> {
-                val make = viewState.make.copy(priceType = PriceType.Fixed(BigDecimal.ONE))
+                val make = viewState.make.copy(priceType = Fixed(BigDecimal.ONE))
                 viewState = viewState.copy(make = make)
             }
 
             Event.SetMarketPrice -> {
-                val make = viewState.make.copy(priceType = PriceType.Market(2))
+                val make = viewState.make.copy(priceType = Market(2))
                 viewState = viewState.copy(make = make)
+            }
+
+            is Event.SetDiscount -> {
+                Timber.d("${viewEvent.discountSlider}")
             }
         }
 
