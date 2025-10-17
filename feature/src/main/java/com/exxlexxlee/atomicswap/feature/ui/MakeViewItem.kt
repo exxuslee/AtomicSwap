@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,12 +67,14 @@ fun MakeViewItem(
             ) {
                 TagViewItem(
                     icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
-                    text = "1 BNB =\n1000.00 USDT"
+                    text = "1 BNB =\n1000.00 USDT",
+                    enabled = false,
                 )
 
                 TagViewItem(
                     icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
-                    text = "1000.00 USDT"
+                    text = "1000.00 USDT",
+                    enabled = false,
                 )
             }
         }
@@ -125,12 +126,9 @@ private fun MakeViewItemPreview() {
                 takerToken = takerToken,
                 refundAddress = "maker-refund-address",
                 redeemAddress = "maker-redeem-address",
-                amount = AmountType.ExactIn(
-                    makerExactAmount = BigDecimal("10.0"),
-                    takerStartAmount = BigDecimal("1.6")
-                ),
-                priceType = PriceType.Fixed,
+                priceType = PriceType.Fixed(BigDecimal.TEN),
                 isOn = true,
+                adAmount = BigDecimal.TEN,
                 reservedAmount = BigDecimal.ZERO,
                 refundTime = 0L,
                 timestamp = System.currentTimeMillis(),

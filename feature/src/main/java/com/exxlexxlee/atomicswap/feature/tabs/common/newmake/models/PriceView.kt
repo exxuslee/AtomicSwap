@@ -2,7 +2,6 @@ package com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -28,13 +26,14 @@ import com.exxlexxlee.atomicswap.core.common.ui.HSpacer
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
 import com.exxlexxlee.atomicswap.core.common.ui.VSpacer
+import com.exxlexxlee.atomicswap.core.swap.model.PriceType
 import com.exxlexxlee.atomicswap.feature.R
 import com.exxlexxlee.atomicswap.feature.ui.TagViewItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PriceView (
-
+fun PriceView(
+    viewState: ViewState, eventHandler: (Event) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -47,11 +46,13 @@ fun PriceView (
         ) {
             TagViewItem(
                 icon = ImageVector.vectorResource(R.drawable.outline_sell_24),
-                text = stringResource(R.string.price_fixed)
+                text = stringResource(R.string.price_fixed),
+                enabled = viewState.make.priceType is PriceType.Fixed,
             )
             TagViewItem(
-                    icon = ImageVector.vectorResource(R.drawable.outline_store_24),
-            text = stringResource(R.string.price_market)
+                icon = ImageVector.vectorResource(R.drawable.outline_store_24),
+                text = stringResource(R.string.price_market),
+                enabled = viewState.make.priceType is PriceType.Market,
             )
         }
         RowUniversal(

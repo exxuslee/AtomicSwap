@@ -12,7 +12,7 @@ fun MakeEntity.toDomain(): Make {
         takerToken = takerToken,
         refundAddress = refundAddress,
         redeemAddress = redeemAddress,
-        amount = amount,
+        adAmount = adAmount,
         priceType = priceType,
         isOn = isOn,
         reservedAmount = reservedAmount,
@@ -30,11 +30,11 @@ fun Make.toMakeEntity(): MakeEntity {
         takerToken = takerToken,
         refundAddress = refundAddress,
         redeemAddress = redeemAddress,
-        amount = amount,
+        adAmount = adAmount,
         priceType = priceType,
         isOn = isOn,
         reservedAmount = reservedAmount,
         refundTime = refundTime,
-        timestamp = timestamp
+        timestamp = timestamp,
     )
 }

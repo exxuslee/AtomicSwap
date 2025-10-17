@@ -45,11 +45,11 @@ fun NewMakeView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 TokenSelector(
                     modifier = Modifier
                         .weight(1f),
-                    token = viewState.tokenPair.first,
+                    token = viewState.make.takerToken,
                     expanded = viewState.expandedTaker,
                     placeholder = stringResource(R.string.title_taker),
                 ) {
-                    if (viewState.tokenPair.first != null) {
+                    if (viewState.make.takerToken != null) {
                         eventHandler.invoke(Event.TakerToken(null))
                     } else eventHandler.invoke(Event.TakerTokenSheet)
                 }
@@ -70,20 +70,20 @@ fun NewMakeView(viewState: ViewState, eventHandler: (Event) -> Unit) {
                 TokenSelector(
                     modifier = Modifier
                         .weight(1f),
-                    token = viewState.tokenPair.second,
+                    token = viewState.make.makerToken,
                     expanded = viewState.expandedMaker,
                     placeholder = stringResource(R.string.title_maker),
                 ) {
-                    if (viewState.tokenPair.second != null) {
+                    if (viewState.make.makerToken != null) {
                         eventHandler.invoke(Event.MakerToken(null))
                     } else eventHandler.invoke(Event.MakerTokenSheet)
                 }
 
             }
-            RowUniversal { PriceView() }
-            RowUniversal { AvailableView() }
-            RowUniversal { RedeemView() }
-            RowUniversal { RefundView() }
+            RowUniversal { PriceView(viewState, eventHandler) }
+            RowUniversal { AvailableView(viewState, eventHandler) }
+            RowUniversal { RedeemView(viewState, eventHandler) }
+            RowUniversal { RefundView(viewState, eventHandler) }
             RowUniversal(
                 horizontalArrangement = Arrangement.End
             ) {

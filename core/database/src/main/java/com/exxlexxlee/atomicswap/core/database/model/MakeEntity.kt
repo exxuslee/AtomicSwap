@@ -17,7 +17,7 @@ data class MakeEntity(
     @ColumnInfo(name = "takerToken") val takerToken: Token,
     @ColumnInfo(name = "refundAddress") val refundAddress: String,
     @ColumnInfo(name = "redeemAddress") val redeemAddress: String,
-    @ColumnInfo(name = "amount") val amount: AmountType,
+    @ColumnInfo(name = "adAmount") val adAmount: BigDecimal,
     @ColumnInfo(name = "priceType") val priceType: PriceType,
     @ColumnInfo(name = "isOn") val isOn: Boolean,
     @ColumnInfo(name = "reservedAmount") val reservedAmount: BigDecimal,

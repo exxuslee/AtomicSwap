@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RefundView(
-
+    viewState: ViewState, eventHandler: (Event) -> Unit
 ) {
     val clipboard = LocalClipboard.current
     Card(
@@ -46,7 +46,8 @@ fun RefundView(
         ) {
             TagViewItem(
                 icon = ImageVector.vectorResource(R.drawable.outline_amend_24),
-                text = stringResource(R.string.refund)
+                text = stringResource(R.string.refund),
+                enabled = viewState.make.refundAddress != null,
             )
 
         }

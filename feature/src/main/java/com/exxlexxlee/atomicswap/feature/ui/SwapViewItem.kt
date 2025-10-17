@@ -69,8 +69,8 @@ fun SwapViewItem(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "${swap.take.make.amount} ${swap.take.make.makerToken.coin.symbol} → "
-                            + "${swap.take.make.amount} ${swap.take.make.takerToken.coin.symbol}",
+                    text = "${swap.take.make.adAmount} ${swap.take.make.makerToken.coin.symbol} → "
+                            + "${swap.take.make.adAmount} ${swap.take.make.takerToken.coin.symbol}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )

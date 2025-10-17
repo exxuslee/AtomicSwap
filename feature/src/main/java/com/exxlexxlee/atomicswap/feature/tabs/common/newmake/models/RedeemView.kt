@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RedeemView (
-
+    viewState: ViewState, eventHandler: (Event) -> Unit
 ) {
     val clipboard = LocalClipboard.current
     Card(
@@ -52,7 +52,8 @@ fun RedeemView (
         ) {
             TagViewItem(
                 icon = ImageVector.vectorResource(R.drawable.outline_input_circle_24),
-                text = stringResource(R.string.redeem)
+                text = stringResource(R.string.redeem),
+                enabled = viewState.make.redeemAddress != null,
             )
         }
         RowUniversal(

@@ -43,9 +43,10 @@ class NewMakeViewModel(
             }
 
             Event.SwitchToken -> {
-                val make = viewState.make.copy(takerToken = viewEvent.token)
-                val make = viewState.make.copy(takerToken = viewEvent.token)
-                viewState = viewState.copy(make = make, expandedMaker = false)
+                val makerToken = viewState.make.makerToken
+                val takerToken = viewState.make.takerToken
+                val make = viewState.make.copy(makerToken = takerToken, takerToken = makerToken)
+                viewState = viewState.copy(make = make)
             }
         }
 

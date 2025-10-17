@@ -155,11 +155,8 @@ class SwapRepositoryFakeImpl : SwapRepository {
             takerToken = takerToken,
             refundAddress = "maker-refund-address-${makeId}",
             redeemAddress = "maker-redeem-address-${makeId}",
-            amount = AmountType.ExactIn(
-                makerExactAmount = BigDecimal("10.0"),
-                takerStartAmount = BigDecimal("1.6")
-            ),
-            priceType = PriceType.Fixed,
+            adAmount = BigDecimal("0.10000000"),
+            priceType = PriceType.Fixed(BigDecimal("0.10000000")),
             isOn = true,
             reservedAmount = BigDecimal.ZERO,
             refundTime = 0L,

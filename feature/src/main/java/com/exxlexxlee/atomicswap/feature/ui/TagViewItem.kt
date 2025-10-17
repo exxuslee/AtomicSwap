@@ -32,7 +32,7 @@ fun TagViewItem(
     modifier: Modifier = Modifier,
     icon: ImageVector,
     text: String,
-    enabled: Boolean = false,
+    enabled: Boolean,
     textColor: Color = MaterialTheme.colorScheme.primary,
     iconEnd: Painter? = null,
 ) {
@@ -83,6 +83,7 @@ private fun TagViewItemPreview() {
             TagViewItem(
                 icon = ImageVector.vectorResource(R.drawable.outline_wallet_24),
                 text = "1 BNB = 1000 USDT",
+                enabled = true,
             )
             VSpacer(12.dp)
             TagViewItem(
@@ -90,6 +91,7 @@ private fun TagViewItemPreview() {
                 text = "1 BNB = 1000 USDT",
                 textColor = MaterialTheme.colorScheme.error,
                 iconEnd = painterResource(R.drawable.outline_wallet_24),
+                enabled = false,
             )
         }
 

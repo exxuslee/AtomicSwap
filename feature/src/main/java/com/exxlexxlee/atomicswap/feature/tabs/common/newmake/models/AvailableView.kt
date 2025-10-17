@@ -29,7 +29,7 @@ import com.exxlexxlee.atomicswap.feature.ui.TagViewItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AvailableView(
-
+    viewState: ViewState, eventHandler: (Event) -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -43,7 +43,8 @@ fun AvailableView(
         ) {
             TagViewItem(
                 icon = ImageVector.vectorResource(R.drawable.outline_open_in_full_24),
-                text = stringResource(R.string.available)
+                text = stringResource(R.string.available),
+                enabled = viewState.make.adAmount != null,
             )
             Text(
                 text = "Balance: 0.001 BNB",
