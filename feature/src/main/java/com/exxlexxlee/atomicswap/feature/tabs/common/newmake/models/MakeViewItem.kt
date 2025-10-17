@@ -11,7 +11,7 @@ data class MakeViewItem(
     val takerToken: Token? = null,
     val refundAddress: String? = null,
     val redeemAddress: String? = null,
-    val adAmount: BigDecimal? = null,
+    val adBalance: BigDecimal? = null,
     val discount: Int = 0,
     val refundTime: Long = 600_000,
     val timestamp: Long = System.currentTimeMillis(),

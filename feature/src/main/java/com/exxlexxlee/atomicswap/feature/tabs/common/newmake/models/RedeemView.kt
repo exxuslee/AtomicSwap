@@ -50,14 +50,13 @@ fun RedeemView(
             )
         }
         RowUniversal(
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row {
-                Text(
-                    text = "Address:",
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center,
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_alternate_email_24),
+                    contentDescription = "address",
                 )
                 HsIconButton({}) {
                     Icon(

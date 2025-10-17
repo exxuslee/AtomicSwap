@@ -7,7 +7,7 @@ import java.math.BigDecimal
 interface PriceUseCase {
     suspend fun sync()
     suspend fun refresh()
-    fun price(coin: Coin): BigDecimal?
+    suspend fun price(coin: Coin): BigDecimal?
 
     class Base(
         private val priceRepository: PriceRepository,
@@ -20,7 +20,7 @@ interface PriceUseCase {
             priceRepository.refresh()
         }
 
-        override fun price(coin: Coin): BigDecimal? {
+        override suspend fun price(coin: Coin): BigDecimal? {
             return priceRepository.price(coin)
         }
 

@@ -8,5 +8,6 @@ data class ViewState(
     val expandedTaker: Boolean = false,
     val expandedMaker: Boolean = false,
     val make: MakeViewItem = MakeViewItem(),
-    val price: BigDecimal? = null
+    val price: BigDecimal? = null,
+    val balance: BigDecimal? = null,
 )

@@ -53,5 +53,6 @@ dependencies {
 	implementation(libs.kotlinx.coroutines.core)
 
 	implementation("io.reactivex.rxjava2:rxjava:2.2.19")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.10.2")
 	implementation("com.github.horizontalsystems:market-kit-android:8bd85cc")
 }

@@ -10,6 +10,7 @@ sealed class Event {
     data object SwitchToken : Event()
     data object ClearAction : Event()
     data class SetDiscount(val discountSlider: Float) : Event()
+    data class SetReserve(val reserveSlider: Float) : Event()
 
 
 }

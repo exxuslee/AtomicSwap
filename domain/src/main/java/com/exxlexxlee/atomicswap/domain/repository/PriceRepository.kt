@@ -4,7 +4,7 @@ import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import java.math.BigDecimal
 
 interface PriceRepository {
-    fun price(coin: Coin): BigDecimal?
+    suspend fun price(coin: Coin): BigDecimal?
     suspend fun refresh()
     suspend fun sync()
 }

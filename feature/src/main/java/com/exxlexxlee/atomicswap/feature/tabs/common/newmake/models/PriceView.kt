@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -63,7 +64,9 @@ fun PriceView(
                 val makerTicker = viewState.make.makerToken?.coin?.symbol ?: ""
                 val price = "1 $makerTicker = ${viewState.price} $takerTicker"
                 Text(
-                    modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .weight(1f),
                     text = price,
                     style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.End,
@@ -76,11 +79,21 @@ fun PriceView(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             HSpacer(0.dp)
+            val discountText = when {
+                viewState.make.discount < 0 -> "Discount: ${viewState.make.discount}%"
+                viewState.make.discount == 0 -> "On market"
+                else -> "Overprice: ${viewState.make.discount}%"
+            }
             Text(
                 modifier = Modifier.weight(1f),
-                text = "Discount: ${viewState.make.discount}%",
+                text = discountText,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
+                color = when {
+                    viewState.make.discount < 0 -> MaterialTheme.colorScheme.error
+                    viewState.make.discount == 0 -> MaterialTheme.colorScheme.primary
+                    else -> Color(0xFF138116)
+                }
             )
             HsIconButton(onClick = {
 
@@ -97,17 +110,18 @@ fun PriceView(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.outline_percent_discount_24),
-                contentDescription = "refresh"
+                contentDescription = "discount"
             )
-            var wrapUp: Boolean by rememberSaveable { mutableStateOf(false) }
+            var wrapUp: Boolean? by rememberSaveable { mutableStateOf(null) }
             val sliderState =
                 rememberSliderState(
                     value = inverseGoldenRatio(viewState.make.discount),
                     valueRange = -6f..6f,
                     steps = 11,
-                    onValueChangeFinished = { wrapUp = !wrapUp },
+                    onValueChangeFinished = { wrapUp = !(wrapUp ?: false) },
                 )
             LaunchedEffect(wrapUp) {
+                if (wrapUp == null) return@LaunchedEffect
                 if (!hasBothTickers()) {
                     Toast.makeText(context, "Please, select tickers first", Toast.LENGTH_SHORT)
                         .show()

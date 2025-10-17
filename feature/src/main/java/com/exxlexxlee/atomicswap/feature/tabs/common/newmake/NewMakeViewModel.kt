@@ -2,12 +2,12 @@ package com.exxlexxlee.atomicswap.feature.tabs.common.newmake
 
 import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
+import com.exxlexxlee.atomicswap.core.swap.model.Coin
 import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.PriceUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.ViewState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.MathContext
@@ -19,13 +19,6 @@ class NewMakeViewModel(
     private val makeUseCase: MakeUseCase,
     private val priceUseCase: PriceUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState(makeId)) {
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            priceUseCase.sync()
-        }
-    }
-
 
     override fun obtainEvent(viewEvent: Event) {
         when (viewEvent) {
@@ -45,35 +38,67 @@ class NewMakeViewModel(
             }
 
             is Event.MakerToken -> {
-                val make = viewState.make.copy(makerToken = viewEvent.token)
-                clearAction()
-                viewState = viewState.copy(make = make, expandedMaker = false, price = price())
+                viewModelScope.launch {
+                    val make = viewState.make.copy(makerToken = viewEvent.token)
+                    clearAction()
+                    viewState = viewState.copy(
+                        make = make, expandedMaker = false, price = price(
+                            makeCoin = viewEvent.token?.coin,
+                            takeCoin = viewState.make.takerToken?.coin,
+                        )
+                    )
+                }
+
             }
 
             is Event.TakerToken -> {
-                val make = viewState.make.copy(takerToken = viewEvent.token)
-                clearAction()
-                viewState = viewState.copy(make = make, expandedMaker = false, price = price())
+                viewModelScope.launch {
+                    val make = viewState.make.copy(takerToken = viewEvent.token)
+                    clearAction()
+                    viewState = viewState.copy(
+                        make = make, expandedMaker = false, price = price(
+                            makeCoin = viewState.make.makerToken?.coin,
+                            takeCoin = viewEvent.token?.coin,
+                        )
+                    )
+                }
+
             }
 
             Event.SwitchToken -> {
-                val makerToken = viewState.make.makerToken
-                val takerToken = viewState.make.takerToken
-                val make = viewState.make.copy(makerToken = takerToken, takerToken = makerToken)
-                viewState = viewState.copy(make = make, price = price())
+                viewModelScope.launch {
+                    val makerToken = viewState.make.makerToken
+                    val takerToken = viewState.make.takerToken
+                    val make = viewState.make.copy(makerToken = takerToken, takerToken = makerToken)
+                    viewState = viewState.copy(
+                        make = make, price = price(
+                            makeCoin = takerToken?.coin,
+                            takeCoin = makerToken?.coin,
+                        )
+                    )
+                }
             }
 
             is Event.SetDiscount -> {
                 val make = viewState.make.copy(discount = goldenRatio(viewEvent.discountSlider))
                 viewState = viewState.copy(make = make)
             }
+
+            is Event.SetReserve -> {
+                val adBalance = viewState.balance
+                    ?.multiply(BigDecimal(viewEvent.reserveSlider.toDouble()))
+                    ?.round(MathContext(4, RoundingMode.DOWN))
+                val make = viewState.make.copy(adBalance = adBalance)
+                viewState = viewState.copy(make = make)
+            }
         }
 
     }
 
-    private fun price(): BigDecimal? {
-        val makeCoin = viewState.make.makerToken?.coin
-        val takeCoin = viewState.make.takerToken?.coin
+    private suspend fun price(
+        makeCoin: Coin?,
+        takeCoin: Coin?,
+    ): BigDecimal? {
         if (makeCoin == null || takeCoin == null) return null
         val makePrice = priceUseCase.price(makeCoin)
         val takePrice = priceUseCase.price(takeCoin)
