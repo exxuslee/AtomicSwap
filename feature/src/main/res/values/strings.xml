@@ -59,7 +59,8 @@
     <string name="network_type">Main network type</string>
 	<string name="tokens_empty_list">Empty tokens list</string>
     <string name="select_chain">Select chains</string>
-    <string name="create_order">Make order</string>
+    <string name="make_new_ad">Make new ad</string>
+    <string name="make_edit_ad">Make edit ad</string>
     <string name="available">Available</string>
 	<string name="price">Price</string>
     <string name="price_market">Market price</string>

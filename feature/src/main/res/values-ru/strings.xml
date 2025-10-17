@@ -59,7 +59,8 @@
     <string name="network_type">Основной тип сети</string>
 	<string name="tokens_empty_list">Пустой список токенов</string>
     <string name="select_chain">Выбрать сеть</string>
-    <string name="create_order">Создать объявление</string>
+    <string name="make_new_ad">Создать новое объявление</string>
+    <string name="make_edit_ad">Изменить объявление</string>
     <string name="available">Доступно</string>
 	<string name="price">Цена</string>
     <string name="price_market">Цена по рынкуe</string>

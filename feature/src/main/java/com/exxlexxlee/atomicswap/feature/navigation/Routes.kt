@@ -28,7 +28,7 @@ sealed class Routes(
         data object SubscriptionRoute : BookRoute("subscription")
         data object NewMakeRoute : BookRoute(
             "newMake/{makeId}",
-            { stringResource(R.string.create_order) }
+            { stringResource(R.string.make_new_ad) }
         ) {
             fun createRoute(makeId: String) = "book/newMake/$makeId"
         }
