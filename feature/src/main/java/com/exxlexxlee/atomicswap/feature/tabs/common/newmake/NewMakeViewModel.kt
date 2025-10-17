@@ -1,11 +1,14 @@
 package com.exxlexxlee.atomicswap.feature.tabs.common.newmake
 
+import androidx.lifecycle.viewModelScope
 import com.exxlexxlee.atomicswap.core.common.base.BaseViewModel
 import com.exxlexxlee.atomicswap.domain.usecases.MakeUseCase
 import com.exxlexxlee.atomicswap.domain.usecases.PriceUseCase
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Action
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.Event
 import com.exxlexxlee.atomicswap.feature.tabs.common.newmake.models.ViewState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
@@ -16,6 +19,12 @@ class NewMakeViewModel(
     private val makeUseCase: MakeUseCase,
     private val priceUseCase: PriceUseCase,
 ) : BaseViewModel<ViewState, Action, Event>(initialState = ViewState(makeId)) {
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            priceUseCase.sync()
+        }
+    }
 
 
     override fun obtainEvent(viewEvent: Event) {

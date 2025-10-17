@@ -5,4 +5,6 @@ import java.math.BigDecimal
 
 interface PriceRepository {
     fun price(coin: Coin): BigDecimal?
+    suspend fun refresh()
+    suspend fun sync()
 }

@@ -9,9 +9,19 @@ class PriceRepositoryImpl(
     private val marketKit: MarketKit
 ) : PriceRepository {
 
+
     override fun price(coin: Coin): BigDecimal? {
-       val coinPrice =  marketKit.coinPrice(coin.uid, "USD")
+        val coinPrice = marketKit.coinPrice(coin.uid, "USD")
         return coinPrice?.value
+    }
+
+    override suspend fun refresh() {
+        marketKit.refreshCoinPrices("USD")
+    }
+
+    override suspend fun sync() {
+        val coins = marketKit.topFullCoins().map { it.coin.uid }
+        marketKit.coinPriceMapObservable("total", coins, "USD")
     }
 
 

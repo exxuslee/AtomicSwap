@@ -52,5 +52,6 @@ dependencies {
 	implementation(libs.androidx.room.ktx)
 	implementation(libs.kotlinx.coroutines.core)
 
+	implementation("io.reactivex.rxjava2:rxjava:2.2.19")
 	implementation("com.github.horizontalsystems:market-kit-android:8bd85cc")
 }
