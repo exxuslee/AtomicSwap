@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
@@ -53,29 +54,34 @@ fun RedeemView(
             modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.outline_alternate_email_24),
                     contentDescription = "address",
                 )
-                HsIconButton({}) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.outline_content_paste_go_24),
-                        contentDescription = "paste",
-                    )
-                }
+                Text(
+                    text = ":",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
             }
+            HsIconButton({}) {
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_content_paste_go_24),
+                    contentDescription = "paste",
+                )
+            }
+
             val address = viewState.make.redeemAddress
                 ?: stringResource(R.string.please_paste_address)
             Text(
-                modifier = Modifier.weight(1f),
                 text = address,
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.MiddleEllipsis,
                 maxLines = 1,
                 textAlign = TextAlign.End,
                 color = if (viewState.make.redeemAddress == null) MaterialTheme.colorScheme.error
-                else MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.primary,
             )
             if (viewState.make.redeemAddress != null) HsIconButton({
                 scope.launch {

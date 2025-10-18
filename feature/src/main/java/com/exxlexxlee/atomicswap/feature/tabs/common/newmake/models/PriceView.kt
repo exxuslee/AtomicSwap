@@ -112,6 +112,11 @@ fun PriceView(
                 imageVector = ImageVector.vectorResource(R.drawable.outline_percent_discount_24),
                 contentDescription = "discount"
             )
+            Text(
+                text = ":",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+            )
             var wrapUp: Boolean? by rememberSaveable { mutableStateOf(null) }
             val sliderState =
                 rememberSliderState(

@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.exxlexxlee.atomicswap.core.common.ui.HsIconButton
 import com.exxlexxlee.atomicswap.core.common.ui.RowUniversal
@@ -55,22 +57,31 @@ fun RefundView(
             modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.outline_alternate_email_24),
                     contentDescription = "address",
                 )
-                HsIconButton({}) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.outline_content_paste_go_24),
-                        contentDescription = "paste",
-                    )
-                }
+                Text(
+                    text = ":",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
+            }
+            HsIconButton({}) {
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_content_paste_go_24),
+                    contentDescription = "paste",
+                )
             }
             Text(
                 text = "Please, paste the address",
                 style = MaterialTheme.typography.titleMedium,
+                overflow = TextOverflow.MiddleEllipsis,
                 maxLines = 1,
+                textAlign = TextAlign.End,
+                color = if (viewState.make.refundAddress == null) MaterialTheme.colorScheme.error
+                else MaterialTheme.colorScheme.primary,
             )
             if (false) HsIconButton({
                 scope.launch {
@@ -92,10 +103,17 @@ fun RefundView(
             modifier = Modifier.padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.outline_lock_clock_24),
-                contentDescription = "time to refund",
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_lock_clock_24),
+                    contentDescription = "time to refund",
+                )
+                Text(
+                    text = ":",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
+            }
 
             Text(
                 text = "10 minutes",
