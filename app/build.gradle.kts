@@ -21,8 +21,11 @@ android {
 
 	buildTypes {
 		release {
-			isMinifyEnabled = false
+			isMinifyEnabled = true
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+			ndk {
+				debugSymbolLevel = "SYMBOL_TABLE"
+			}
 		}
 		create("mock") {
 			initWith(getByName("debug"))
