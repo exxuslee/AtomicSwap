@@ -22,8 +22,11 @@ android {
         create("mock") {
             initWith(getByName("debug"))
         }
-        release {
+        debug {
             isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = true
         }
     }
 

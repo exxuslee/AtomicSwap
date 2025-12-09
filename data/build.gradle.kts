@@ -22,8 +22,11 @@ android {
 			initWith(getByName("debug"))
 			matchingFallbacks += listOf("debug", "release")
 		}
-		release {
+		debug {
 			isMinifyEnabled = false
+		}
+		release {
+			isMinifyEnabled = true
 		}
 	}
 

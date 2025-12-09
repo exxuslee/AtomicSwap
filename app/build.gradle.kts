@@ -15,17 +15,23 @@ android {
 		applicationId = "com.exxlexxlee.atomicswap"
 		minSdk = property("version.minSdk").toString().toInt()
 		targetSdk = property("version.targetSdk").toString().toInt()
-		versionCode = 1
-		versionName = "1.0"
+		versionCode = 2
+		versionName = "0.2"
 	}
 
 	buildTypes {
 		release {
-			isMinifyEnabled = true
+			isMinifyEnabled = false
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 			ndk {
 				debugSymbolLevel = "SYMBOL_TABLE"
 			}
+		}
+		debug {
+			ndk {
+				debugSymbolLevel = "FULL"
+			}
+			isMinifyEnabled = false
 		}
 		create("mock") {
 			initWith(getByName("debug"))
